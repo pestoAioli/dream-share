@@ -1,6 +1,9 @@
+/* @refresh reload */
 import { render } from 'solid-js/web';
 
-import { TodoList } from './todo-list';
+import './index.css';
+import App from './App';
+import { Route, Router, Routes } from '@solidjs/router';
 
 const root = document.getElementById('root');
 
@@ -10,4 +13,11 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <TodoList />, root!);
+render(() => (
+  <Router>
+    <Routes>
+      <Route path="/" component={App} />
+    </Routes>
+  </Router>
+),
+  root!);
