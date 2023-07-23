@@ -5,6 +5,9 @@ defmodule DreamShareWeb.ErrorJSON do
   # def render("500.json", _assigns) do
   #   %{errors: %{detail: "Internal Server Error"}}
   # end
+  # def render("401.json", _assigns) do
+  #   %{errors: %{detail: "Unauthorized"}}
+  # end
 
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.json" becomes

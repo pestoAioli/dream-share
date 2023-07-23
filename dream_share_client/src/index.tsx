@@ -3,7 +3,10 @@ import { render } from 'solid-js/web';
 
 import './index.css';
 import App from './App';
+import LoginForm from './components/login-form';
 import { Route, Router, Routes } from '@solidjs/router';
+import Home from './components/home';
+import DreamFeed from './components/dream-feed';
 
 const root = document.getElementById('root');
 
@@ -16,7 +19,10 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 render(() => (
   <Router>
     <Routes>
-      <Route path="/" component={App} />
+      <Route path="/" component={App}>
+        <Route path="/dreamfeed" component={DreamFeed} />
+        <Route path="/login" component={LoginForm} />
+      </Route>
     </Routes>
   </Router>
 ),

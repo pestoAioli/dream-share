@@ -28,6 +28,10 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :dream_share, DreamShareWeb.Auth.Guardian,
+  issuer: "dream_share",
+  secret_key: "i97ugNtL6dDxym3eoXUphJWLgokV02+OYPJ75bv5q6pUhZh2KHzmG4JFNrKgP2JY"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
