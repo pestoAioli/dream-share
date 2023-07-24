@@ -6,6 +6,7 @@ defmodule DreamShare.Users.User do
     field :about, :string
     field :username, :string
     belongs_to :account, DreamShare.Accounts.Account
+    has_many :dreams, DreamShare.Dreams.Dream
 
     timestamps()
   end

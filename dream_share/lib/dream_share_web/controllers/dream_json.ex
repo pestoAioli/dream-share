@@ -18,9 +18,8 @@ defmodule DreamShareWeb.DreamJSON do
   defp data(%Dream{} = dream) do
     %{
       id: dream.id,
-      body: dream.body,
-      comments: dream.comments,
-      likes_count: dream.likes_count
+      content: dream.content,
+      username: dream.username
     }
   end
 end

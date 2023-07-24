@@ -19,4 +19,19 @@ defmodule DreamShare.DreamsFixtures do
 
     dream
   end
+
+  @doc """
+  Generate a dream.
+  """
+  def dream_fixture(attrs \\ %{}) do
+    {:ok, dream} =
+      attrs
+      |> Enum.into(%{
+        content: "some content",
+        username: "some username"
+      })
+      |> DreamShare.Dreams.create_dream()
+
+    dream
+  end
 end

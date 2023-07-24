@@ -49,8 +49,8 @@ defmodule DreamShare.Dreams do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_dream(attrs \\ %{}) do
-    %Dream{}
+  def create_dream(user_id, attrs \\ %{}) do
+    %Dream{user_id: user_id}
     |> Dream.changeset(attrs)
     |> Repo.insert()
   end

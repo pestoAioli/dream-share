@@ -37,5 +37,6 @@ defmodule DreamShareWeb.Router do
     pipe_through [:api, :auth]
     get "/accounts/by_id/:id", AccountController, :show
     post "/accounts/update", AccountController, :update
+    post "/dreams/create", DreamController, :create
   end
 end
