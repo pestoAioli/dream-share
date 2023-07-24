@@ -28,6 +28,7 @@ defmodule DreamShareWeb.Router do
 
   scope "/api", DreamShareWeb do
     pipe_through :api
+    get "/users/:id", UserController, :show
     post "/accounts/create", AccountController, :create
     post "/accounts/sign_in", AccountController, :sign_in
     resources "/dreams", DreamController, except: [:new, :edit]
@@ -36,7 +37,9 @@ defmodule DreamShareWeb.Router do
   scope "/api", DreamShareWeb do
     pipe_through [:api, :auth]
     get "/accounts/by_id/:id", AccountController, :show
+    get "/accounts/sign_out", AccountController, :sign_out
     post "/accounts/update", AccountController, :update
+    put "/users/update", UserController, :update
     post "/dreams/create", DreamController, :create
   end
 end

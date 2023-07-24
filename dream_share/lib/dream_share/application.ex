@@ -14,6 +14,7 @@ defmodule DreamShare.Application do
       DreamShare.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: DreamShare.PubSub},
+      {Guardian.DB.Token.SweeperServer, []},
       # Start the Endpoint (http/https)
       DreamShareWeb.Endpoint
       # Start a worker by calling: DreamShare.Worker.start_link(arg)

@@ -1,6 +1,7 @@
 defmodule DreamShareWeb.UserController do
   use DreamShareWeb, :controller
 
+  alias DreamShare.Accounts
   alias DreamShare.Users
   alias DreamShare.Users.User
 
@@ -24,8 +25,9 @@ defmodule DreamShareWeb.UserController do
     render(conn, :show, user: user)
   end
 
-  def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Users.get_user!(id)
+  def update(conn, %{"user" => user_params}) do
+    user = Users.get_user!(conn.assigns.account.id)
+    IO.inspect(user)
 
     with {:ok, %User{} = user} <- Users.update_user(user, user_params) do
       render(conn, :show, user: user)

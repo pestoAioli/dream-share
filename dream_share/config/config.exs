@@ -28,6 +28,11 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :guardian, Guardian.DB,
+  repo: DreamShare.Repo,
+  schema_name: "guardian_tokens",
+  sweep_interval: 60
+
 config :dream_share, DreamShareWeb.Auth.Guardian,
   issuer: "dream_share",
   secret_key: "i97ugNtL6dDxym3eoXUphJWLgokV02+OYPJ75bv5q6pUhZh2KHzmG4JFNrKgP2JY"

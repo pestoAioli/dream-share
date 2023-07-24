@@ -11,26 +11,10 @@ defmodule DreamShare.DreamsFixtures do
     {:ok, dream} =
       attrs
       |> Enum.into(%{
-        body: "some body",
-        comments: "some comments",
-        likes_count: 42
-      })
-      |> DreamShare.Dreams.create_dream()
-
-    dream
-  end
-
-  @doc """
-  Generate a dream.
-  """
-  def dream_fixture(attrs \\ %{}) do
-    {:ok, dream} =
-      attrs
-      |> Enum.into(%{
         content: "some content",
         username: "some username"
       })
-      |> DreamShare.Dreams.create_dream()
+      |> DreamShare.Dreams.create_dream(user_id: 0, username: "bob")
 
     dream
   end
