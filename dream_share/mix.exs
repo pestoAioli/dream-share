@@ -43,7 +43,8 @@ defmodule DreamShare.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:guardian, "~> 2.3.1"},
       {:guardian_db, "~> 2.0"},
-      {:bcrypt_elixir, "~> 3.0.1"}
+      {:bcrypt_elixir, "~> 3.0.1"},
+      {:corsica, "~> 2.1.1"}
     ]
   end
 

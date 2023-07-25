@@ -1,11 +1,7 @@
 import type { Component } from 'solid-js';
 
-import socket from './socket';
 import "./styles/app.css";
 import { A, Outlet } from '@solidjs/router';
-
-const connect = socket("room:lobby");
-console.log(connect)
 
 const App: Component = () => {
   return (

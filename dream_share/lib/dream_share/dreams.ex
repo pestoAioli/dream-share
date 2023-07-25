@@ -53,6 +53,7 @@ defmodule DreamShare.Dreams do
     %Dream{user_id: user_id, username: username}
     |> Dream.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:dream_created)
   end
 
   @doc """
@@ -71,6 +72,7 @@ defmodule DreamShare.Dreams do
     dream
     |> Dream.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:dream_updated)
   end
 
   @doc """
@@ -100,5 +102,16 @@ defmodule DreamShare.Dreams do
   """
   def change_dream(%Dream{} = dream, attrs \\ %{}) do
     Dream.changeset(dream, attrs)
+  end
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(DreamShare.PubSub, "dreams:main")
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
+
+  defp broadcast({:ok, dream}, event) do
+    Phoenix.PubSub.broadcast(DreamShare.PubSub, "dreams:main", {event, dream})
+    {:ok, dream}
   end
 end

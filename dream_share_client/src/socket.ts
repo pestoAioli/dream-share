@@ -12,5 +12,9 @@ export default function socket(topic: string) {
     .receive('error', (response) => {
       console.log('no joined', response)
     })
+
+  // channel.on("new_dream", (payload) => {
+  //   console.log(payload)
+  // })
   return channel;
 }

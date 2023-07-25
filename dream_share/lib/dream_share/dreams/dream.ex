@@ -4,7 +4,7 @@ defmodule DreamShare.Dreams.Dream do
 
   schema "dreams" do
     field :content, :string
-    field :username, :string, virtual: true
+    field :username, :string
     belongs_to :user, DreamShare.Users.User, foreign_key: :user_id
 
     timestamps()

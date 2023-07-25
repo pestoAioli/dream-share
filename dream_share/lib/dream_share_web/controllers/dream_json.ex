@@ -19,7 +19,8 @@ defmodule DreamShareWeb.DreamJSON do
     %{
       id: dream.id,
       content: dream.content,
-      username: dream.username
+      username: dream.username,
+      timestamp: dream.inserted_at
     }
   end
 end

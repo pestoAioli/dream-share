@@ -28,17 +28,7 @@ defmodule DreamShareWeb.AccountController do
     render(conn, :index, accounts: accounts)
   end
 
-  def create(conn, %{"account" => account_params}) do
-    with {:ok, %Account{} = account} <- Accounts.create_account(account_params),
-         {:ok, token, _claims} <- Guardian.encode_and_sign(account),
-         {:ok, %User{} = _user} <- Users.create_user(account, account_params) do
-      conn
-      |> put_status(:created)
-      |> render("account_token.json", %{account: account, token: token})
-    end
-  end
-
-  def sign_in(conn, %{"email" => email, "hash_password" => hash_password}) do
+  defp authorize(conn, email, hash_password) do
     case Guardian.authenticate(email, hash_password) do
       {:ok, account, token} ->
         conn
@@ -51,6 +41,17 @@ defmodule DreamShareWeb.AccountController do
     end
   end
 
+  def create(conn, %{"account" => account_params}) do
+    with {:ok, %Account{} = account} <- Accounts.create_account(account_params),
+         {:ok, %User{} = _user} <- Users.create_user(account, account_params) do
+      authorize(conn, account.email, account_params["hash_password"])
+    end
+  end
+
+  def sign_in(conn, %{"email" => email, "hash_password" => hash_password}) do
+    authorize(conn, email, hash_password)
+  end
+
   def sign_out(conn, %{}) do
     account = conn.assigns[:account]
     token = Guardian.Plug.current_token(conn)
@@ -60,6 +61,16 @@ defmodule DreamShareWeb.AccountController do
     |> Plug.Conn.clear_session()
     |> put_status(:ok)
     |> render("account_token.json", %{account: account, token: nil})
+  end
+
+  def refresh_session(conn, %{}) do
+    token = Guardian.Plug.current_token(conn)
+    {:ok, account, new_token} = Guardian.authenticate(token)
+
+    conn
+    |> Plug.Conn.put_session(:account_id, account.id)
+    |> put_status(:ok)
+    |> render("account_token.json", %{account: account, token: new_token})
   end
 
   def show(conn, %{"id" => id}) do

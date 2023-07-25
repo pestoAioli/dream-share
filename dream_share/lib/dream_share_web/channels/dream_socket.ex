@@ -10,7 +10,7 @@ defmodule DreamShareWeb.DreamSocket do
   # Uncomment the following line to define a "room:*" topic
   # pointing to the `DreamShareWeb.RoomChannel`:
   #
-  channel "room:*", DreamShareWeb.DreamChannel
+  channel "dreams:*", DreamShareWeb.DreamChannel
   #
   # To create a channel file, use the mix task:
   #

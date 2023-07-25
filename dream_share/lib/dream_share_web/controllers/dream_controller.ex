@@ -15,12 +15,11 @@ defmodule DreamShareWeb.DreamController do
   def create(conn, %{"dream" => dream_params}) do
     user_id = conn.assigns.account.id
     user = Users.get_user!(user_id)
-    IO.inspect(user)
+    IO.inspect(user.username)
 
     with {:ok, %Dream{} = dream} <- Dreams.create_dream(user_id, user.username, dream_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/dreams/#{dream}")
       |> render(:show, dream: dream)
     end
   end
