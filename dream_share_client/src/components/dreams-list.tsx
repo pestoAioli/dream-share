@@ -44,12 +44,12 @@ const DreamsList: Component = () => {
       <div class="dreams-list">
         <For each={dreams()}>
           {(dream) => (
-            <>
-              <p>
-                {dream.username} ＠{moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm:ss a')}:
-              </p>
-              <p>{dream.content}</p>
-            </>
+            <div class="dream-bubble">
+              <div class="username">
+                <strong style={{ "font-size": "18px" }}>{dream.username}</strong> ＠{moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm:ss a')}:
+              </div>
+              <p class="dream-content">{dream.content}</p>
+            </div>
           )}
         </For>
       </div>
