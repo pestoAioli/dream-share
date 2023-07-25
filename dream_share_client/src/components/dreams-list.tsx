@@ -32,6 +32,7 @@ const DreamsList: Component = () => {
       setDreams(() => data());
     }
   })
+
   socketConnection.on("new_dream", (payload: any) => {
     console.log(payload)
     setDreams(dreams => [...dreams, payload])

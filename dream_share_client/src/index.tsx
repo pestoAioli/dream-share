@@ -16,17 +16,16 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
     'Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got misspelled?',
   );
 }
+let connection: any;
 
 render(() => (
-  <SocketContextProvider>
-    <Router>
-      <Routes>
-        <Route path="/" component={App}>
-          <Route path="/dreamfeed" component={DreamFeed} />
-          <Route path="/login" component={LoginForm} />
-        </Route>
-      </Routes>
-    </Router>
-  </SocketContextProvider>
+  <Router>
+    <Routes>
+      <Route path="/" component={App}>
+        <Route path="/dreamfeed" component={DreamFeed} ref={connection} />
+        <Route path="/login" component={LoginForm} />
+      </Route>
+    </Routes>
+  </Router>
 ),
   root!);
