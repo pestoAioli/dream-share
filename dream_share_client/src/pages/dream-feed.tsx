@@ -4,8 +4,7 @@ import '../styles/login-form.css';
 import DreamsList from "../components/dreams-list";
 import { SocketContextProvider } from "../components/socket-context-provider";
 
-const DreamFeed: Component = (props: any) => {
-  props.ref = "dreams:main"
+const DreamFeed: Component = () => {
   return (
     <SocketContextProvider>
       <DreamsList />

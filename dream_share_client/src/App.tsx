@@ -8,7 +8,7 @@ const App: Component = () => {
     <div class='home-container'>
       <h1 class='home-title'><A href="/dreamfeed" class="icon-links">✨🔭®</A></h1>
       <div class='divider' />
-      <div style={{ "height": "100%", "width": "100%" }}>
+      <div style={{ "height": "100%", "width": "100%", "display": "flex" }}>
         <div class="sidebar">
           <div class="icon-link-list">
             <div style={{ "display": "flex", "flex-direction": "column" }}>
@@ -18,9 +18,9 @@ const App: Component = () => {
             <A href="/profile" class="icon-links">⚙️</A>
           </div>
           <div class="divider2" />
-          <div style={{ "flex-grow": "9" }}>
-            <Outlet />
-          </div>
+        </div>
+        <div style={{ "flex-grow": "9", "height": "100%", "overflow": "scroll" }}>
+          <Outlet />
         </div>
       </div>
     </div>
