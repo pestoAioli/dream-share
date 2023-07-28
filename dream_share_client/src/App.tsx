@@ -15,7 +15,7 @@ const App: Component = () => {
               <A href="/mydreams" class="icon-links">📝</A>
               <A href="/groups" class="icon-links">👥</A>
             </div>
-            <A href="/profile" class="icon-links">⚙️</A>
+            <A href="/login" class="icon-links">⚙️</A>
           </div>
           <div class="divider2" />
         </div>
