@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@solidjs/router": "^0.8.2",
-    "bcrypt": "^5.1.0",
+    "@types/bcryptjs": "^2.4.2",
+    "bcryptjs": "^2.4.3",
     "moment": "^2.29.4",
     "phoenix": "^1.7.7",
     "solid-js": "^1.7.6"

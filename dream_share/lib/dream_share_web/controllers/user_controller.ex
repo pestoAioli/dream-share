@@ -1,7 +1,6 @@
 defmodule DreamShareWeb.UserController do
   use DreamShareWeb, :controller
 
-  alias DreamShare.Accounts
   alias DreamShare.Users
   alias DreamShare.Users.User
 

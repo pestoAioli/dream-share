@@ -1,33 +1,43 @@
 import { A } from "@solidjs/router";
 import type { Component } from "solid-js";
-import { Match, Switch, createSignal } from "solid-js";
+import { Match, Switch, createEffect, createSignal } from "solid-js";
 import '../styles/login-form.css';
+import { useAuthContext } from "./auth-context-provider";
+import * as bcrypt from "bcryptjs";
 
 const LoginForm: Component = () => {
   const [loggingIn, setLoggingIn] = createSignal(false);
+  const [isAuthenticated, _setIsAuthenticated] = useAuthContext();
 
   async function login(e: SubmitEvent) {
     //@ts-ignore
-    const hash_password = bcrypt.hash(e.target.password.value, 10, function(err, hash) {
-      try {
-        return hash;
-      } catch (e) {
-        console.log(e, err)
-        return err;
-      }
-    })
-    //@ts-ignore
     const email = e.target.email.value;
+    //@ts-ignore
+    const hash_password = e.target.password.value;
     e.preventDefault();
+    console.log(JSON.stringify({ email, hash_password }))
     setLoggingIn(true);
-    const response = await fetch("http://localhost:4000/api/sign_in", {
+    const response = await fetch("http://localhost:4000/api/accounts/sign_in", {
       method: "POST",
-      body: JSON.stringify({ email, hash_password })
+      body: JSON.stringify({ email, hash_password }),
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        "Content-Type": "application/json",
+      },
+      credentials: 'same-origin'
     })
-    const { token } = await response.json();
-    sessionStorage.setItem("toke", token)
+    const { token, id } = await response.json();
+    console.log(token)
+    localStorage.setItem("toke", JSON.stringify(token))
+    localStorage.setItem("id", id)
     setLoggingIn(false);
+    console.log(isAuthenticated(), token);
   }
+
+  createEffect(() => {
+    console.log(isAuthenticated())
+  })
 
   return (
     <Switch>

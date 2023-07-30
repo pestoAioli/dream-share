@@ -1,9 +1,13 @@
+import { Match, Switch } from 'solid-js';
 import type { Component } from 'solid-js';
 
 import "./styles/app.css";
 import { A, Outlet } from '@solidjs/router';
+import { useAuthContext } from './components/auth-context-provider';
 
 const App: Component = () => {
+  const [isAuthenticated, _setIsAuthenticated] = useAuthContext();
+
   return (
     <div class='home-container'>
       <h1 class='home-title'><A href="/dreamfeed" class="icon-links">✨🔭®</A></h1>
@@ -15,7 +19,14 @@ const App: Component = () => {
               <A href="/mydreams" class="icon-links">📝</A>
               <A href="/groups" class="icon-links">👥</A>
             </div>
-            <A href="/login" class="icon-links">⚙️</A>
+            <Switch>
+              <Match when={isAuthenticated()}>
+                <A href="/profile" class="icon-links">⚙️</A>
+              </Match>
+              <Match when={!isAuthenticated()}>
+                <A href="/login" class="icon-links">⚙️</A>
+              </Match>
+            </Switch>
           </div>
           <div class="divider2" />
         </div>

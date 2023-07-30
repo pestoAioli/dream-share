@@ -53,8 +53,10 @@ defmodule DreamShareWeb.AccountController do
   end
 
   def sign_out(conn, %{}) do
+    IO.inspect(conn)
     account = conn.assigns[:account]
     token = Guardian.Plug.current_token(conn)
+    IO.inspect(token)
     Guardian.revoke(token)
 
     conn

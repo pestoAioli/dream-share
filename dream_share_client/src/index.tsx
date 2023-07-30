@@ -8,6 +8,9 @@ import { Route, Router, Routes } from '@solidjs/router';
 import DreamFeed from './pages/dream-feed';
 import { SocketContextProvider } from './components/socket-context-provider';
 import socket from './socket';
+import SignUp from './components/sign-up';
+import { AuthContextProvider } from './components/auth-context-provider';
+import Profile from './pages/profile';
 
 const root = document.getElementById('root');
 
@@ -18,13 +21,17 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 }
 
 render(() => (
-  <Router>
-    <Routes>
-      <Route path="/" component={App}>
-        <Route path="/dreamfeed" component={DreamFeed} />
-        <Route path="/login" component={LoginForm} />
-      </Route>
-    </Routes>
-  </Router>
+  <AuthContextProvider>
+    <Router>
+      <Routes>
+        <Route path="/" component={App}>
+          <Route path="/dreamfeed" component={DreamFeed} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/profile" component={Profile} />
+        </Route>
+      </Routes>
+    </Router>
+  </AuthContextProvider>
 ),
   root!);
