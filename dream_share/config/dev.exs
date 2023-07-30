@@ -23,7 +23,7 @@ config :dream_share, DreamShareWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "cOvgn8fg45cdPLS0a7eXSjsNvBvNbYtLAYfyGKDk/+nt3zB31nHh8+o+AvqvdFbY",
+  secret_key_base: "WngkHCJVodGR+t2prt44mEhR/7FDo3PUHUZ7keNjoy0XZDS1olXK5POu0K0Xi9SB",
   watchers: []
 
 # ## SSL Support
@@ -49,6 +49,16 @@ config :dream_share, DreamShareWeb.Endpoint,
 # configured to run both http and https servers on
 # different ports.
 
+# Watch static and templates for browser reloading.
+config :dream_share, DreamShareWeb.Endpoint,
+  live_reload: [
+    patterns: [
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/gettext/.*(po)$",
+      ~r"lib/dream_share_web/(controllers|live|components)/.*(ex|heex)$"
+    ]
+  ]
+
 # Enable dev routes for dashboard and mailbox
 config :dream_share, dev_routes: true
 
@@ -61,3 +71,6 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Disable swoosh api client as it is only required for production adapters.
+config :swoosh, :api_client, false

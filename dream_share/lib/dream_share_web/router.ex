@@ -1,47 +1,37 @@
 defmodule DreamShareWeb.Router do
   use DreamShareWeb, :router
-  use Plug.ErrorHandler
 
-  @impl Plug.ErrorHandler
-  def handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
-    conn
-    |> json(%{errors: message})
-    |> halt()
-  end
-
-  @impl Plug.ErrorHandler
-  def handle_errors(conn, %{reason: %{message: message}}) do
-    conn
-    |> json(%{errors: message})
-    |> halt()
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {DreamShareWeb.Layouts, :root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
   end
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug :fetch_session
   end
 
-  pipeline :auth do
-    plug DreamShareWeb.Auth.Pipeline
-    plug DreamShareWeb.Auth.SetAccount
+  scope "/", DreamShareWeb do
+    pipe_through :browser
+
+    get "/", PageController, :home
   end
 
-  scope "/api", DreamShareWeb do
-    pipe_through :api
-    get "/users/:id", UserController, :show
-    get "/dreams", DreamController, :index
-    post "/accounts/create", AccountController, :create
-    post "/accounts/sign_in", AccountController, :sign_in
-    # resources "/dreams", DreamController, except: [:new, :edit]
-  end
+  # Other scopes may use custom stacks.
+  # scope "/api", DreamShareWeb do
+  #   pipe_through :api
+  # end
 
-  scope "/api", DreamShareWeb do
-    pipe_through [:api, :auth]
-    get "/accounts/by_id/:id", AccountController, :show
-    get "/accounts/sign_out", AccountController, :sign_out
-    get "/accounts/refresh_session", AccountController, :refresh_session
-    post "/accounts/update", AccountController, :update
-    post "/users/update", UserController, :update
-    post "/dreams/create", DreamController, :create
+  # Enable Swoosh mailbox preview in development
+  if Application.compile_env(:dream_share, :dev_routes) do
+
+    scope "/dev" do
+      pipe_through :browser
+
+      forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
   end
 end
