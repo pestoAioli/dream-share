@@ -38,15 +38,15 @@ defmodule DreamShareWeb.Router do
 
   ## Authentication routes
 
-  scope "/", DreamShareWeb do
+  scope "/api", DreamShareWeb do
     pipe_through [:api]
 
-    get "/users", UserAuthController, :index
-    patch "/users", UserAuthController, :update
-    post "/users/log_in", UserAuthController, :login
-    post "/users/register", UserAuthController, :register
-    post "/users/confirm_email", UserAuthController, :confirm_email
-    post "/users/reset_password", UserAuthController, :reset_password
-    post "/users/forgot_password", UserAuthController, :forgot_password
+    get "/user", UserAuthController, :index
+    patch "/user", UserAuthController, :update
+    post "/user/log_in", UserAuthController, :login
+    post "/user/register", UserAuthController, :register
+    post "/user/confirm_email", UserAuthController, :confirm_email
+    post "/user/reset_password", UserAuthController, :reset_password
+    post "/user/forgot_password", UserAuthController, :forgot_password
   end
 end
