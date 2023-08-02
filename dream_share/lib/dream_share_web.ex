@@ -49,20 +49,17 @@ defmodule DreamShareWeb do
     end
   end
 
-  def live_view do
+  def view do
     quote do
-      use Phoenix.LiveView,
-        layout: {DreamShareWeb.Layouts, :app}
+      use Phoenix.View,
+        root: "lib/dreamshare_web/templates",
+        namespace: DreamShareWeb
 
-      unquote(html_helpers())
-    end
-  end
+      # Import convenience functions from controllers
+      import Phoenix.Controller,
+        only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
 
-  def live_component do
-    quote do
-      use Phoenix.LiveComponent
-
-      unquote(html_helpers())
+      # Include shared imports and aliases for views
     end
   end
 

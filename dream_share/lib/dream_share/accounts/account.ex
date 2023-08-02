@@ -15,6 +15,6 @@ defmodule DreamShare.Accounts.Account do
   def changeset(account, attrs) do
     account
     |> cast(attrs, [:username, :about, :pfp])
-    |> validate_required([:username, :about, :pfp])
+    |> validate_required([:username])
   end
 end

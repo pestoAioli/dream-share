@@ -15,7 +15,7 @@ defmodule DreamShareWeb.UserAuthController do
 
   def update(conn, %{"user" => params}) do
     user = conn.assigns[:current_user]
-    changeset = Accounts.change_account(user, params)
+    changeset = Accounts.change_user_registration(user, params)
 
     with {:ok, user} <- Repo.update(changeset) do
       render(conn, "update.json", user: user)

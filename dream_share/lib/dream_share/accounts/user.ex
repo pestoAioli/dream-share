@@ -7,6 +7,9 @@ defmodule DreamShare.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    field :is_active, :boolean
+    field :username, :string
+    field :full_name, :string
     has_one :account, DreamShare.Accounts.Account
 
     timestamps()
@@ -37,9 +40,10 @@ defmodule DreamShare.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :username])
     |> validate_email(opts)
     |> validate_password(opts)
+    |> unique_constraint(:username)
   end
 
   defp validate_email(changeset, opts) do
@@ -128,6 +132,7 @@ defmodule DreamShare.Accounts.User do
   def confirm_changeset(user) do
     now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
     change(user, confirmed_at: now)
+    change(user, is_active: true)
   end
 
   @doc """
