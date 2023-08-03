@@ -7,7 +7,6 @@ defmodule DreamShare.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
-    field :is_active, :boolean
     field :username, :string
     field :full_name, :string
     has_one :account, DreamShare.Accounts.Account

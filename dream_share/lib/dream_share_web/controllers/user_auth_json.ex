@@ -11,11 +11,19 @@ defmodule DreamShareWeb.UserAuthJSON do
   end
 
   def render("login.json", %{:user => user, :token => token}) do
+    encoded_token = Base.encode64(token)
+
     %{
       data: %{
         user: render_one(user, UserAuthJSON, "privileged_user.json", as: :user)
       },
-      token: token
+      token: encoded_token
+    }
+  end
+
+  def render("logout.json", _params) do
+    %{
+      messages: ["Yuove been logged out"]
     }
   end
 

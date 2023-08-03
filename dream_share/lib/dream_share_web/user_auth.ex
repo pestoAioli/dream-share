@@ -27,7 +27,11 @@ defmodule DreamShareWeb.UserAuth do
   """
   def fetch_current_user(conn, _opts) do
     user_token = fetch_token(get_req_header(conn, "authorization"))
-    user = user_token && Accounts.get_user_by_session_token(user_token)
+    IO.inspect(user_token)
+    {:ok, decoded_token} = Base.decode64(user_token)
+    IO.inspect(decoded_token)
+    user = Accounts.get_user_by_session_token(decoded_token)
+    IO.inspect(user)
     assign(conn, :current_user, user)
   end
 
@@ -38,7 +42,7 @@ defmodule DreamShareWeb.UserAuth do
     if conn.assigns[:current_user] do
       conn
       |> put_status(401)
-      |> put_view(BoilerNameWeb.ErrorView)
+      |> put_view(DreamShareWeb.ErrorJSON)
       |> render(:"401")
       |> halt()
     else
@@ -53,12 +57,12 @@ defmodule DreamShareWeb.UserAuth do
   they use the application at all, here would be a good place.
   """
   def require_authenticated_user(conn, _opts) do
-    if conn.assigns[:current_user] != nil and conn.assigns[:current_user].is_active do
+    if conn.assigns[:current_user] != nil do
       conn
     else
       conn
       |> put_status(401)
-      |> put_view(BoilerNameWeb.ErrorView)
+      |> put_view(DreamShareWeb.ErrorJSON)
       |> render(:"401")
       |> halt()
     end
@@ -69,7 +73,7 @@ defmodule DreamShareWeb.UserAuth do
 
   defp fetch_token([token | _tail]) do
     token
-    |> String.replace("Token ", "")
+    |> String.replace("Bearer ", "")
     |> String.trim()
   end
 end

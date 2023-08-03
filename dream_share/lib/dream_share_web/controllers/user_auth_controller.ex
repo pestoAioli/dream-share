@@ -24,21 +24,22 @@ defmodule DreamShareWeb.UserAuthController do
 
   def login(conn, %{"email" => email, "password" => password}) do
     if user = Accounts.get_user_by_email_and_password(email, password) do
-      if user.is_active do
-        token = get_token(user)
-        render(conn, "login.json", user: user, token: token)
-      else
-        {:error, :bad_request,
-         "Your account is not active. Check your inbox for a confirmation email."}
-      end
+      token = get_token(user)
+      render(conn, "login.json", user: user, token: token)
     else
       {:error, :bad_request, "Invalid username or password."}
     end
   end
 
+  def logout(conn, %{"token" => token}) do
+    decoded_token = Base.decode64(token)
+    delete_token(decoded_token)
+    render(conn, "logout.json")
+  end
+
   def register(conn, %{"user" => params}) do
     with {:ok, user} <- Accounts.register_user(params) do
-      Accounts.deliver_user_confirmation_instructions(user, fn token -> "#{token}" end)
+      Accounts.generate_user_session_token(user)
 
       conn
       |> put_status(201)
@@ -89,14 +90,14 @@ defmodule DreamShareWeb.UserAuthController do
       else
         conn
         |> put_status(401)
-        |> put_view(BoilerNameWeb.ErrorJSON)
+        |> put_view(DreamShareWeb.ErrorJSON)
         |> render(:"401")
         |> halt()
       end
     else
       conn
       |> put_status(401)
-      |> put_view(BoilerNameWeb.ErrorJSON)
+      |> put_view(DreamShareWeb.ErrorJSON)
       |> render(:"401")
       |> halt()
     end
