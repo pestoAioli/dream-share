@@ -16,6 +16,8 @@ defmodule DreamShareWeb.Router do
     pipe_through :browser
 
     get "/dreams", DreamController, :index
+    post "/user/register", UserAuthController, :register
+    post "/user/log_in", UserAuthController, :login
   end
 
   # Other scopes may use custom stacks.
@@ -39,9 +41,7 @@ defmodule DreamShareWeb.Router do
 
     get "/user", UserAuthController, :index
     patch "/user", UserAuthController, :update
-    post "/user/log_in", UserAuthController, :login
     get "/user/log_out", UserAuthController, :logout
-    post "/user/register", UserAuthController, :register
     post "/user/confirm_email", UserAuthController, :confirm_email
     post "/user/reset_password", UserAuthController, :reset_password
     post "/user/forgot_password", UserAuthController, :forgot_password

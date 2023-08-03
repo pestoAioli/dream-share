@@ -12,6 +12,11 @@ defmodule DreamShareWeb.Endpoint do
   ]
 
   # socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  socket "/socket", DreamShareWeb.UserSocket,
+    websocket: true,
+    longpoll: false
+
+  plug Corsica, origins: "*", allow_methods: :all, allow_headers: :all
 
   # Serve at "/" the static files from "priv/static" directory.
   #

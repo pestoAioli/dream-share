@@ -4,7 +4,7 @@ import { Component, For, Show, createEffect, createMemo, createResource, createS
 import { useSocket } from "./socket-context-provider";
 
 async function getDreams() {
-  const response = await fetch("http://localhost:4000/api/dreams", {
+  const response = await fetch("http://localhost:4000/dreams", {
     mode: 'cors',
     headers: {
       'Access-Control-Allow-Origin': '*'
@@ -48,7 +48,7 @@ const DreamsList: Component = () => {
               <div class="username">
                 <strong style={{ "font-size": "18px" }}>{dream.username}</strong> ＠{moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm:ss a')}:
               </div>
-              <p class="dream-content">{dream.content}</p>
+              <p class="dream-content">{dream.dream}</p>
             </div>
           )}
         </For>

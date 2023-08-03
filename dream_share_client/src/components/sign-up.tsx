@@ -6,19 +6,20 @@ import { useNavigate } from "@solidjs/router";
 
 const SignUp: Component = () => {
   const [signingUp, setSigningUp] = createSignal(false);
-  const [isAuthenticated, setIsAuthenticated] = useAuthContext();
+  const [greetingName, setGreetingName] = createSignal("");
   const navigate = useNavigate();
   async function signUp(e: SubmitEvent) {
     e.preventDefault();
     //@ts-ignore
-    const hash_password = e.target.password.value
+    const password = e.target.password.value
     //@ts-ignore
     const email = e.target.email.value;
-    console.log(JSON.stringify({ email, hash_password }))
+    //@ts-ignore
+    const username = e.target.username.value
     setSigningUp(true);
-    const response = await fetch("http://localhost:4000/api/accounts/create", {
+    const response = await fetch("http://localhost:4000/user/register", {
       method: "POST",
-      body: JSON.stringify({ account: { email, hash_password } }),
+      body: JSON.stringify({ user: { email, password, username } }),
       mode: 'cors',
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -26,23 +27,28 @@ const SignUp: Component = () => {
       },
       credentials: 'same-origin'
     })
-    const { token, id } = await response.json();
-    console.log(token)
-    localStorage.setItem("toke", JSON.stringify(token))
-    localStorage.setItem("id", id)
+    const { data } = await response.json();
+    console.log(data)
     setSigningUp(false);
-    navigate("/profile")
+    setGreetingName(data.username)
+    console.log(greetingName())
+  }
+
+  function goToLogin() {
+    return navigate("/login")
   }
 
   return (
     <Switch>
-      <Match when={signingUp() === false}>
+      <Match when={signingUp() === false && greetingName().length == 0}>
         <div class='home-login'>
           <div>
             <div class="hort" />
             <form class='home-login-form' onSubmit={signUp}>
               <input type="text" id="email" name="email" placeholder="email" required />
               <input type="text" id="password" name="password" placeholder="password" required
+                style={{ "margin-top": "8px" }} />
+              <input type="text" id="username" name="username" placeholder="username" required
                 style={{ "margin-top": "8px" }} />
               <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white" }} type="submit" ><strong>Sign up 🙋</strong></button>
             </form>
@@ -51,6 +57,15 @@ const SignUp: Component = () => {
       </Match>
       <Match when={signingUp() === true}>
         <h1>One sec while I sing yuo up🧐</h1>
+      </Match>
+      <Match when={greetingName().length != 0 && signingUp() === false}>
+        <div class="home-login">
+          <div>
+            <div class="hort" />
+            <p>thanks for joining <strong>{greetingName()}!</strong> </p>
+            <p>please <button onClick={goToLogin}><strong>login</strong></button> now with yuor new account</p>
+          </div>
+        </div>
       </Match>
     </Switch>
   );
