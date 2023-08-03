@@ -14,11 +14,20 @@ config :dream_share,
 config :dream_share, DreamShareWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [
-    formats: [json: DreamShareWeb.ErrorJSON],
+    formats: [html: DreamShareWeb.ErrorHTML, json: DreamShareWeb.ErrorJSON],
     layout: false
   ],
   pubsub_server: DreamShare.PubSub,
-  live_view: [signing_salt: "3x9gAotO"]
+  live_view: [signing_salt: "yX9W05RC"]
+
+# Configures the mailer
+#
+# By default it uses the "Local" adapter which stores the emails
+# locally. You can see the emails in your browser, at "/dev/mailbox".
+#
+# For production it's recommended to configure a different adapter
+# at the `config/runtime.exs`.
+config :dream_share, DreamShare.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -27,15 +36,6 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
-
-config :guardian, Guardian.DB,
-  repo: DreamShare.Repo,
-  schema_name: "guardian_tokens",
-  sweep_interval: 60
-
-config :dream_share, DreamShareWeb.Auth.Guardian,
-  issuer: "dream_share",
-  secret_key: "i97ugNtL6dDxym3eoXUphJWLgokV02+OYPJ75bv5q6pUhZh2KHzmG4JFNrKgP2JY"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

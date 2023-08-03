@@ -11,10 +11,10 @@ defmodule DreamShare.DreamsFixtures do
     {:ok, dream} =
       attrs
       |> Enum.into(%{
-        content: "some content",
+        dream: "some dream",
         username: "some username"
       })
-      |> DreamShare.Dreams.create_dream(user_id: 0, username: "bob")
+      |> DreamShare.Dreams.create_dream()
 
     dream
   end

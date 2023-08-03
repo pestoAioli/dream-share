@@ -6,14 +6,14 @@ defmodule DreamShareWeb.DreamControllerTest do
   alias DreamShare.Dreams.Dream
 
   @create_attrs %{
-    content: "some content",
+    dream: "some dream",
     username: "some username"
   }
   @update_attrs %{
-    content: "some updated content",
+    dream: "some updated dream",
     username: "some updated username"
   }
-  @invalid_attrs %{content: nil, username: nil}
+  @invalid_attrs %{dream: nil, username: nil}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -35,7 +35,7 @@ defmodule DreamShareWeb.DreamControllerTest do
 
       assert %{
                "id" => ^id,
-               "content" => "some content",
+               "dream" => "some dream",
                "username" => "some username"
              } = json_response(conn, 200)["data"]
     end
@@ -57,7 +57,7 @@ defmodule DreamShareWeb.DreamControllerTest do
 
       assert %{
                "id" => ^id,
-               "content" => "some updated content",
+               "dream" => "some updated dream",
                "username" => "some updated username"
              } = json_response(conn, 200)["data"]
     end

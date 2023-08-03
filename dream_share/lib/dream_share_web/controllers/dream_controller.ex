@@ -1,7 +1,6 @@
 defmodule DreamShareWeb.DreamController do
   use DreamShareWeb, :controller
 
-  alias DreamShare.Users
   alias DreamShare.Dreams
   alias DreamShare.Dreams.Dream
 
@@ -13,14 +12,17 @@ defmodule DreamShareWeb.DreamController do
   end
 
   def create(conn, %{"dream" => dream_params}) do
-    user_id = conn.assigns.account.id
-    user = Users.get_user!(user_id)
-    IO.inspect(user.username)
+    user = conn.assigns[:current_user]
+    IO.inspect(user)
 
-    with {:ok, %Dream{} = dream} <- Dreams.create_dream(user_id, user.username, dream_params) do
-      conn
-      |> put_status(:created)
-      |> render(:show, dream: dream)
+    if user do
+      with {:ok, %Dream{} = dream} <- Dreams.create_dream(user.id, user.username, dream_params) do
+        conn
+        |> put_status(:created)
+        |> render(:show, dream: dream)
+      end
+    else
+      {:error, :unauthorized}
     end
   end
 

@@ -1,47 +1,50 @@
 defmodule DreamShareWeb.Router do
   use DreamShareWeb, :router
-  use Plug.ErrorHandler
 
-  @impl Plug.ErrorHandler
-  def handle_errors(conn, %{reason: %Phoenix.Router.NoRouteError{message: message}}) do
-    conn
-    |> json(%{errors: message})
-    |> halt()
-  end
+  import DreamShareWeb.UserAuth
 
-  @impl Plug.ErrorHandler
-  def handle_errors(conn, %{reason: %{message: message}}) do
-    conn
-    |> json(%{errors: message})
-    |> halt()
+  pipeline :browser do
+    plug :accepts, ["json"]
   end
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug :fetch_session
+    plug :fetch_current_user
   end
 
-  pipeline :auth do
-    plug DreamShareWeb.Auth.Pipeline
-    plug DreamShareWeb.Auth.SetAccount
-  end
+  scope "/", DreamShareWeb do
+    pipe_through :browser
 
-  scope "/api", DreamShareWeb do
-    pipe_through :api
-    get "/users/:id", UserController, :show
     get "/dreams", DreamController, :index
-    post "/accounts/create", AccountController, :create
-    post "/accounts/sign_in", AccountController, :sign_in
-    # resources "/dreams", DreamController, except: [:new, :edit]
   end
 
+  # Other scopes may use custom stacks.
+  # scope "/api", DreamShareWeb do
+  #   pipe_through :api
+  # end
+
+  # Enable Swoosh mailbox preview in development
+  if Application.compile_env(:dream_share, :dev_routes) do
+    scope "/dev" do
+      pipe_through :browser
+
+      forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  ## Authentication routes
+
   scope "/api", DreamShareWeb do
-    pipe_through [:api, :auth]
-    get "/accounts/by_id/:id", AccountController, :show
-    get "/accounts/sign_out", AccountController, :sign_out
-    get "/accounts/refresh_session", AccountController, :refresh_session
-    post "/accounts/update", AccountController, :update
-    post "/users/update", UserController, :update
-    post "/dreams/create", DreamController, :create
+    pipe_through [:api]
+
+    get "/user", UserAuthController, :index
+    patch "/user", UserAuthController, :update
+    post "/user/log_in", UserAuthController, :login
+    get "/user/log_out", UserAuthController, :logout
+    post "/user/register", UserAuthController, :register
+    post "/user/confirm_email", UserAuthController, :confirm_email
+    post "/user/reset_password", UserAuthController, :reset_password
+    post "/user/forgot_password", UserAuthController, :forgot_password
+    resources "/dreams", DreamController, except: [:new, :edit, :index]
   end
 end

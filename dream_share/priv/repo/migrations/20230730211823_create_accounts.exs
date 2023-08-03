@@ -3,12 +3,11 @@ defmodule DreamShare.Repo.Migrations.CreateAccounts do
 
   def change do
     create table(:accounts) do
-      add :email, :string
-      add :hash_password, :string
+      add :username, :string
+      add :about, :text
+      add :pfp, :string
 
       timestamps()
     end
-
-    create unique_index(:accounts, [:email])
   end
 end

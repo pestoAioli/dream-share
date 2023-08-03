@@ -3,9 +3,9 @@ defmodule DreamShare.Dreams.Dream do
   import Ecto.Changeset
 
   schema "dreams" do
-    field :content, :string
+    field :dream, :string
     field :username, :string
-    belongs_to :user, DreamShare.Users.User, foreign_key: :user_id
+    field :user_id, :id
 
     timestamps()
   end
@@ -13,7 +13,7 @@ defmodule DreamShare.Dreams.Dream do
   @doc false
   def changeset(dream, attrs) do
     dream
-    |> cast(attrs, [:content, :username])
-    |> validate_required([:content, :username])
+    |> cast(attrs, [:dream, :username])
+    |> validate_required([:dream, :username])
   end
 end

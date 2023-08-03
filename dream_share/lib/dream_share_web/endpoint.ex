@@ -7,21 +7,16 @@ defmodule DreamShareWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_dream_share_key",
-    signing_salt: "1BA4p+Ql",
+    signing_salt: "0R3T04vy",
     same_site: "Lax"
   ]
 
   # socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
-  socket "/socket", DreamShareWeb.DreamSocket,
-    websocket: true,
-    longpoll: false
 
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
   # when deploying your static files in production.
-  plug Corsica, origins: "*", allow_methods: :all, allow_headers: :all
-
   plug Plug.Static,
     at: "/",
     from: :dream_share,
@@ -31,6 +26,8 @@ defmodule DreamShareWeb.Endpoint do
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
+    socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
+    plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :dream_share
   end
