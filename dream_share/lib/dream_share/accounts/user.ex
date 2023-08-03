@@ -9,7 +9,7 @@ defmodule DreamShare.Accounts.User do
     field :confirmed_at, :naive_datetime
     field :username, :string
     field :full_name, :string
-    has_one :account, DreamShare.Accounts.Account
+    has_many :dreams, DreamShare.Dreams.Dream, foreign_key: :user_id
 
     timestamps()
   end

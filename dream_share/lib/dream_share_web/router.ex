@@ -5,10 +5,6 @@ defmodule DreamShareWeb.Router do
 
   pipeline :browser do
     plug :accepts, ["json"]
-    plug :fetch_session
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-    plug :fetch_current_user
   end
 
   pipeline :api do
@@ -19,7 +15,7 @@ defmodule DreamShareWeb.Router do
   scope "/", DreamShareWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/dreams", DreamController, :index
   end
 
   # Other scopes may use custom stacks.
@@ -49,5 +45,6 @@ defmodule DreamShareWeb.Router do
     post "/user/confirm_email", UserAuthController, :confirm_email
     post "/user/reset_password", UserAuthController, :reset_password
     post "/user/forgot_password", UserAuthController, :forgot_password
+    resources "/dreams", DreamController, except: [:new, :edit, :index]
   end
 end
