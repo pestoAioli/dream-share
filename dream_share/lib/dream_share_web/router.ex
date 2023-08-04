@@ -41,7 +41,7 @@ defmodule DreamShareWeb.Router do
 
     get "/user", UserAuthController, :index
     patch "/user", UserAuthController, :update
-    get "/user/log_out", UserAuthController, :logout
+    post "/user/log_out", UserAuthController, :logout
     post "/user/confirm_email", UserAuthController, :confirm_email
     post "/user/reset_password", UserAuthController, :reset_password
     post "/user/forgot_password", UserAuthController, :forgot_password

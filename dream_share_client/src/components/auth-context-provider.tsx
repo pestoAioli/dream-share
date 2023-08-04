@@ -8,8 +8,8 @@ const StoreContext = createContext<any>();
 export function Provider(props: any) {
   const [token, setToken] = createSignal(localStorage.getItem("toke") ? localStorage.getItem("toke") : null);
   const [currentUserInfo, setCurrentUserInfo] = createStore({
-    username: "",
-    fullname: ""
+    username: localStorage.getItem("username") ? localStorage.getItem("username") : "",
+    fullname: localStorage.getItem("fullname") ? localStorage.getItem("fullname") : ""
   });
 
   return (

@@ -32,7 +32,8 @@ defmodule DreamShareWeb.UserAuthController do
   end
 
   def logout(conn, %{"token" => token}) do
-    decoded_token = Base.decode64(token)
+    IO.inspect(conn.assigns)
+    {:ok, decoded_token} = Base.decode64(token)
     delete_token(decoded_token)
     render(conn, "logout.json")
   end

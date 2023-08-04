@@ -2,12 +2,13 @@ import { A, useNavigate } from "@solidjs/router";
 import type { Component } from "solid-js";
 import { Match, Switch, createEffect, createSignal } from "solid-js";
 import '../styles/login-form.css';
-import { useAuth } from "./auth-context-provider";
+import { useAuth, useStore } from "./auth-context-provider";
 import * as bcrypt from "bcryptjs";
 
 const LoginForm: Component = () => {
   const [loggingIn, setLoggingIn] = createSignal(false);
-  const [isAuthenticated, setIsAuthenticated] = useAuth();
+  const [tokenActual, setToken] = useAuth();
+  const [currentUserInfo, setCurrentUserInfo] = useStore();
   const navigate = useNavigate();
   async function login(e: SubmitEvent) {
     //@ts-ignore
@@ -32,15 +33,14 @@ const LoginForm: Component = () => {
     localStorage.setItem("id", data.user.id)
     localStorage.setItem("username", data.user.username)
     localStorage.setItem("fullname", data.user.full_name)
+    setCurrentUserInfo("username", data.user.username)
+    setCurrentUserInfo("fullname", data.user.full_name)
     setLoggingIn(false);
-    setIsAuthenticated(token)
-    console.log(isAuthenticated(), token);
+    setToken(token)
+    console.log(tokenActual(), "actual first", token, currentUserInfo);
     navigate("/profile")
   }
 
-  createEffect(() => {
-    console.log(isAuthenticated())
-  })
 
   return (
     <Switch>

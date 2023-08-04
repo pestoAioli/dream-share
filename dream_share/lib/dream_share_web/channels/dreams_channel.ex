@@ -3,6 +3,7 @@ defmodule DreamShareWeb.DreamsChannel do
 
   @impl true
   def join("dreams:lobby", _payload, socket) do
+    send(Kernel.self(), :after_join)
     {:ok, socket}
   end
 
@@ -26,6 +27,24 @@ defmodule DreamShareWeb.DreamsChannel do
   @impl true
   def handle_info({:dream_updated, dream}, socket) do
     IO.inspect(dream)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(:after_join, socket) do
+    dreams =
+      DreamShare.Dreams.list_dreams()
+      |> Enum.map(fn dream ->
+        %{
+          id: dream.id,
+          dream: dream.dream,
+          username: dream.username,
+          timestamp: dream.inserted_at
+        }
+      end)
+
+    IO.inspect(dreams)
+    push(socket, "list_dreams", %{dreams: dreams})
     {:noreply, socket}
   end
 

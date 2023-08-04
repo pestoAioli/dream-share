@@ -90,7 +90,7 @@ defmodule DreamShare.Accounts do
 
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
-    User.registration_changeset(user, attrs, validate_password: false, validate_email: false)
+    User.registration_changeset(user, attrs, password: false, validate_email: false)
   end
 
   ## Settings

@@ -1,36 +1,19 @@
 import moment from "moment";
 import "../styles/dreams-list.css";
-import { Component, For, Show, createEffect, createMemo, createResource, createSignal, onMount } from "solid-js";
+import { Component, For, Show, createSignal } from "solid-js";
 import { useSocket } from "./socket-context-provider";
 
-async function getDreams() {
-  const response = await fetch("http://localhost:4000/dreams", {
-    mode: 'cors',
-    headers: {
-      'Access-Control-Allow-Origin': '*'
-    }
-  })
-  const results = await response.json();
-  // console.log(results)
-  return results.data;
-}
 
-// let socketConnection: any;
-// if (socketConnection) {
-//   socketConnection.on("new_dream", (payload: any) => {
-//     console.log(payload)
-//   });
-// }
 
 const DreamsList: Component = () => {
   const socketConnection: any = useSocket();
 
-  const [dreams, setDreams] = createSignal<any>();
-  const [data] = createResource(getDreams);
-  const dreamsMemo = createMemo(() => {
-    if (!data.loading && !data.error) {
-      setDreams(() => data());
-    }
+  const [dreams, setDreams] = createSignal<any>([]);
+  socketConnection.on("list_dreams", (payload: any) => {
+    console.log(payload.dreams);
+    payload.dreams.map((dream: any) => {
+      setDreams(dreams => [...dreams, dream])
+    })
   })
 
   socketConnection.on("new_dream", (payload: any) => {
@@ -40,7 +23,7 @@ const DreamsList: Component = () => {
   })
 
   return (
-    <Show when={!data.loading && dreams().length > 0} fallback={<>🧐💬</>}>
+    <Show when={dreams().length > 0} fallback={<>🧐💬</>}>
       <div class="dreams-list">
         <For each={dreams()}>
           {(dream) => (
