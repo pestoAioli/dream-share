@@ -3,10 +3,10 @@ import type { Component } from 'solid-js';
 
 import "./styles/app.css";
 import { A, Outlet } from '@solidjs/router';
-import { useAuthContext } from './components/auth-context-provider';
+import { useAuth } from './components/auth-context-provider';
 
 const App: Component = () => {
-  const [isAuthenticated, _setIsAuthenticated] = useAuthContext();
+  const [token, setToken] = useAuth();
 
   return (
     <div class='home-container'>
@@ -20,10 +20,10 @@ const App: Component = () => {
               <A href="/groups" class="icon-links">👥</A>
             </div>
             <Switch>
-              <Match when={isAuthenticated()}>
+              <Match when={token()}>
                 <A href="/profile" class="icon-links">⚙️</A>
               </Match>
-              <Match when={!isAuthenticated()}>
+              <Match when={!token()}>
                 <A href="/login" class="icon-links">⚙️</A>
               </Match>
             </Switch>

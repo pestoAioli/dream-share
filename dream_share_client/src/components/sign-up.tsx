@@ -1,7 +1,5 @@
 import { Switch, Match, createSignal } from "solid-js";
 import type { Component } from "solid-js";
-import { useAuthContext } from "./auth-context-provider";
-import * as bcrypt from "bcryptjs";
 import { useNavigate } from "@solidjs/router";
 
 const SignUp: Component = () => {

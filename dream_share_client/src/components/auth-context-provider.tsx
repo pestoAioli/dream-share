@@ -1,18 +1,30 @@
 import { createContext, createSignal, useContext } from "solid-js";
+import { createStore } from "solid-js/store";
 
 const AuthContext = createContext<any>([false, () => { }]);
 
-export function AuthContextProvider(props: any) {
-  const [isAuthenticated, setIsAuthenticated] = createSignal(localStorage.getItem("toke") ? true : false);
+const StoreContext = createContext<any>();
 
+export function Provider(props: any) {
+  const [token, setToken] = createSignal(localStorage.getItem("toke") ? localStorage.getItem("toke") : null);
+  const [currentUserInfo, setCurrentUserInfo] = createStore({
+    username: "",
+    fullname: ""
+  });
 
   return (
-    <AuthContext.Provider value={[isAuthenticated, setIsAuthenticated]}>
-      {props.children}
+    <AuthContext.Provider value={[token, setToken]}>
+      <StoreContext.Provider value={[currentUserInfo, setCurrentUserInfo]}>
+        {props.children}
+      </StoreContext.Provider>
     </AuthContext.Provider>
   )
 }
 
-export function useAuthContext() {
+export function useAuth() {
   return useContext(AuthContext);
+}
+
+export function useStore() {
+  return useContext(StoreContext)
 }
