@@ -17,7 +17,8 @@ defmodule DreamShareWeb.DreamsChannel do
       id: dream.id,
       dream: dream.dream,
       username: dream.username,
-      timestamp: dream.inserted_at
+      timestamp: dream.inserted_at,
+      user_id: dream.user_id
     })
 
     IO.inspect(dream)
@@ -39,7 +40,8 @@ defmodule DreamShareWeb.DreamsChannel do
           id: dream.id,
           dream: dream.dream,
           username: dream.username,
-          timestamp: dream.inserted_at
+          timestamp: dream.inserted_at,
+          user_id: dream.user_id
         }
       end)
 

@@ -9,7 +9,8 @@ export function Provider(props: any) {
   const [token, setToken] = createSignal(localStorage.getItem("toke") ? localStorage.getItem("toke") : null);
   const [currentUserInfo, setCurrentUserInfo] = createStore({
     username: localStorage.getItem("username") ? localStorage.getItem("username") : "",
-    fullname: localStorage.getItem("fullname") ? localStorage.getItem("fullname") : ""
+    fullname: localStorage.getItem("fullname") ? localStorage.getItem("fullname") : "",
+    user_id: localStorage.getItem("id") ? localStorage.getItem("id") : ""
   });
 
   return (

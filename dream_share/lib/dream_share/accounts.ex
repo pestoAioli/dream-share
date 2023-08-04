@@ -80,6 +80,10 @@ defmodule DreamShare.Accounts do
     |> Repo.insert()
   end
 
+  def change_user_profile(%User{} = user, attrs \\ %{}) do
+    User.user_profile_changeset(user, attrs)
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 

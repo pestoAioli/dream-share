@@ -9,6 +9,8 @@ import DreamFeed from './pages/dream-feed';
 import SignUp from './components/sign-up';
 import { Provider } from './components/auth-context-provider';
 import Profile from './pages/profile';
+import NewDream from './pages/new-dream';
+import MyDreamFeed from './pages/my-dream-feed';
 
 const root = document.getElementById('root');
 
@@ -27,6 +29,8 @@ render(() => (
           <Route path="/login" component={LoginForm} />
           <Route path="/signup" component={SignUp} />
           <Route path="/profile" component={Profile} />
+          <Route path="/newdream" component={NewDream} />
+          <Route path="/mydreams" component={MyDreamFeed} />
         </Route>
       </Routes>
     </Router>

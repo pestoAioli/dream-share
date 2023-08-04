@@ -22,8 +22,8 @@ const App: Component = () => {
         <div class="sidebar">
           <div class="icon-link-list">
             <div style={{ "display": "flex", "flex-direction": "column" }}>
-              <A href="/mydreams" class="icon-links">📝</A>
-              <A href="/groups" class="icon-links">👥</A>
+              <A href="/newdream" class="icon-links">📝</A>
+              <A href="/mydreams" class="icon-links">📒</A>
             </div>
             <Switch>
               <Match when={token()}>

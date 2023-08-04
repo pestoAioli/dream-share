@@ -45,6 +45,16 @@ defmodule DreamShare.Accounts.User do
     |> unique_constraint(:username)
   end
 
+  @doc """
+  a user changeset for updating profile info
+
+  """
+  def user_profile_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:username, :full_name])
+    |> unique_constraint(:username)
+  end
+
   defp validate_email(changeset, opts) do
     changeset
     |> validate_required([:email])
