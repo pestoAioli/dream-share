@@ -23,7 +23,7 @@ const DreamsList: Component = () => {
   })
 
   return (
-    <Show when={dreams().length > 0} fallback={<div style={{ "font-size": "36px", "margin-left": "8px" }}>🧐💬</div>}>
+    <Show when={dreams().length > 0} fallback={<div style={{ "font-size": "36px", "margin-left": "4px" }}>🧐💬</div>}>
       <div class="dreams-list">
         <For each={dreams()}>
           {(dream) => (
