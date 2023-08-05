@@ -30,19 +30,25 @@ const NewDream: Component = () => {
   }
   return (
     <div class="dreams-list">
-      <Show when={!addingDream()}>
-        <div class="dream-bubble">
-          <form onSubmit={addDream} style={{ "display": "flex", "flex-direction": "column" }} >
-            <label class="username" for="dream" style={{ "font-size": "18px" }}>Last night I dreamt...</label>
-            <textarea style={{ "min-height": "200px" }} id="dream" name="dream" placeholder="..." required />
-            <button style={{ "border": "2px solid black", "background-color": "white", "font-size": "18px" }} type="submit">Submit</button>
-          </form>
-        </div >
+      <Show when={token()}>
+        <Show when={!addingDream()}>
+          <div class="dream-bubble">
+            <form onSubmit={addDream} style={{ "display": "flex", "flex-direction": "column" }} >
+              <label class="username" for="dream" style={{ "font-size": "18px" }}>Last night I dreamt...</label>
+              <textarea style={{ "min-height": "200px" }} id="dream" name="dream" placeholder="..." required />
+              <button style={{ "border": "2px solid black", "background-color": "white", "font-size": "18px" }} type="submit">Submit</button>
+            </form>
+          </div >
+        </Show>
+        <Show when={addingDream()}>
+          <p>Adding yuor dream...</p>
+        </Show>
       </Show>
-      <Show when={addingDream()}>
-        <p>Adding yuor dream...</p>
+      <Show when={!token()}>
+        <p style={{ "font-size": "18px" }}>Yuo gotta be logged in to post dream :/</p>
       </Show>
     </div>
+
   )
 }
 
