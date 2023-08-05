@@ -12,7 +12,7 @@ config :dream_share,
 
 # Configures the endpoint
 config :dream_share, DreamShareWeb.Endpoint,
-  url: [host: "https://dreaming-of-u.vercel.app"],
+  url: [host: "https://dreaming-of-u.com"],
   render_errors: [
     formats: [html: DreamShareWeb.ErrorHTML, json: DreamShareWeb.ErrorJSON],
     layout: false

@@ -13,7 +13,7 @@ config :logger, level: :info
 # of environment variables, is done on config/runtime.exs.
 config :dream_share, DreamShare.Endpoint,
   check_origin: [
-    "https://dreaming-of-u.vercel.app/dreamfeed",
-    "https://dreaming-of-u.com/dreamfeed"
+    "https://dreaming-of-u.vercel.app",
+    "https://dreaming-of-u.com"
   ],
-  url: [host: "https://dreaming-of-u.vercel.app", port: 80]
+  url: [host: "https://dreaming-of-u.com", port: 80]

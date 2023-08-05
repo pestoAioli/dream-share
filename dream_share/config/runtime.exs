@@ -48,12 +48,12 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  # host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :dream_share, DreamShareWeb.Endpoint,
-    url: [host: "https://dreaming-of-u.vercel.app", port: 80, scheme: "https"],
-    check_origin: ["https://dreaming-of-u.vercel.app"],
+    url: [host: "https://dreaming-of-u.com", port: 80, scheme: "https"],
+    check_origin: ["https://dreaming-of-u.com", "https://dreaming-of-u.vercel.app"],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
