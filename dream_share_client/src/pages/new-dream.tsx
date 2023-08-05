@@ -12,7 +12,8 @@ const NewDream: Component = () => {
     setAddingDream(true)
     //@ts-ignore
     const dream = e.target.dream.value;
-    const response = await fetch("http://localhost:4000/api/dreams", {
+    //@ts-ignore
+    const response = await fetch(process.env.DREAMS_URL, {
       method: "POST",
       body: JSON.stringify({ dream: { dream } }),
       mode: 'cors',

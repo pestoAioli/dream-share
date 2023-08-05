@@ -3,7 +3,7 @@ defmodule DreamShare.Repo.Migrations.CreateDreams do
 
   def change do
     create table(:dreams) do
-      add :dream, :string
+      add :dream, :text
       add :username, :string
       add :user_id, references(:users, on_delete: :nothing)
 

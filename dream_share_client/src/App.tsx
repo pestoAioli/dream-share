@@ -6,8 +6,8 @@ import { A, Outlet } from '@solidjs/router';
 import { useAuth, useStore } from './components/auth-context-provider';
 
 const App: Component = () => {
-  const [token, setToken] = useAuth();
-  const [currentUserInfo, setCurrentUserInfo] = useStore();
+  const [token, _setToken] = useAuth();
+  const [currentUserInfo, _setCurrentUserInfo] = useStore();
 
   return (
     <div class='home-container'>

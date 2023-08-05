@@ -4,7 +4,8 @@ import socket from '../socket';
 const SocketContext = createContext();
 
 export function SocketContextProvider(props: any) {
-  const socketConnection = socket("dreams:lobby");
+  //@ts-ignore
+  const socketConnection = socket(process.env.SOCKET_TOPIC);
   console.log(socketConnection);
 
   return (

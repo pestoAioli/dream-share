@@ -12,7 +12,8 @@ const Profile: Component = () => {
   async function signOut() {
     setSigningOut(true);
     console.log(typeof token)
-    const response = await fetch("http://localhost:4000/api/user/log_out", {
+    //@ts-ignore
+    const response = await fetch(process.env.LOG_OUT_URL, {
       method: "POST",
       body: JSON.stringify({ token: token() }),
       mode: 'cors',
@@ -38,7 +39,8 @@ const Profile: Component = () => {
       const username = e.target.username.value ? e.target.username.value : currentUserInfo.username;
       //@ts-ignore
       const full_name = e.target.full_name.value ? e.target.full_name.value : currentUserInfo.full_name;
-      const response = await fetch("http://localhost:4000/api/user", {
+      //@ts-ignore
+      const response = await fetch(process.env.USER_URL, {
         method: "PATCH",
         body: JSON.stringify({ user: { username, full_name } }),
         mode: 'cors',

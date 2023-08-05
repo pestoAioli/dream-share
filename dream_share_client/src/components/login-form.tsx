@@ -17,7 +17,8 @@ const LoginForm: Component = () => {
     const password = e.target.password.value;
     e.preventDefault();
     setLoggingIn(true);
-    const response = await fetch("http://localhost:4000/user/log_in", {
+    //@ts-ignore
+    const response = await fetch(process.env.LOG_IN_URL, {
       method: "POST",
       body: JSON.stringify({ email, password }),
       mode: 'cors',

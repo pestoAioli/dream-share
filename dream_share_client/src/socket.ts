@@ -1,7 +1,8 @@
 import { Socket } from "phoenix";
 
 export default function socket(topic: string) {
-  let socket = new Socket("ws://localhost:4000/socket", { params: { token: 1 } })
+  //@ts-ignore
+  let socket = new Socket(process.env.SOCKET_URL, { params: { token: 1 } })
   socket.connect();
   let channel = socket.channel(topic, {});
   channel
