@@ -13,7 +13,7 @@ const Profile: Component = () => {
     setSigningOut(true);
     console.log(typeof token)
     //@ts-ignore
-    const response = await fetch(import.meta.env.LOG_OUT_URL, {
+    const response = await fetch(import.meta.env.VITE_LOG_OUT_URL, {
       method: "POST",
       body: JSON.stringify({ token: token() }),
       mode: 'cors',
@@ -40,7 +40,7 @@ const Profile: Component = () => {
       //@ts-ignore
       const full_name = e.target.full_name.value ? e.target.full_name.value : currentUserInfo.full_name;
       //@ts-ignore
-      const response = await fetch(process.env.USER_URL, {
+      const response = await fetch(import.meta.env.VITE_USER_URL, {
         method: "PATCH",
         body: JSON.stringify({ user: { username, full_name } }),
         mode: 'cors',

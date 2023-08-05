@@ -18,7 +18,7 @@ const LoginForm: Component = () => {
     e.preventDefault();
     setLoggingIn(true);
     //@ts-ignore
-    const response = await fetch(import.meta.env.LOG_IN_URL, {
+    const response = await fetch(import.meta.env.VITE_LOG_IN_URL, {
       method: "POST",
       body: JSON.stringify({ email, password }),
       mode: 'cors',

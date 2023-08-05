@@ -53,7 +53,7 @@ if config_env() == :prod do
 
   config :dream_share, DreamShareWeb.Endpoint,
     url: [host: "https://dreaming-of-u.vercel.app", port: 80, scheme: "https"],
-    check_origin: ["https://dreaming-of-u.vercel.app"]
+    check_origin: ["https://dreaming-of-u.vercel.app"],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
