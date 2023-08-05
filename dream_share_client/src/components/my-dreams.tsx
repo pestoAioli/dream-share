@@ -30,7 +30,7 @@ const MyDreams: Component = () => {
   })
 
   return (
-    <Show when={dreams().length > 0} fallback={<>🧐💬 are yuo logged in??</>}>
+    <Show when={dreams().length > 0} fallback={<>🧐💬 are yuo logged in? have you added any dreams?</>}>
       <div class="dreams-list">
         <For each={dreams()}>
           {(dream) => (
