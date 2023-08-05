@@ -11,3 +11,8 @@ config :logger, level: :info
 
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.
+config :dream_share, DreamShare.Endpoint,
+  check_origin: [
+    "https://dreaming-of-u.vercel.app/dreamfeed",
+    "https://dreaming-of-u.com/dreamfeed"
+  ]
