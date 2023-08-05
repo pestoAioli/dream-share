@@ -12,11 +12,12 @@ const MyDreams: Component = () => {
   const [dreams, setDreams] = createSignal<any>([]);
   socketConnection.on("list_dreams", (payload: any) => {
     console.log(payload.dreams);
-
-    console.log
     payload.dreams.map((dream: any) => {
       if (dream.user_id == currentUserInfo.user_id) {
-        setDreams(dreams => [...dreams, dream])
+        setDreams(dreams => {
+          const checkForReAdd = dreams.filter((dreami: any) => dreami.id !== dream.id);
+          return [...checkForReAdd, dream]
+        })
       }
     })
   })
