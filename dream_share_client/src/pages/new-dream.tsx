@@ -1,7 +1,7 @@
 import type { Component } from "solid-js";
 import { Show, createSignal } from "solid-js";
 import { useAuth } from "../components/auth-context-provider";
-import { useNavigate } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 
 const NewDream: Component = () => {
   const [token, _setToken] = useAuth();
@@ -50,6 +50,7 @@ const NewDream: Component = () => {
       </Show>
       <Show when={!token()}>
         <p style={{ "font-size": "18px" }}>Yuo gotta be logged in to post dream :/</p>
+        <p style={{ "font-size": "18px" }}><A href="/login" >Login now</A></p>
       </Show>
     </div>
 
