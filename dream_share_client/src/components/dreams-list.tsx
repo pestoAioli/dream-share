@@ -12,7 +12,10 @@ const DreamsList: Component = () => {
   socketConnection.on("list_dreams", (payload: any) => {
     console.log(payload.dreams);
     payload.dreams.map((dream: any) => {
-      setDreams(dreams => [...dreams, dream])
+      setDreams(dreams => {
+        const checkForReAdd = dreams.filter((dreami: any) => dreami.id !== dream.id);
+        return [...checkForReAdd, dream]
+      })
     })
   })
 
