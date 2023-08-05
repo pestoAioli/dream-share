@@ -1,5 +1,5 @@
 import type { Component } from "solid-js";
-import { Match, Show, Switch, createSignal } from "solid-js";
+import { Show, createSignal } from "solid-js";
 import { useAuth } from "../components/auth-context-provider";
 import { useNavigate } from "@solidjs/router";
 
@@ -10,23 +10,27 @@ const NewDream: Component = () => {
   async function addDream(e: SubmitEvent) {
     e.preventDefault();
     setAddingDream(true)
-    //@ts-ignore
-    const dream = e.target.dream.value;
-    //@ts-ignore
-    const response = await fetch(import.meta.env.VITE_DREAMS_URL, {
-      method: "POST",
-      body: JSON.stringify({ dream: { dream } }),
-      mode: 'cors',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token()}`
-      },
-      credentials: 'same-origin'
-    })
-    const result = await response.json();
-    console.log(result)
-    navigate("/dreamfeed")
+    try {
+      //@ts-ignore
+      const dream = e.target.dream.value;
+      //@ts-ignore
+      const response = await fetch(import.meta.env.VITE_DREAMS_URL, {
+        method: "POST",
+        body: JSON.stringify({ dream: { dream } }),
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token()}`
+        },
+        credentials: 'same-origin'
+      })
+      const result = await response.json();
+      console.log(result)
+      navigate("/dreamfeed")
+    } catch (e) {
+      console.log(e)
+    }
   }
   return (
     <div class="dreams-list">
