@@ -16,7 +16,7 @@ const SignUp: Component = () => {
     const username = e.target.username.value
     setSigningUp(true);
     //@ts-ignore
-    const response = await fetch(process.env.REGISTER_URL, {
+    const response = await fetch(import.meta.env.REGISTER_URL, {
       method: "POST",
       body: JSON.stringify({ user: { email, password, username } }),
       mode: 'cors',

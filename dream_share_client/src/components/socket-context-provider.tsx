@@ -5,7 +5,7 @@ const SocketContext = createContext();
 
 export function SocketContextProvider(props: any) {
   //@ts-ignore
-  const socketConnection = socket(process.env.SOCKET_TOPIC);
+  const socketConnection = socket(import.meta.env.SOCKET_TOPIC);
   console.log(socketConnection);
 
   return (

@@ -13,7 +13,7 @@ const NewDream: Component = () => {
     //@ts-ignore
     const dream = e.target.dream.value;
     //@ts-ignore
-    const response = await fetch(process.env.DREAMS_URL, {
+    const response = await fetch(import.meta.env.DREAMS_URL, {
       method: "POST",
       body: JSON.stringify({ dream: { dream } }),
       mode: 'cors',

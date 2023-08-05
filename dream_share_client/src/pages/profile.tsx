@@ -13,7 +13,7 @@ const Profile: Component = () => {
     setSigningOut(true);
     console.log(typeof token)
     //@ts-ignore
-    const response = await fetch(process.env.LOG_OUT_URL, {
+    const response = await fetch(import.meta.env.LOG_OUT_URL, {
       method: "POST",
       body: JSON.stringify({ token: token() }),
       mode: 'cors',
