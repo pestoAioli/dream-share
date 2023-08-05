@@ -40,7 +40,7 @@ const NewDream: Component = () => {
             <form onSubmit={addDream} style={{ "display": "flex", "flex-direction": "column" }} >
               <label class="username" for="dream" style={{ "font-size": "18px" }}>Last night I dreamt...</label>
               <textarea style={{ "min-height": "200px" }} id="dream" name="dream" placeholder="..." required />
-              <button style={{ "border": "2px solid black", "background-color": "white", "font-size": "18px" }} type="submit">Submit</button>
+              <button style={{ "border": "2px solid black", "background-color": "white", "font-size": "18px", "color": "black" }} type="submit">Submit</button>
             </form>
           </div >
         </Show>

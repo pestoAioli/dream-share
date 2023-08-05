@@ -49,7 +49,7 @@ const SignUp: Component = () => {
                 style={{ "margin-top": "8px" }} />
               <input type="text" id="username" name="username" placeholder="username" required
                 style={{ "margin-top": "8px" }} />
-              <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white" }} type="submit" ><strong>Sign up 🙋</strong></button>
+              <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "color": "black" }} type="submit" ><strong>Sign up 🙋</strong></button>
             </form>
           </div>
         </div>

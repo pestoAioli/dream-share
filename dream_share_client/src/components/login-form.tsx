@@ -53,7 +53,7 @@ const LoginForm: Component = () => {
             <input type="text" id="email" name="email" placeholder="email" required />
             <input type="text" id="password" name="password" placeholder="password" required
               style={{ "margin-top": "8px" }} />
-            <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white" }} type="submit" ><strong>Login</strong></button>
+            <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "color": "black" }} type="submit" ><strong>Login</strong></button>
           </form>
         </div>
         <p style={{ "margin-top": "0" }}>Don't have an account? <A href='/signup'>Sign up</A></p>
