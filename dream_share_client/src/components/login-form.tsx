@@ -40,7 +40,7 @@ const LoginForm: Component = () => {
     setLoggingIn(false);
     setToken(token)
     console.log(tokenActual(), "actual first", token, currentUserInfo);
-    navigate("/profile")
+    navigate("/newdream")
   }
 
 
