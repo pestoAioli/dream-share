@@ -73,7 +73,7 @@ const Profile: Component = () => {
           <input type="text" id="username" name="username" placeholder={currentUserInfo.username ? currentUserInfo.username : "usernamee"} />
           <label for="full_name" style={{ "font-size": "18px" }}>Update full name:</label>
           <textarea id="full_name" name="full_name" placeholder={currentUserInfo.fullname ? currentUserInfo.fullname : "full name"} />
-          <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "font-size": "24px" }} type="submit">Update :D</button>
+          <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "font-size": "24px", "color": "black" }} type="submit">Update :D</button>
         </form>
         <button onClick={signOut} style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "font-size": "24px" }}>sign out</button>
       </div>
