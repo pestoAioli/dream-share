@@ -15,4 +15,5 @@ config :dream_share, DreamShare.Endpoint,
   check_origin: [
     "https://dreaming-of-u.vercel.app/dreamfeed",
     "https://dreaming-of-u.com/dreamfeed"
-  ]
+  ],
+  url: [host: "https://dreaming-of-u.vercel.app", port: 80]
