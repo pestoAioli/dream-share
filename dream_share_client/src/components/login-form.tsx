@@ -1,11 +1,9 @@
-import { A, useNavigate } from "@solidjs/router";
-import type { Component } from "solid-js";
-import { Match, Show, Switch, createEffect, createSignal } from "solid-js";
+import { useNavigate } from "@solidjs/router";
+import type { Component, Setter } from "solid-js";
 import '../styles/login-form.css';
 import { useAuth, useStore } from "./auth-context-provider";
 
-const LoginForm: Component = () => {
-  const [loggingIn, setLoggingIn] = createSignal(false);
+const LoginForm: Component<{ setLoggingIn: Setter<boolean> }> = ({ setLoggingIn }) => {
   const [tokenActual, setToken] = useAuth();
   const [currentUserInfo, setCurrentUserInfo] = useStore();
   const navigate = useNavigate();
@@ -42,24 +40,15 @@ const LoginForm: Component = () => {
 
 
   return (
-    <div class='home-login'>
-      <Show when={loggingIn() === false}>
-        <div>
-          <div class="hort" />
-          <form class='home-login-form' onSubmit={login}>
-            <input type="text" id="email" name="email" placeholder="email" required />
-            <input type="text" id="password" name="password" placeholder="password" required
-              style={{ "margin-top": "8px" }} />
-            <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "color": "black" }} type="submit" ><strong>Login</strong></button>
-          </form>
-        </div>
-        <p style={{ "margin-top": "0" }}>Don't have an account? <A href='/signup'>Sign up</A></p>
-      </Show>
-      <Show when={loggingIn() === true}>
-        <h1>One sec while I log you in 🧐</h1>
-      </Show>
+    <div>
+      <div class="hort" />
+      <form class='home-login-form' onSubmit={login}>
+        <input type="text" id="email" name="email" placeholder="email" required />
+        <input type="text" id="password" name="password" placeholder="password" required
+          style={{ "margin-top": "8px" }} />
+        <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "color": "black" }} type="submit" ><strong>Login</strong></button>
+      </form>
     </div>
-
   );
 }
 
