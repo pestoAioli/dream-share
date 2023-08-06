@@ -36,21 +36,6 @@ defmodule DreamShareWeb.UserAuth do
   end
 
   @doc """
-  Used for routes that require the user to not be authenticated.
-  """
-  def require_guest_user(conn, _opts) do
-    if conn.assigns[:current_user] do
-      conn
-      |> put_status(401)
-      |> put_view(DreamShareWeb.ErrorJSON)
-      |> render(:"401")
-      |> halt()
-    else
-      conn
-    end
-  end
-
-  @doc """
   Used for routes that require the user to be authenticated.
 
   If you want to enforce the user email is confirmed before

@@ -44,7 +44,7 @@ defmodule DreamShareWeb.Router do
     post "/user/log_out", UserAuthController, :logout
     post "/user/confirm_email", UserAuthController, :confirm_email
     post "/user/reset_password", UserAuthController, :reset_password
-    post "/user/forgot_password", UserAuthController, :forgot_password
+    # post "/user/forgot_password", UserAuthController, :forgot_password
     resources "/dreams", DreamController, except: [:new, :edit, :index]
   end
 end

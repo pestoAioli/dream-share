@@ -6,7 +6,6 @@ defmodule DreamShareWeb.UserAuthController do
   import DreamShareWeb.UserAuth
 
   plug :require_authenticated_user when action in [:index, :update]
-  plug :require_guest_user when action in [:login, :register]
   plug :get_user_by_reset_password_token when action in [:reset_password]
 
   def index(conn, _) do
@@ -50,7 +49,7 @@ defmodule DreamShareWeb.UserAuthController do
 
   def forgot_password(conn, %{"email" => email}) do
     if user = Accounts.get_user_by_email(email) do
-      # Build your token url here...
+      # TODO: figure out how to get swoosh mailer to work 😭
       Accounts.deliver_user_reset_password_instructions(user, fn token -> "#{token}" end)
     end
 
@@ -68,16 +67,6 @@ defmodule DreamShareWeb.UserAuthController do
     })
 
     render(conn, "reset_password.json")
-  end
-
-  def confirm_email(conn, %{"token" => token}) do
-    case Accounts.confirm_user(token) do
-      {:ok, _} ->
-        render(conn, "confirm_email.json")
-
-      :error ->
-        {:error, :bad_request, "Invalid confirmation token."}
-    end
   end
 
   defp get_user_by_reset_password_token(conn, _opts) do
