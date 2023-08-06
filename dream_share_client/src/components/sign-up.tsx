@@ -8,14 +8,11 @@ const SignUp: Component = () => {
   const navigate = useNavigate();
   async function signUp(e: SubmitEvent) {
     e.preventDefault();
-    //@ts-ignore
-    const password = e.target.password.value
-    //@ts-ignore
-    const email = e.target.email.value;
-    //@ts-ignore
-    const username = e.target.username.value
+    const target = e.target as HTMLInputElementSignUp;
+    const password = target.password.value
+    const email = target.email.value;
+    const username = target.username.value
     setSigningUp(true);
-    //@ts-ignore
     const response = await fetch(import.meta.env.VITE_REGISTER_URL, {
       method: "POST",
       body: JSON.stringify({ user: { email, password, username } }),

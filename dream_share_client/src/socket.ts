@@ -1,7 +1,6 @@
-import { Socket } from "phoenix";
+import { Channel, Socket } from "phoenix";
 
-export default function socket(topic: string) {
-  //@ts-ignore
+export default function socket(topic: string): Channel {
   let socket = new Socket(import.meta.env.VITE_SOCKET_URL, { params: { token: 1 } })
   socket.connect();
   let channel = socket.channel(topic, {});
@@ -13,9 +12,5 @@ export default function socket(topic: string) {
     .receive('error', (response) => {
       console.log('no joined', response)
     })
-
-  // channel.on("new_dream", (payload) => {
-  //   console.log(payload)
-  // })
   return channel;
 }

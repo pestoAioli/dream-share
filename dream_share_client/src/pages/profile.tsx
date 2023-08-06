@@ -11,8 +11,6 @@ const Profile: Component = () => {
   const navigate = useNavigate();
   async function signOut() {
     setSigningOut(true);
-    console.log(typeof token)
-    //@ts-ignore
     const response = await fetch(import.meta.env.VITE_LOG_OUT_URL, {
       method: "POST",
       body: JSON.stringify({ token: token() }),
@@ -35,11 +33,9 @@ const Profile: Component = () => {
     e.preventDefault()
     if (token()) {
       setUpdatingUserInfo(true)
-      //@ts-ignore
-      const username = e.target.username.value ? e.target.username.value : currentUserInfo.username;
-      //@ts-ignore
-      const full_name = e.target.full_name.value ? e.target.full_name.value : currentUserInfo.full_name;
-      //@ts-ignore
+      const target = e.target as HTMLInputElementUpdateUser;
+      const username = target.username.value ? target.username.value : currentUserInfo.username;
+      const full_name = target.full_name.value ? target.full_name.value : currentUserInfo.full_name;
       const response = await fetch(import.meta.env.VITE_USER_URL, {
         method: "PATCH",
         body: JSON.stringify({ user: { username, full_name } }),

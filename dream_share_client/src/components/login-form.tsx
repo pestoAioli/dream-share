@@ -3,7 +3,6 @@ import type { Component } from "solid-js";
 import { Match, Show, Switch, createEffect, createSignal } from "solid-js";
 import '../styles/login-form.css';
 import { useAuth, useStore } from "./auth-context-provider";
-import * as bcrypt from "bcryptjs";
 
 const LoginForm: Component = () => {
   const [loggingIn, setLoggingIn] = createSignal(false);
@@ -11,13 +10,11 @@ const LoginForm: Component = () => {
   const [currentUserInfo, setCurrentUserInfo] = useStore();
   const navigate = useNavigate();
   async function login(e: SubmitEvent) {
-    //@ts-ignore
-    const email = e.target.email.value;
-    //@ts-ignore
-    const password = e.target.password.value;
     e.preventDefault();
+    const target = e.target as HTMLInputElementLogin;
+    const email = target.email.value;
+    const password = target.password.value;
     setLoggingIn(true);
-    //@ts-ignore
     const response = await fetch(import.meta.env.VITE_LOG_IN_URL, {
       method: "POST",
       body: JSON.stringify({ email, password }),

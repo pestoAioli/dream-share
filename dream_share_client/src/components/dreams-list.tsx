@@ -3,30 +3,28 @@ import "../styles/dreams-list.css";
 import { Component, For, Show, createSignal } from "solid-js";
 import { useSocket } from "./socket-context-provider";
 
-
-
 const DreamsList: Component = () => {
-  const socketConnection: any = useSocket();
+  const socketConnection = useSocket();
+  const [dreams, setDreams] = createSignal<Dream[]>([]);
 
-  const [dreams, setDreams] = createSignal<any>([]);
-  socketConnection.on("list_dreams", (payload: any) => {
-    console.log(payload.dreams);
-    payload.dreams.map((dream: any) => {
-      setDreams(dreams => {
-        const checkForReAdd = dreams.filter((dreami: any) => dreami.id !== dream.id);
-        return [...checkForReAdd, dream]
+  if (socketConnection) {
+    socketConnection.on("list_dreams", (payload: DreamsArray) => {
+      payload.dreams.map((dream: Dream) => {
+        setDreams((dreams) => {
+          const checkForReAdd = dreams.filter((dreami: Dream) => dreami.id !== dream.id);
+          return [...checkForReAdd, dream]
+        })
+        console.log(dreams())
       })
     })
-  })
 
-  socketConnection.on("new_dream", (payload: any) => {
-    console.log(payload)
-    setDreams(dreams => [...dreams, payload])
-    console.log(dreams())
-  })
-
+    socketConnection.on("new_dream", (payload: Dream) => {
+      setDreams(dreams => [...dreams, payload])
+      console.log(dreams())
+    })
+  }
   return (
-    <Show when={dreams().length > 0} fallback={<div style={{ "font-size": "36px", "margin-left": "4px" }}>🧐💬</div>}>
+    <Show when={dreams()} fallback={<div style={{ "font-size": "36px", "margin-left": "4px" }}>🧐💬</div>}>
       <div class="dreams-list">
         <For each={dreams()}>
           {(dream) => (
