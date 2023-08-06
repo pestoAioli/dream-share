@@ -1,10 +1,10 @@
 import { createContext, useContext } from "solid-js";
 import socket from '../socket';
+import { Channel } from "phoenix";
 
-const SocketContext = createContext();
+const SocketContext = createContext<Channel>();
 
 export function SocketContextProvider(props: any) {
-  //@ts-ignore
   const socketConnection = socket(import.meta.env.VITE_SOCKET_TOPIC);
   console.log(socketConnection);
 

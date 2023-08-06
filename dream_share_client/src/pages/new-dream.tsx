@@ -11,9 +11,8 @@ const NewDream: Component = () => {
     e.preventDefault();
     setAddingDream(true)
     try {
-      //@ts-ignore
-      const dream = e.target.dream.value;
-      //@ts-ignore
+      const target = e.target as HTMLInputElementAddDream;
+      const dream = target.dream.value;
       const response = await fetch(import.meta.env.VITE_DREAMS_URL, {
         method: "POST",
         body: JSON.stringify({ dream: { dream } }),
