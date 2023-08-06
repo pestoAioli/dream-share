@@ -24,6 +24,7 @@ const App: Component = () => {
             <div style={{ "display": "flex", "flex-direction": "column" }}>
               <A href="/newdream" class="icon-links">📝</A>
               <A href="/mydreams" class="icon-links">📒</A>
+              <A href="/users" class="icon-links">👼</A>
             </div>
             <Switch>
               <Match when={token()}>
