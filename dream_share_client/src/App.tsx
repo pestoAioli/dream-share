@@ -25,6 +25,7 @@ const App: Component = () => {
               <A href="/newdream" class="icon-links">📝</A>
               <A href="/mydreams" class="icon-links">📒</A>
               <A href="/users" class="icon-links">👼</A>
+              <A href="/groups" class="icon-links">🏘️</A>
             </div>
             <Switch>
               <Match when={token()}>
