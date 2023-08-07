@@ -23,11 +23,9 @@ const MyDreams: Component = () => {
       })
     })
     socketConnection.on("new_dream", (dream: Dream) => {
-      console.log(dream)
       if (dream.user_id == currentUserInfo.user_id) {
         setDreams(dreams => [...dreams, dream])
       }
-      console.log(dreams())
     })
   }
   return (
@@ -37,7 +35,7 @@ const MyDreams: Component = () => {
           {(dream) => (
             <div class="dream-bubble">
               <div class="username">
-                <strong style={{ "font-size": "18px" }}>{dream.username}</strong> ＠{moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm:ss a')}:
+                {moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm a')} <i>I dreamt</i>:
               </div>
               <p class="dream-content">{dream.dream}</p>
             </div>

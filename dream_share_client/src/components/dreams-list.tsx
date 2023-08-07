@@ -14,23 +14,21 @@ const DreamsList: Component = () => {
           const checkForReAdd = dreams.filter((dreami: Dream) => dreami.id !== dream.id);
           return [...checkForReAdd, dream]
         })
-        console.log(dreams())
       })
     })
 
     socketConnection.on("new_dream", (payload: Dream) => {
       setDreams(dreams => [...dreams, payload])
-      console.log(dreams())
     })
   }
   return (
-    <Show when={dreams()} fallback={<div style={{ "font-size": "36px", "margin-left": "4px" }}>🧐💬</div>}>
+    <Show when={dreams().length > 0} fallback={<div style={{ "font-size": "36px", "margin-left": "4px" }}><i>Loading...</i>🧐💬</div>}>
       <div class="dreams-list">
         <For each={dreams()}>
           {(dream) => (
             <div class="dream-bubble">
               <div class="username">
-                <strong style={{ "font-size": "18px" }}>{dream.username}</strong> ＠{moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm:ss a')}:
+                {moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm a')}<strong style={{ "font-size": "18px" }}> {dream.username}</strong> <i>dreamt</i>:
               </div>
               <p class="dream-content">{dream.dream}</p>
             </div>
