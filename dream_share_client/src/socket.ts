@@ -6,11 +6,11 @@ export default function socket(topic: string): Channel {
   let channel = socket.channel(topic, {});
   channel
     .join()
-    .receive('ok', (response) => {
-      console.log('joined', response)
+    .receive('ok', (_response) => {
+
     })
-    .receive('error', (response) => {
-      console.log('no joined', response)
+    .receive('error', (_response) => {
+
     })
   return channel;
 }
