@@ -8,4 +8,5 @@ interface Dream {
   timestamp: string;
   user_id: number;
   username: string;
+  updated?: string;
 }

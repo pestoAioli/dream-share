@@ -1,6 +1,8 @@
 defmodule DreamShareWeb.DreamsChannel do
   use DreamShareWeb, :channel
 
+  # alias DreamShare.Dreams.Dream
+
   @impl true
   def join("dreams:lobby", _payload, socket) do
     send(Kernel.self(), :after_join)
@@ -18,15 +20,10 @@ defmodule DreamShareWeb.DreamsChannel do
       dream: dream.dream,
       username: dream.username,
       timestamp: dream.inserted_at,
-      user_id: dream.user_id
+      user_id: dream.user_id,
+      updated: dream.updated_at
     })
 
-    IO.inspect(dream)
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_info({:dream_updated, dream}, socket) do
     IO.inspect(dream)
     {:noreply, socket}
   end
@@ -41,7 +38,8 @@ defmodule DreamShareWeb.DreamsChannel do
           dream: dream.dream,
           username: dream.username,
           timestamp: dream.inserted_at,
-          user_id: dream.user_id
+          user_id: dream.user_id,
+          updated: dream.updated_at
         }
       end)
 
@@ -49,6 +47,41 @@ defmodule DreamShareWeb.DreamsChannel do
     push(socket, "list_dreams", %{dreams: dreams})
     {:noreply, socket}
   end
+
+  @impl true
+  def handle_info({:dream_updated, dream}, socket) do
+    IO.inspect(dream)
+
+    push(socket, "updated_dream", %{
+      id: dream.id,
+      dream: dream.dream,
+      username: dream.username,
+      timestamp: dream.inserted_at,
+      user_id: dream.user_id,
+      updated: dream.updated_at
+    })
+
+    {:noreply, socket}
+  end
+
+  # @impl true
+  # def handle_in("updated_dream", dream, socket) do
+  #   IO.inspect("below is dream updated")
+  #   IO.inspect(dream["data"]["id"])
+  #   dream_id = dream["data"]["id"]
+  #   dream = DreamShare.Dreams.get_dream!(dream_id)
+  #
+  #   push(socket, "updated_dream", %{
+  #     id: dream.id,
+  #     dream: dream.dream,
+  #     username: dream.username,
+  #     timestamp: dream.inserted_at,
+  #     user_id: dream.user_id,
+  #     updated: dream.updated_at
+  #   })
+  #
+  #   {:noreply, socket}
+  # end
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client

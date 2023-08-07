@@ -14,3 +14,6 @@ interface HTMLInputElementUpdateUser extends EventTarget {
   username: { value: string };
   full_name: { value: string };
 }
+interface HTMLInputElementEditDream extends EventTarget {
+  dream: { value: string };
+}

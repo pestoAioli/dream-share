@@ -46,7 +46,7 @@ const LoginForm: Component<{ setLoggingIn: Setter<boolean> }> = ({ setLoggingIn 
         <input type="text" id="email" name="email" placeholder="email" required />
         <input type="text" id="password" name="password" placeholder="password" required
           style={{ "margin-top": "8px" }} />
-        <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "color": "black" }} type="submit" ><strong>Login</strong></button>
+        <button class="submit-button" type="submit" ><strong>Login</strong></button>
       </form>
     </div>
   );
