@@ -6,7 +6,6 @@ const SocketContext = createContext<Channel>();
 
 export function SocketContextProvider(props: any) {
   const socketConnection = socket(import.meta.env.VITE_SOCKET_TOPIC);
-  console.log(socketConnection);
 
   return (
     <SocketContext.Provider value={socketConnection}>
