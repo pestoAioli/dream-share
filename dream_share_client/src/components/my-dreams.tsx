@@ -12,7 +12,6 @@ const MyDreams: Component = () => {
   const [dreams, setDreams] = createSignal<Dream[]>([]);
   if (socketConnection) {
     socketConnection.on("list_dreams", (payload: DreamsArray) => {
-      console.log(payload.dreams);
       payload.dreams.map((dream: Dream) => {
         if (dream.user_id == currentUserInfo.user_id) {
           setDreams(dreams => {
