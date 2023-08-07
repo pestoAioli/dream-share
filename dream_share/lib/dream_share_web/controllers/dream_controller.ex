@@ -13,7 +13,6 @@ defmodule DreamShareWeb.DreamController do
 
   def create(conn, %{"dream" => dream_params}) do
     user = conn.assigns[:current_user]
-    IO.inspect(user)
 
     if user do
       with {:ok, %Dream{} = dream} <- Dreams.create_dream(user.id, user.username, dream_params) do
@@ -32,10 +31,17 @@ defmodule DreamShareWeb.DreamController do
   end
 
   def update(conn, %{"id" => id, "dream" => dream_params}) do
+    user = conn.assigns[:current_user]
     dream = Dreams.get_dream!(id)
+    user_id = dream.user_id
+    IO.inspect(user_id)
 
-    with {:ok, %Dream{} = dream} <- Dreams.update_dream(dream, dream_params) do
-      render(conn, :show, dream: dream)
+    if user && user_id === user.id do
+      with {:ok, %Dream{} = dream} <- Dreams.update_dream(dream, dream_params) do
+        render(conn, :show, dream: dream)
+      end
+    else
+      {:error, :unauthorized}
     end
   end
 

@@ -25,10 +25,9 @@ const NewDream: Component = () => {
         credentials: 'same-origin'
       })
       const result = await response.json();
-      console.log(result)
       navigate("/dreamfeed")
     } catch (e) {
-      console.log(e)
+      throw new Error('ooops something went wrong')
     }
   }
   return (
@@ -37,7 +36,7 @@ const NewDream: Component = () => {
         <Show when={!addingDream()}>
           <div class="dream-bubble">
             <form onSubmit={addDream} style={{ "display": "flex", "flex-direction": "column" }} >
-              <label class="username" for="dream" style={{ "font-size": "18px" }}>Last night I dreamt...</label>
+              <label class="username" for="dream" style={{ "font-size": "18px" }}><i>Last night I dreamt...</i></label>
               <textarea style={{ "min-height": "200px" }} id="dream" name="dream" placeholder="..." required />
               <button style={{ "border": "2px solid black", "background-color": "white", "font-size": "18px", "color": "black" }} type="submit">Submit</button>
             </form>
