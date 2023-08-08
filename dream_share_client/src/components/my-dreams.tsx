@@ -33,7 +33,7 @@ const MyDreams: Component = () => {
     let el = document.getElementById(`${dreamToEdit()}`)
     if (el && el.parentElement) {
       let actualHeight = el.scrollHeight.toString() + "px"
-      let width = (el.parentElement.clientWidth - 8).toString() + "px"
+      let width = (el.parentElement.clientWidth - 12).toString() + "px"
       el.style.minHeight = actualHeight;
       el.style.minWidth = width;
     }
@@ -90,8 +90,8 @@ const MyDreams: Component = () => {
                   <form onSubmit={updateDream}>
                     <textarea name="dream" id={`${dream.id}`}>{dream.dream}</textarea>
                     <div style={{ "display": "flex" }}>
-                      <button type="submit" style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff" }}><b>Submit</b></button>
-                      <button onClick={() => setDreamToEdit(undefined)} style={{ "margin-bottom": "1px", "margin-left": "2px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff" }}><b>Cancel</b></button>
+                      <button type="submit" style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Submit</b></button>
+                      <button onClick={() => setDreamToEdit(undefined)} style={{ "margin-bottom": "1px", "margin-left": "2px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Cancel</b></button>
                     </div>
 
                   </form>
