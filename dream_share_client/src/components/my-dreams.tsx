@@ -89,7 +89,11 @@ const MyDreams: Component = () => {
                 <Match when={dreamToEdit() === dream.id}>
                   <form onSubmit={updateDream}>
                     <textarea name="dream" id={`${dream.id}`}>{dream.dream}</textarea>
-                    <button type="submit" style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff" }}><b>Submit</b></button>
+                    <div style={{ "display": "flex" }}>
+                      <button type="submit" style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff" }}><b>Submit</b></button>
+                      <button onClick={() => setDreamToEdit(undefined)} style={{ "margin-bottom": "1px", "margin-left": "2px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff" }}><b>Cancel</b></button>
+                    </div>
+
                   </form>
                 </Match>
                 <Match when={dreamToEdit() !== dream.id}>
