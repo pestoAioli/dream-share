@@ -64,6 +64,23 @@ defmodule DreamShareWeb.DreamsChannel do
     {:noreply, socket}
   end
 
+  @impl true
+  def handle_in("find_user", username, socket) do
+    user = DreamShare.Accounts.get_user_by_username!(username)
+
+    if user do
+      push(socket, "found_user", %{
+        username: user.username,
+        full_name: user.full_name,
+        id: user.id
+      })
+    else
+      push(socket, "user_not_found", %{})
+    end
+
+    {:noreply, socket}
+  end
+
   # @impl true
   # def handle_in("updated_dream", dream, socket) do
   #   IO.inspect("below is dream updated")
