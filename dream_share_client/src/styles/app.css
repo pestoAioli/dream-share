@@ -47,3 +47,10 @@ opacity: 0.5;
   font-size: 36px;
   text-decoration: none;
 }
+
+.submit-button {
+  margin-top: 8px; 
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+}
