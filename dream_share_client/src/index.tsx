@@ -10,9 +10,9 @@ import { Provider } from './components/auth-context-provider';
 import Profile from './pages/profile';
 import NewDream from './pages/new-dream';
 import MyDreamFeed from './pages/my-dream-feed';
-import Users from './pages/users';
 import Groups from './pages/groups';
 import Login from './pages/login';
+import FindUsers from './components/find-users';
 
 const root = document.getElementById('root');
 
@@ -33,7 +33,7 @@ render(() => (
           <Route path="/profile" component={Profile} />
           <Route path="/newdream" component={NewDream} />
           <Route path="/mydreams" component={MyDreamFeed} />
-          <Route path="/users" component={Users} />
+          <Route path="/users" component={FindUsers} />
           <Route path="/groups" component={Groups} />
         </Route>
       </Routes>

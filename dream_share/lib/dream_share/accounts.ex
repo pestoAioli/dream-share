@@ -60,6 +60,11 @@ defmodule DreamShare.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  @doc """
+  gets user by username
+  """
+  def get_user_by_username!(username), do: Repo.get!(User, username)
+
   ## User registration
 
   @doc """
