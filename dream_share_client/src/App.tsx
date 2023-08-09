@@ -12,7 +12,7 @@ const App: Component = () => {
   return (
     <div class='home-container'>
       <div style={{ "display": "flex", "justify-content": "space-between" }}>
-        <h1 class='home-title'><A href="/dreamfeed" class="icon-links">✨🔭®</A></h1>
+        <h1 class='home-title'><A href="/dreams" class="icon-links">✨🔭®</A></h1>
         <Show when={token()}>
           <p style={{ "margin-right": "8px" }}>Logged in as <strong>{currentUserInfo.username}</strong> </p>
         </Show>
@@ -42,6 +42,7 @@ const App: Component = () => {
           <Outlet />
         </div>
       </div>
+      <div class='divider' />
     </div>
   );
 };

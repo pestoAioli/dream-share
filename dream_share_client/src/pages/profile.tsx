@@ -59,6 +59,21 @@ const Profile: Component = () => {
       throw new Error("oops looks like you need to login again!")
     }
   }
+  //using any for now because bip is experimental/not fully supported
+  let bip: any = null;
+  window.addEventListener("beforeinstallprompt", (e: Event) => {
+    e.preventDefault();
+    bip = e;
+  })
+  function triggerInstall() {
+    if (bip) {
+      bip.prompt();
+    } else {
+      //aka not chrome(gd safari...), already installed, etc
+      alert("Click on the share icon in your browser bar, then look for 'add to home screen', if yuoure on desktop, please use chrome to install")
+    }
+  }
+
 
 
   return (
@@ -69,9 +84,10 @@ const Profile: Component = () => {
           <input type="text" id="username" name="username" placeholder={currentUserInfo.username ? currentUserInfo.username : "usernamee"} />
           <label for="full_name" style={{ "font-size": "18px" }}>Update full name:</label>
           <textarea id="full_name" name="full_name" placeholder={currentUserInfo.fullname ? currentUserInfo.fullname : "full name"} />
-          <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "font-size": "24px", "color": "black" }} type="submit">Update :D</button>
+          <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "papayawhip", "font-size": "24px", "color": "black" }} type="submit">Update</button>
         </form>
-        <button onClick={signOut} style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "white", "font-size": "24px" }}>sign out</button>
+        <button onClick={() => triggerInstall()} id='install'>install app</button>
+        <button onClick={signOut} style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "paleturquoise", "font-size": "24px" }}>sign out</button>
       </div>
     </Show>
 
