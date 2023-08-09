@@ -6,8 +6,8 @@ import { useSocket } from "./socket-context-provider";
 const DreamsList: Component = () => {
   const socketConnection = useSocket();
   const [dreams, setDreams] = createSignal<Dream[]>([]);
-
   if (socketConnection) {
+    socketConnection.push("joined_main_feed", {});
     socketConnection.on("list_dreams", (payload: DreamsArray) => {
       payload.dreams.map((dream: Dream) => {
         setDreams((dreams) => {

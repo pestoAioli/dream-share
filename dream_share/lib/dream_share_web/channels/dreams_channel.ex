@@ -5,7 +5,7 @@ defmodule DreamShareWeb.DreamsChannel do
 
   @impl true
   def join("dreams:lobby", _payload, socket) do
-    send(Kernel.self(), :after_join)
+    # send(Kernel.self(), :after_join)
     {:ok, socket}
   end
 
@@ -29,7 +29,23 @@ defmodule DreamShareWeb.DreamsChannel do
   end
 
   @impl true
-  def handle_info(:after_join, socket) do
+  def handle_info({:dream_updated, dream}, socket) do
+    IO.inspect(dream)
+
+    push(socket, "updated_dream", %{
+      id: dream.id,
+      dream: dream.dream,
+      username: dream.username,
+      timestamp: dream.inserted_at,
+      user_id: dream.user_id,
+      updated: dream.updated_at
+    })
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_in("joined_main_feed", _payload, socket) do
     dreams =
       DreamShare.Dreams.list_dreams()
       |> Enum.map(fn dream ->
@@ -49,24 +65,35 @@ defmodule DreamShareWeb.DreamsChannel do
   end
 
   @impl true
-  def handle_info({:dream_updated, dream}, socket) do
-    IO.inspect(dream)
+  def handle_in("joined_my_feed", payload, socket) do
+    {user_id, _} = Integer.parse(payload["user_id"])
+    IO.inspect(user_id)
 
-    push(socket, "updated_dream", %{
-      id: dream.id,
-      dream: dream.dream,
-      username: dream.username,
-      timestamp: dream.inserted_at,
-      user_id: dream.user_id,
-      updated: dream.updated_at
-    })
+    dreams =
+      DreamShare.Dreams.list_dreams()
+      |> Enum.map(fn dream ->
+        if user_id == dream.user_id do
+          %{
+            id: dream.id,
+            dream: dream.dream,
+            username: dream.username,
+            timestamp: dream.inserted_at,
+            user_id: dream.user_id,
+            updated: dream.updated_at
+          }
+        end
+      end)
+      |> Enum.filter(& &1)
 
+    IO.inspect(dreams)
+    push(socket, "list_my_dreams", %{dreams: dreams})
     {:noreply, socket}
   end
 
   @impl true
   def handle_in("find_user", username, socket) do
     user = DreamShare.Accounts.get_user_by_username!(username)
+    IO.inspect(user)
 
     if user do
       push(socket, "found_user", %{

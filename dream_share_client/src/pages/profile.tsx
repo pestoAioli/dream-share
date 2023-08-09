@@ -78,8 +78,8 @@ const Profile: Component = () => {
 
   return (
     <Show when={!signingOut() && !updatingUserInfo()} fallback={<div>🙋</div>}>
-      <div style={{ "display": "flex", "flex-direction": "column", "align-items": "center" }}>
-        <form style={{ "display": "flex", "flex-direction": "column" }} onSubmit={updateUser}>
+      <div class="general-list">
+        <form class="general-list-left" onSubmit={updateUser}>
           <label for="username" style={{ "font-size": "18px" }}>Update username:</label>
           <input type="text" id="username" name="username" placeholder={currentUserInfo.username ? currentUserInfo.username : "usernamee"} />
           <label for="full_name" style={{ "font-size": "18px" }}>Update full name:</label>

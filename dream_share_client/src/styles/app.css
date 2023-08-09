@@ -8,6 +8,15 @@ button {
   cursor: pointer;
 }
 
+.general-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.general-list-left {
+  display: flex;
+  flex-direction: column;
+}
 .home-container {
   height: 93svh;
 }

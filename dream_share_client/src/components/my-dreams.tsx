@@ -13,14 +13,14 @@ const MyDreams: Component = () => {
   const [dreams, setDreams] = createSignal<Dream[]>([]);
   const [dreamToEdit, setDreamToEdit] = createSignal<number>();
   if (socketConnection) {
-    socketConnection.on("list_dreams", (payload: DreamsArray) => {
+    socketConnection.push("joined_my_feed", { user_id: currentUserInfo.user_id })
+    socketConnection.on("list_my_dreams", (payload: DreamsArray) => {
+      console.log(payload)
       payload.dreams.map((dream: Dream) => {
-        if (dream.user_id == currentUserInfo.user_id) {
-          setDreams(dreams => {
-            const checkForReAdd = dreams.filter((dreami: Dream) => dreami.id !== dream.id).sort((a, b) => a.id - b.id);
-            return [...checkForReAdd, dream]
-          })
-        }
+        setDreams(dreams => {
+          const checkForReAdd = dreams.filter((dreami: Dream) => dreami.id !== dream.id).sort((a, b) => a.id - b.id);
+          return [...checkForReAdd, dream]
+        })
       })
     })
     socketConnection.on("new_dream", (dream: Dream) => {
