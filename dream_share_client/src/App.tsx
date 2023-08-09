@@ -8,20 +8,6 @@ import { useAuth, useStore } from './components/auth-context-provider';
 const App: Component = () => {
   const [token, _setToken] = useAuth();
   const [currentUserInfo, _setCurrentUserInfo] = useStore();
-  //using any for now because bip is experimental/not fully supported
-  let bip: any = null;
-  window.addEventListener("beforeinstallprompt", (e: Event) => {
-    e.preventDefault();
-    bip = e;
-  })
-  function triggerInstall() {
-    if (bip) {
-      bip.prompt();
-    } else {
-      //aka not chrome(gd safari...), already installed, etc
-      alert("To install on iPhone, click on share icon in your browser bar, then look for 'add to home screen', on android look for 'Install' in your browser menu")
-    }
-  }
 
   return (
     <div class='home-container'>
@@ -40,7 +26,6 @@ const App: Component = () => {
               <A href="/mydreams" class="icon-links">📒</A>
               <A href="/users" class="icon-links">👼</A>
               <A href="/groups" class="icon-links">👯</A>
-              <button onClick={() => triggerInstall()} id='install'>install<br /> app</button>
             </div>
             <Switch>
               <Match when={token()}>
