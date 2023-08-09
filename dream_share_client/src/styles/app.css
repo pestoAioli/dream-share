@@ -55,8 +55,20 @@ opacity: 0.5;
   color: black;
 }
 
+#install {
+  padding: 1px 1px;
+  margin-bottom: 4px;
+  margin-top: 2px;
+  border: 1px solid black;
+  border-radius: 6px;
+  background-color: peachpuff;
+}
+
 @media (display-mode: standalone){
 .home-container {
   height: 90svh;
+}
+#install {
+  display: none;
 }
 }
