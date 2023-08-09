@@ -54,3 +54,9 @@ opacity: 0.5;
   background-color: white;
   color: black;
 }
+
+@media (display-mode: standalone){
+.home-container {
+  height: 90svh;
+}
+}
