@@ -13,6 +13,7 @@ import MyDreamFeed from './pages/my-dream-feed';
 import Groups from './pages/groups';
 import Login from './pages/login';
 import FindUsers from './components/find-users';
+import Users from './pages/users';
 
 const root = document.getElementById('root');
 
@@ -33,7 +34,7 @@ render(() => (
           <Route path="/profile" component={Profile} />
           <Route path="/newdream" component={NewDream} />
           <Route path="/mydreams" component={MyDreamFeed} />
-          <Route path="/users" component={FindUsers} />
+          <Route path="/users" component={Users} />
           <Route path="/groups" component={Groups} />
         </Route>
       </Routes>

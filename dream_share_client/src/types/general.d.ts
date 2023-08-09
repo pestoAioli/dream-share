@@ -17,3 +17,6 @@ interface HTMLInputElementUpdateUser extends EventTarget {
 interface HTMLInputElementEditDream extends EventTarget {
   dream: { value: string };
 }
+interface HTMLInputElementFindUser extends EventTarget {
+  user_search: { value: string };
+}
