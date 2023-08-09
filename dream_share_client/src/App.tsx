@@ -40,7 +40,7 @@ const App: Component = () => {
               <A href="/mydreams" class="icon-links">📒</A>
               <A href="/users" class="icon-links">👼</A>
               <A href="/groups" class="icon-links">👯</A>
-              <button onClick={() => triggerInstall()} id='install'>install app</button>
+              <button onClick={() => triggerInstall()} id='install'>install<br /> app</button>
             </div>
             <Switch>
               <Match when={token()}>
