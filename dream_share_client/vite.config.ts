@@ -16,7 +16,7 @@ export default defineConfig({
       manifest: {
         name: 'dreaming of u',
         short_name: '😴💤',
-        start_url: 'https://dreaming-of-u.com/dreamfeed',
+        start_url: 'https://dreaming-of-u.com/dreams',
         description: 'Save and share your dreams with other ppl :p',
         theme_color: '#FFFFFF',
         icons: [

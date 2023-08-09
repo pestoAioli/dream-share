@@ -27,7 +27,7 @@ render(() => (
     <Router>
       <Routes>
         <Route path="/" component={App}>
-          <Route path="/dreamfeed" component={DreamFeed} />
+          <Route path="/dreams" component={DreamFeed} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
           <Route path="/profile" component={Profile} />
