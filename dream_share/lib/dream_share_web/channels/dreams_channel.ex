@@ -66,24 +66,21 @@ defmodule DreamShareWeb.DreamsChannel do
 
   @impl true
   def handle_in("joined_my_feed", payload, socket) do
-    {user_id, _} = Integer.parse(payload["user_id"])
-    IO.inspect(user_id)
+    {id, _} = Integer.parse(payload["user_id"])
+    IO.inspect(id)
 
     dreams =
-      DreamShare.Dreams.list_dreams()
+      DreamShare.Dreams.get_dreams_by_user_id(id)
       |> Enum.map(fn dream ->
-        if user_id == dream.user_id do
-          %{
-            id: dream.id,
-            dream: dream.dream,
-            username: dream.username,
-            timestamp: dream.inserted_at,
-            user_id: dream.user_id,
-            updated: dream.updated_at
-          }
-        end
+        %{
+          id: dream.id,
+          dream: dream.dream,
+          username: dream.username,
+          timestamp: dream.inserted_at,
+          user_id: dream.user_id,
+          updated: dream.updated_at
+        }
       end)
-      |> Enum.filter(& &1)
 
     IO.inspect(dreams)
     push(socket, "list_my_dreams", %{dreams: dreams})
