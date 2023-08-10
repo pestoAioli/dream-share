@@ -34,7 +34,6 @@ const LoginForm: Component<{ setLoggingIn: Setter<boolean> }> = ({ setLoggingIn 
     setCurrentUserInfo("user_id", data.user.user_id)
     setLoggingIn(false);
     setToken(token)
-    console.log(tokenActual(), "actual first", token, currentUserInfo);
     navigate("/newdream")
   }
 

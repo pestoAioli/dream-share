@@ -13,9 +13,7 @@ const MyDreams: Component = () => {
   const [dreams, setDreams] = createSignal<Dream[]>([]);
   const [dreamToEdit, setDreamToEdit] = createSignal<number>();
   if (socketConnection) {
-    if (currentUserInfo.user_id) {
-      socketConnection.push("joined_my_feed", { user_id: currentUserInfo.user_id })
-    }
+    socketConnection.push("joined_my_feed", { user_id: localStorage.getItem("id") })
     socketConnection.on("list_my_dreams", (payload: DreamsArray) => {
       payload.dreams.map((dream: Dream) => {
         setDreams(dreams => {
