@@ -13,7 +13,9 @@ const MyDreams: Component = () => {
   const [dreams, setDreams] = createSignal<Dream[]>([]);
   const [dreamToEdit, setDreamToEdit] = createSignal<number>();
   if (socketConnection) {
-    socketConnection.push("joined_my_feed", { user_id: currentUserInfo.user_id })
+    if (currentUserInfo.user_id) {
+      socketConnection.push("joined_my_feed", { user_id: currentUserInfo.user_id })
+    }
     socketConnection.on("list_my_dreams", (payload: DreamsArray) => {
       payload.dreams.map((dream: Dream) => {
         setDreams(dreams => {
@@ -75,7 +77,7 @@ const MyDreams: Component = () => {
 
   return (
     <Show when={token()} fallback={<>Must be logged in to see this page :P</>}>
-      <Show when={dreams().length > 0} fallback={<>Loading🧐💬 </>}>
+      <Show when={dreams().length > 0} fallback={<>Loading...🧐💬</>}>
         <div class="dreams-list">
           <For each={dreams()}>
             {(dream) => (
