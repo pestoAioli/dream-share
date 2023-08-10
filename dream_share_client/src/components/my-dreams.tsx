@@ -13,13 +13,13 @@ const MyDreams: Component = () => {
   const [dreams, setDreams] = createSignal<Dream[]>([]);
   const [dreamToEdit, setDreamToEdit] = createSignal<number>();
   if (socketConnection) {
-    socketConnection.push("joined_my_feed", { user_id: currentUserInfo.user_id })
+    if (currentUserInfo.user_id) {
+      socketConnection.push("joined_my_feed", { user_id: currentUserInfo.user_id })
+    }
     socketConnection.on("list_my_dreams", (payload: DreamsArray) => {
-      console.log(payload)
       payload.dreams.map((dream: Dream) => {
         setDreams(dreams => {
-          const checkForReAdd = dreams.filter((dreami: Dream) => dreami.id !== dream.id).sort((a, b) => a.id - b.id);
-          return [...checkForReAdd, dream]
+          return [...dreams, dream].sort((a, b) => a.id - b.id);
         })
       })
     })
@@ -76,35 +76,37 @@ const MyDreams: Component = () => {
   }
 
   return (
-    <Show when={dreams().length > 0} fallback={<>🧐💬 are yuo logged in? have you added any dreams?</>}>
-      <div class="dreams-list">
-        <For each={dreams()}>
-          {(dream) => (
-            <div class="dream-bubble">
-              <div class="username">
-                {moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm a')}
-                <br /><i>Last night, I dreamt</i>:
-              </div>
-              <Switch>
-                <Match when={dreamToEdit() === dream.id}>
-                  <form onSubmit={updateDream}>
-                    <textarea name="dream" id={`${dream.id}`}>{dream.dream}</textarea>
-                    <div style={{ "display": "flex" }}>
-                      <button type="submit" style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Submit</b></button>
-                      <button onClick={() => setDreamToEdit(undefined)} style={{ "margin-bottom": "1px", "margin-left": "2px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Cancel</b></button>
-                    </div>
+    <Show when={token()} fallback={<>Must be logged in to see this page :P</>}>
+      <Show when={dreams().length > 0} fallback={<>Loading...🧐💬</>}>
+        <div class="dreams-list">
+          <For each={dreams()}>
+            {(dream) => (
+              <div class="dream-bubble">
+                <div class="username">
+                  {moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm a')}
+                  <br /><i>Last night, I dreamt</i>:
+                </div>
+                <Switch>
+                  <Match when={dreamToEdit() === dream.id}>
+                    <form onSubmit={updateDream}>
+                      <textarea name="dream" id={`${dream.id}`}>{dream.dream}</textarea>
+                      <div style={{ "display": "flex" }}>
+                        <button type="submit" style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Submit</b></button>
+                        <button onClick={() => setDreamToEdit(undefined)} style={{ "margin-bottom": "1px", "margin-left": "2px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Cancel</b></button>
+                      </div>
 
-                  </form>
-                </Match>
-                <Match when={dreamToEdit() !== dream.id}>
-                  <p class="dream-content">{dream.dream}</p>
-                  <button onClick={() => setDreamToEdit(dream.id)} style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff" }}><b>Edit</b></button>
-                </Match>
-              </Switch>
-            </div>
-          )}
-        </For>
-      </div>
+                    </form>
+                  </Match>
+                  <Match when={dreamToEdit() !== dream.id}>
+                    <p class="dream-content">{dream.dream}</p>
+                    <button onClick={() => setDreamToEdit(dream.id)} style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff" }}><b>Edit</b></button>
+                  </Match>
+                </Switch>
+              </div>
+            )}
+          </For>
+        </div>
+      </Show>
     </Show>
   )
 }

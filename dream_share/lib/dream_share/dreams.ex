@@ -38,6 +38,14 @@ defmodule DreamShare.Dreams do
   def get_dream!(id), do: Repo.get!(Dream, id)
 
   @doc """
+  gets dreams by user_id
+  """
+  def get_dreams_by_user_id(id) do
+    dream = from d in Dream, where: d.user_id == ^id
+    Repo.all(dream)
+  end
+
+  @doc """
   Creates a dream.
 
   ## Examples

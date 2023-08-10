@@ -26,7 +26,7 @@ const Profile: Component = () => {
     console.log(signedOut)
     localStorage.removeItem("toke")
     setToken(null)
-    navigate("/dreamfeed");
+    navigate("/dreams");
   }
 
   async function updateUser(e: SubmitEvent) {

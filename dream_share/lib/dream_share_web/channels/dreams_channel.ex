@@ -66,24 +66,21 @@ defmodule DreamShareWeb.DreamsChannel do
 
   @impl true
   def handle_in("joined_my_feed", payload, socket) do
-    {user_id, _} = Integer.parse(payload["user_id"])
-    IO.inspect(user_id)
+    {id, _} = Integer.parse(payload["user_id"])
+    IO.inspect(id)
 
     dreams =
-      DreamShare.Dreams.list_dreams()
+      DreamShare.Dreams.get_dreams_by_user_id(id)
       |> Enum.map(fn dream ->
-        if user_id == dream.user_id do
-          %{
-            id: dream.id,
-            dream: dream.dream,
-            username: dream.username,
-            timestamp: dream.inserted_at,
-            user_id: dream.user_id,
-            updated: dream.updated_at
-          }
-        end
+        %{
+          id: dream.id,
+          dream: dream.dream,
+          username: dream.username,
+          timestamp: dream.inserted_at,
+          user_id: dream.user_id,
+          updated: dream.updated_at
+        }
       end)
-      |> Enum.filter(& &1)
 
     IO.inspect(dreams)
     push(socket, "list_my_dreams", %{dreams: dreams})
@@ -91,8 +88,8 @@ defmodule DreamShareWeb.DreamsChannel do
   end
 
   @impl true
-  def handle_in("find_user", username, socket) do
-    user = DreamShare.Accounts.get_user_by_username!(username)
+  def handle_in("find_user", user, socket) do
+    user = DreamShare.Accounts.get_user_by_username(user)
     IO.inspect(user)
 
     if user do
@@ -102,9 +99,33 @@ defmodule DreamShareWeb.DreamsChannel do
         id: user.id
       })
     else
-      push(socket, "user_not_found", %{})
+      push(socket, "user_not_found", %{
+        message:
+          "Sorry, there is no user with that username. please make sure the spelling and capitalization is correct :)"
+      })
     end
 
+    {:noreply, socket}
+  end
+
+  def handle_in("get_dreams_by_user_id", payload, socket) do
+    {id, _} = Integer.parse(payload["user_id"])
+
+    dreams =
+      DreamShare.Dreams.get_dreams_by_user_id(id)
+      |> Enum.map(fn dream ->
+        %{
+          id: dream.id,
+          dream: dream.dream,
+          username: dream.username,
+          timestamp: dream.inserted_at,
+          user_id: dream.user_id,
+          updated: dream.updated_at
+        }
+      end)
+
+    IO.inspect(dreams)
+    push(socket, "list_user_dreams", %{dreams: dreams})
     {:noreply, socket}
   end
 
