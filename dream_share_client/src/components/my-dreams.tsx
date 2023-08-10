@@ -18,8 +18,7 @@ const MyDreams: Component = () => {
       console.log(payload)
       payload.dreams.map((dream: Dream) => {
         setDreams(dreams => {
-          const checkForReAdd = dreams.filter((dreami: Dream) => dreami.id !== dream.id).sort((a, b) => a.id - b.id);
-          return [...checkForReAdd, dream]
+          return [...dreams, dream].sort((a, b) => a.id - b.id);
         })
       })
     })

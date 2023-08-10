@@ -1,6 +1,8 @@
 import type { Component } from "solid-js";
 import { For, Show, createSignal } from "solid-js";
 import { useSocket } from "./socket-context-provider";
+import { A } from "@solidjs/router";
+import { useStore } from "./auth-context-provider";
 
 const FindUsers: Component = () => {
   const [usersFound, setUsersFound] = createSignal<{ full_name: string, id: number, username: string }[]>([]);
@@ -39,9 +41,11 @@ const FindUsers: Component = () => {
             {(user) => (
               <div class="dream-bubble">
                 <div class="username">
-                  {user.username}
+                  <b style={{ "font-size": "24px" }}>{user.username}</b>
                 </div>
                 <p>Full name: {user.full_name}</p>
+                <A href={`/user/${user.id}`} style={{ "margin-top": "8px", "border": "2px solid black", "border-radius": "6px", "background-color": "papayawhip", "font-size": "24px", "color": "black" }}>
+                  Read their dreams</A>
               </div>
             )}
           </For>
