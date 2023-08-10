@@ -2,28 +2,32 @@ import type { Component } from "solid-js";
 import { For, Show, createSignal } from "solid-js";
 import { useSocket } from "./socket-context-provider";
 import { A } from "@solidjs/router";
-import { useStore } from "./auth-context-provider";
 
 const FindUsers: Component = () => {
   const [usersFound, setUsersFound] = createSignal<{ full_name: string, id: number, username: string }[]>([]);
   const [finding, setFinding] = createSignal(false);
+  const [noUserFound, setNoUserFound] = createSignal(false);
   const socketConnection = useSocket();
 
   if (socketConnection) {
     socketConnection.on("found_user", (user) => {
       setUsersFound([user])
-      console.log(usersFound());
+      setFinding(false)
+    })
+    socketConnection.on("user_not_found", (_error) => {
+      setNoUserFound(true)
       setFinding(false)
     })
   }
 
   function findUser(e: SubmitEvent) {
     e.preventDefault()
+    setUsersFound([])
+    setNoUserFound(false)
     setFinding(true)
     const target = e.target as HTMLInputElementFindUser;
     let username = target.user_search.value;
     if (socketConnection) {
-      console.log(socketConnection)
       socketConnection.push("find_user", { username })
       username = ''
     }
@@ -50,6 +54,9 @@ const FindUsers: Component = () => {
             )}
           </For>
         </div>
+      </Show>
+      <Show when={noUserFound()}>
+        <p>Sorry, there is no user with that username. please make sure the spelling and capitalization is correct :)</p>
       </Show>
 
     </div>

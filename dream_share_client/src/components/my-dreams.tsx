@@ -15,7 +15,6 @@ const MyDreams: Component = () => {
   if (socketConnection) {
     socketConnection.push("joined_my_feed", { user_id: currentUserInfo.user_id })
     socketConnection.on("list_my_dreams", (payload: DreamsArray) => {
-      console.log(payload)
       payload.dreams.map((dream: Dream) => {
         setDreams(dreams => {
           return [...dreams, dream].sort((a, b) => a.id - b.id);
@@ -75,7 +74,7 @@ const MyDreams: Component = () => {
   }
 
   return (
-    <Show when={dreams().length > 0} fallback={<>🧐💬 are yuo logged in? have you added any dreams?</>}>
+    <Show when={dreams().length > 0} fallback={<>Loading🧐💬 (are yuo logged in? have you added any dreams?)</>}>
       <div class="dreams-list">
         <For each={dreams()}>
           {(dream) => (

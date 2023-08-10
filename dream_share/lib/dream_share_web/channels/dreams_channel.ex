@@ -89,7 +89,7 @@ defmodule DreamShareWeb.DreamsChannel do
 
   @impl true
   def handle_in("find_user", user, socket) do
-    user = DreamShare.Accounts.get_user_by_username!(user)
+    user = DreamShare.Accounts.get_user_by_username(user)
     IO.inspect(user)
 
     if user do
@@ -99,7 +99,10 @@ defmodule DreamShareWeb.DreamsChannel do
         id: user.id
       })
     else
-      push(socket, "user_not_found", %{})
+      push(socket, "user_not_found", %{
+        message:
+          "Sorry, there is no user with that username. please make sure the spelling and capitalization is correct :)"
+      })
     end
 
     {:noreply, socket}
