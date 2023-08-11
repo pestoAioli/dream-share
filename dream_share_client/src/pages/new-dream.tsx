@@ -25,7 +25,7 @@ const NewDream: Component = () => {
         credentials: 'same-origin'
       })
       const result = await response.json();
-      navigate("/dreamfeed")
+      navigate("/dreams")
     } catch (e) {
       throw new Error('ooops something went wrong')
     }

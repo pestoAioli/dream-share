@@ -23,7 +23,7 @@ defmodule DreamShareWeb.UserAuthController do
 
   def login(conn, %{"email" => email, "password" => password}) do
     if user = Accounts.get_user_by_email_and_password(email, password) do
-      token = get_token(user)
+      token = get_token(user, conn)
       render(conn, "login.json", user: user, token: token)
     else
       {:error, :bad_request, "Invalid username or password."}
@@ -39,8 +39,6 @@ defmodule DreamShareWeb.UserAuthController do
 
   def register(conn, %{"user" => params}) do
     with {:ok, user} <- Accounts.register_user(params) do
-      Accounts.generate_user_session_token(user)
-
       conn
       |> put_status(201)
       |> render("register.json", user: user)

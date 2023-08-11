@@ -21,7 +21,7 @@ const LoginForm: Component<{ setLoggingIn: Setter<boolean> }> = ({ setLoggingIn 
         'Access-Control-Allow-Origin': '*',
         "Content-Type": "application/json",
       },
-      credentials: 'same-origin'
+      credentials: 'include',
     })
     const { token, data } = await response.json();
     console.log(token)

@@ -3,6 +3,8 @@ defmodule DreamShare.Accounts.UserToken do
   import Ecto.Query
   alias DreamShare.Accounts.UserToken
 
+  import Plug.Conn
+
   @hash_algorithm :sha256
   @rand_size 32
 
@@ -15,6 +17,7 @@ defmodule DreamShare.Accounts.UserToken do
 
   schema "users_tokens" do
     field :token, :binary
+    field :user_agent, :string
     field :context, :string
     field :sent_to, :string
     belongs_to :user, DreamShare.Accounts.User
@@ -41,9 +44,10 @@ defmodule DreamShare.Accounts.UserToken do
   and devices in the UI and allow users to explicitly expire any
   session they deem invalid.
   """
-  def build_session_token(user) do
+  def build_session_token(user, conn) do
+    [agent | _] = get_req_header(conn, "user-agent")
     token = :crypto.strong_rand_bytes(@rand_size)
-    {token, %UserToken{token: token, context: "session", user_id: user.id}}
+    {token, %UserToken{token: token, user_agent: agent, context: "session", user_id: user.id}}
   end
 
   @doc """
@@ -54,13 +58,15 @@ defmodule DreamShare.Accounts.UserToken do
   The token is valid if it matches the value in the database and it has
   not expired (after @session_validity_in_days).
   """
-  def verify_session_token_query(token) do
+  def verify_session_token_and_agent_query(token, agent) do
     query =
       from token in token_and_context_query(token, "session"),
         join: user in assoc(token, :user),
-        where: token.inserted_at > ago(@session_validity_in_days, "day"),
+        where:
+          token.inserted_at > ago(@session_validity_in_days, "day") and token.user_agent == ^agent,
         select: user
 
+    IO.inspect(query)
     {:ok, query}
   end
 
@@ -164,6 +170,13 @@ defmodule DreamShare.Accounts.UserToken do
   """
   def token_and_context_query(token, context) do
     from UserToken, where: [token: ^token, context: ^context]
+  end
+
+  @doc """
+  Returns the token struct for the given user-agent.
+  """
+  def agent_query(agent) do
+    from UserToken, where: [user_agent: ^agent]
   end
 
   @doc """

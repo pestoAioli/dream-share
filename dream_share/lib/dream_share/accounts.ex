@@ -229,8 +229,8 @@ defmodule DreamShare.Accounts do
   @doc """
   Generates a session token.
   """
-  def generate_user_session_token(user) do
-    {token, user_token} = UserToken.build_session_token(user)
+  def generate_user_session_token(user, conn) do
+    {token, user_token} = UserToken.build_session_token(user, conn)
     Repo.insert!(user_token)
     token
   end
@@ -238,8 +238,8 @@ defmodule DreamShare.Accounts do
   @doc """
   Gets the user with the given signed token.
   """
-  def get_user_by_session_token(token) do
-    {:ok, query} = UserToken.verify_session_token_query(token)
+  def get_user_by_session_token_and_agent(token, agent) do
+    {:ok, query} = UserToken.verify_session_token_and_agent_query(token, agent)
     Repo.one(query)
   end
 
