@@ -20,8 +20,7 @@ const SignUp: Component = () => {
       headers: {
         'Access-Control-Allow-Origin': '*',
         "Content-Type": "application/json",
-      },
-      credentials: 'same-origin'
+      }
     })
     const { data } = await response.json();
     console.log(data)

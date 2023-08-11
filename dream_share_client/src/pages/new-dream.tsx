@@ -22,8 +22,7 @@ const NewDream: Component = () => {
           'Access-Control-Allow-Origin': '*',
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token()}`
-        },
-        credentials: 'same-origin'
+        }
       })
       const result = await response.json();
       navigate("/dreams")

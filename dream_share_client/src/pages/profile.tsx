@@ -19,8 +19,7 @@ const Profile: Component = () => {
         'Access-Control-Allow-Origin': '*',
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token()}`
-      },
-      credentials: 'same-origin'
+      }
     })
     const signedOut = await response.json();
     console.log(signedOut)
@@ -44,8 +43,7 @@ const Profile: Component = () => {
           'Access-Control-Allow-Origin': '*',
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token()}`
-        },
-        credentials: 'same-origin'
+        }
       })
       const { data } = await response.json();
       console.log(data)

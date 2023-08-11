@@ -51,8 +51,7 @@ const MyDreams: Component = () => {
           'Access-Control-Allow-Origin': '*',
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token()}`
-        },
-        credentials: 'same-origin'
+        }
 
       })
       const { data } = await response.json();

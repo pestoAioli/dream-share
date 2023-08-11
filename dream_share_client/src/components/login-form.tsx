@@ -1,13 +1,11 @@
 import { useNavigate } from "@solidjs/router";
 import type { Component, Setter } from "solid-js";
-import { Show, createSignal } from "solid-js";
 import '../styles/login-form.css';
 import { useAuth, useStore } from "./auth-context-provider";
 
-const LoginForm: Component<{ setLoggingIn: Setter<boolean> }> = ({ setLoggingIn }) => {
-  const [_token, setToken] = useAuth();
-  const [_currentUserInfo, setCurrentUserInfo] = useStore();
-  const [error, setError] = createSignal(false);
+const LoginForm: Component<{ setLoggingIn: Setter<boolean>, setError: Setter<boolean> }> = ({ setLoggingIn, setError }) => {
+  const [tokenActual, setToken] = useAuth();
+  const [currentUserInfo, setCurrentUserInfo] = useStore();
   const navigate = useNavigate();
   async function login(e: SubmitEvent) {
     e.preventDefault();
@@ -23,8 +21,7 @@ const LoginForm: Component<{ setLoggingIn: Setter<boolean> }> = ({ setLoggingIn 
         headers: {
           'Access-Control-Allow-Origin': '*',
           "Content-Type": "application/json",
-        },
-        credentials: 'include',
+        }
       })
       const { token, data } = await response.json();
       console.log(token)
@@ -46,18 +43,13 @@ const LoginForm: Component<{ setLoggingIn: Setter<boolean> }> = ({ setLoggingIn 
 
   return (
     <div>
-      <Show when={!error()}>
-        <div class="hort" />
-        <form class='home-login-form' onSubmit={login}>
-          <input type="text" id="email" name="email" placeholder="email" required />
-          <input type="text" id="password" name="password" placeholder="password" required
-            style={{ "margin-top": "8px" }} />
-          <button class="submit-button" type="submit" ><strong>Login</strong></button>
-        </form>
-      </Show>
-      <Show when={error()}>
-        <p>something went wrong :/ <button style={{ "text-decoration": "underline" }} onClick={() => setError(false)}><b>refresh</b></button> and try again. make sure your credentials are accurate</p>
-      </Show>
+      <div class="hort" />
+      <form class='home-login-form' onSubmit={login}>
+        <input type="text" id="email" name="email" placeholder="email" required />
+        <input type="text" id="password" name="password" placeholder="password" required
+          style={{ "margin-top": "8px" }} />
+        <button class="submit-button" type="submit" ><strong>Login</strong></button>
+      </form>
     </div>
   );
 }
