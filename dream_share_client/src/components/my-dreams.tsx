@@ -12,6 +12,7 @@ const MyDreams: Component = () => {
   const [token, _setToken] = useAuth();
   const [dreams, setDreams] = createSignal<Dream[]>([]);
   const [dreamToEdit, setDreamToEdit] = createSignal<number>();
+  const [error, setError] = createSignal(false);
   if (socketConnection) {
     socketConnection.push("joined_my_feed", { user_id: localStorage.getItem("id") })
     socketConnection.on("list_my_dreams", (payload: DreamsArray) => {
@@ -69,42 +70,53 @@ const MyDreams: Component = () => {
       // }
       setDreamToEdit(undefined)
     } catch (e) {
-      throw new Error("oopsie something went wrong uWu")
+      setError(true)
     }
   }
 
   return (
     <Show when={token()} fallback={<>Must be logged in to see this page :P</>}>
-      <Show when={dreams().length > 0} fallback={<>Loading...🧐💬</>}>
-        <div class="dreams-list">
-          <For each={dreams()}>
-            {(dream) => (
-              <div class="dream-bubble">
-                <div class="username">
-                  {moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm a')}
-                  <br /><i>Last night, I dreamt</i>:
-                </div>
-                <Switch>
-                  <Match when={dreamToEdit() === dream.id}>
-                    <form onSubmit={updateDream}>
-                      <textarea name="dream" id={`${dream.id}`}>{dream.dream}</textarea>
-                      <div style={{ "display": "flex" }}>
-                        <button type="submit" style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Submit</b></button>
-                        <button onClick={() => setDreamToEdit(undefined)} style={{ "margin-bottom": "1px", "margin-left": "2px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Cancel</b></button>
-                      </div>
+      <Switch>
+        <Match when={error()}>
+          <p>something went wrong :/ please <button style={{ "text-decoration": "underline" }} onClick={() => {
+            setError(false)
+            setDreamToEdit(undefined)
+          }}><b>refresh</b></button> and try again, and make sure you're logged in</p>
+        </Match>
+        <Match when={dreams().length == 0 && !error()}>
+          <>Loading...🧐</>
+        </Match>
+        <Match when={dreams().length > 0}>
+          <div class="dreams-list">
+            <For each={dreams()}>
+              {(dream) => (
+                <div class="dream-bubble">
+                  <div class="username">
+                    {moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm a')}
+                    <br /><i>Last night, I dreamt</i>:
+                  </div>
+                  <Switch>
+                    <Match when={dreamToEdit() === dream.id}>
+                      <form onSubmit={updateDream}>
+                        <textarea name="dream" id={`${dream.id}`}>{dream.dream}</textarea>
+                        <div style={{ "display": "flex" }}>
+                          <button type="submit" style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Submit</b></button>
+                          <button onClick={() => setDreamToEdit(undefined)} style={{ "margin-bottom": "1px", "margin-left": "2px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff", "color": "black" }}><b>Cancel</b></button>
+                        </div>
 
-                    </form>
-                  </Match>
-                  <Match when={dreamToEdit() !== dream.id}>
-                    <p class="dream-content">{dream.dream}</p>
-                    <button onClick={() => setDreamToEdit(dream.id)} style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff" }}><b>Edit</b></button>
-                  </Match>
-                </Switch>
-              </div>
-            )}
-          </For>
-        </div>
-      </Show>
+                      </form>
+                    </Match>
+                    <Match when={dreamToEdit() !== dream.id}>
+                      <p class="dream-content">{dream.dream}</p>
+                      <button onClick={() => setDreamToEdit(dream.id)} style={{ "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff" }}><b>Edit</b></button>
+                    </Match>
+                  </Switch>
+                </div>
+              )}
+            </For>
+          </div>
+        </Match>
+      </Switch>
     </Show>
   )
 }
