@@ -38,7 +38,7 @@ const App: Component = () => {
           </div>
           <div class="divider2" />
         </div>
-        <div style={{ "flex-grow": "9", "height": "100%", "overflow": "scroll" }}>
+        <div style={{ "flex-grow": "9", "height": "100%", "overflow-y": "scroll" }}>
           <Outlet />
         </div>
       </div>
