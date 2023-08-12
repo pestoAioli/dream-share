@@ -55,9 +55,33 @@ defmodule DreamShareWeb.DreamsChannel do
           username: dream.username,
           timestamp: dream.inserted_at,
           user_id: dream.user_id,
-          updated: dream.updated_at
+          updated: dream.updated_at,
+          comments:
+            Enum.map(DreamShare.Dreams.get_comments_by_dream_id(dream.id), fn comment ->
+              %{
+                id: comment.id,
+                body: comment.body,
+                dream_id: comment.dream_id,
+                user_id: comment.user_id,
+                timestamp: comment.inserted_at,
+                updated: comment.updated_at
+              }
+            end)
         }
       end)
+
+    # comments =
+    #   DreamShare.Dreams.list_comments()
+    #   |> Enum.map(fn comment ->
+    #     %{
+    #       id: comment.id,
+    #       body: comment.body,
+    #       dream_id: comment.dream_id,
+    #       user_id: comment.user_id,
+    #       timestamp: comment.inserted_at,
+    #       updated: comment.updated_at
+    #     }
+    #   end)
 
     IO.inspect(dreams)
     push(socket, "list_dreams", %{dreams: dreams})
@@ -78,7 +102,18 @@ defmodule DreamShareWeb.DreamsChannel do
           username: dream.username,
           timestamp: dream.inserted_at,
           user_id: dream.user_id,
-          updated: dream.updated_at
+          updated: dream.updated_at,
+          comments:
+            Enum.map(DreamShare.Dreams.get_comments_by_dream_id(dream.id), fn comment ->
+              %{
+                id: comment.id,
+                body: comment.body,
+                dream_id: comment.dream_id,
+                user_id: comment.user_id,
+                timestamp: comment.inserted_at,
+                updated: comment.updated_at
+              }
+            end)
         }
       end)
 
