@@ -3,13 +3,13 @@ import "../styles/dreams-list.css";
 import { Component, For, Show, createSignal } from "solid-js";
 import { useSocket } from "./socket-context-provider";
 import { useAuth } from "./auth-context-provider";
+import { createStore } from "solid-js/store";
 
 const DreamsList: Component = () => {
   const socketConnection = useSocket();
-  const [dreams, setDreams] = createSignal<Dream[]>([]);
+  const [dreams, setDreams] = createStore<Dream[]>([]);
   const [leavingComment, setLeavingComment] = createSignal();
   const [submittingComment, setSubmittingComment] = createSignal(false);
-  const [seeComments, setSeeComments] = createSignal(false);
   const [token, _] = useAuth();
   if (socketConnection) {
     socketConnection.push("joined_main_feed", {});
@@ -39,7 +39,16 @@ const DreamsList: Component = () => {
 
     })
     socketConnection.on("new_comment", (comment) => {
-      console.log(comment)
+      setDreams((dreams) => {
+        const updatedDreamsList = dreams.map(dream => {
+          if (dream.id == comment.dream_id) {
+            console.log(comment, dream)
+            dream.comments.push(comment)
+          }
+          return dream;
+        }).sort((a, b) => a.id - b.id)
+        return updatedDreamsList;
+      })
     })
   }
 
@@ -69,9 +78,9 @@ const DreamsList: Component = () => {
   }
 
   return (
-    <Show when={dreams().length > 0} fallback={<div style={{ "font-size": "36px", "margin-left": "4px" }}><i>Loading...</i>🧐💬</div>}>
+    <Show when={dreams.length > 0} fallback={<div style={{ "font-size": "36px", "margin-left": "4px" }}><i>Loading...</i>🧐💬</div>}>
       <div class="dreams-list">
-        <For each={dreams()}>
+        <For each={dreams}>
           {(dream) => (
             <div class="dream-bubble">
               <div class="username">
@@ -81,15 +90,14 @@ const DreamsList: Component = () => {
               <p class="dream-content">{dream.dream}</p>
               <div style={{ "display": "flex", "flex-direction": "row-reverse" }}>
                 <button onClick={() => {
-                  setSeeComments(!seeComments())
                   if (leavingComment() == dream.id) {
                     setLeavingComment(undefined)
                   } else {
                     setLeavingComment(dream.id)
                   }
-                }} classList={{ show: leavingComment() == dream.id && seeComments(), closed: leavingComment() != dream.id }}>{dream.comments.length} 💬</button>
+                }} classList={{ show: leavingComment() == dream.id, closed: leavingComment() != dream.id }}>{dream.comments.length} 💬</button>
               </div>
-              <Show when={leavingComment() == dream.id && seeComments()}>
+              <Show when={leavingComment() == dream.id}>
                 <For each={dream.comments}>
                   {(comment) => (
                     <div style={{ "display": "flex", "align-items": "center", "padding-bottom": "6px" }}>
