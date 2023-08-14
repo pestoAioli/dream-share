@@ -37,9 +37,12 @@ defmodule DreamShareWeb.CommentController do
 
   def delete(conn, %{"id" => id}) do
     comment = Dreams.get_comment!(id)
+    user = conn.assigns[:current_user]
 
-    with {:ok, %Comment{}} <- Dreams.delete_comment(comment) do
-      send_resp(conn, :no_content, "")
+    if user.id == comment.user_id do
+      with {:ok, %Comment{}} <- Dreams.delete_comment(comment) do
+        send_resp(conn, :no_content, "")
+      end
     end
   end
 end

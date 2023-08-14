@@ -47,3 +47,20 @@
   border: 3px solid black;
   border-radius: 8px;
 }
+
+.comment{
+  display: flex;
+  align-items: center;
+  padding-bottom: 6px;
+}
+.comment_hovered {
+  background-color: gainsboro;
+}
+
+.are_you_sure {
+  position: absolute;
+  z-index: 10000;
+  background-color: aliceblue;
+  border: 2px solid black;
+  border-radius: 6px;
+}
