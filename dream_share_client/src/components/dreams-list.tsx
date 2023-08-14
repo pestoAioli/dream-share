@@ -82,7 +82,6 @@ const DreamsList: Component = () => {
         return [...filteredComments, data]
       }
     )
-
     target.comment.value = '';
   }
 
