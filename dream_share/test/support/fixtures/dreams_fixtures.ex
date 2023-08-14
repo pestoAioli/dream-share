@@ -18,4 +18,18 @@ defmodule DreamShare.DreamsFixtures do
 
     dream
   end
+
+  @doc """
+  Generate a comment.
+  """
+  def comment_fixture(attrs \\ %{}) do
+    {:ok, comment} =
+      attrs
+      |> Enum.into(%{
+        body: "some body"
+      })
+      |> DreamShare.Dreams.create_comment()
+
+    comment
+  end
 end

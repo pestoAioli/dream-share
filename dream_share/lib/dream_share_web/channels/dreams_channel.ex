@@ -21,10 +21,26 @@ defmodule DreamShareWeb.DreamsChannel do
       username: dream.username,
       timestamp: dream.inserted_at,
       user_id: dream.user_id,
-      updated: dream.updated_at
+      updated: dream.updated_at,
+      comments: []
     })
 
     IO.inspect(dream)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:comment_created, comment}, socket) do
+    push(socket, "new_comment", %{
+      id: comment.id,
+      body: comment.body,
+      username: comment.username,
+      dream_id: comment.dream_id,
+      user_id: comment.user_id,
+      timestamp: comment.inserted_at,
+      updated: comment.updated_at
+    })
+
     {:noreply, socket}
   end
 
@@ -38,7 +54,19 @@ defmodule DreamShareWeb.DreamsChannel do
       username: dream.username,
       timestamp: dream.inserted_at,
       user_id: dream.user_id,
-      updated: dream.updated_at
+      updated: dream.updated_at,
+      comments:
+        Enum.map(DreamShare.Dreams.get_comments_by_dream_id(dream.id), fn comment ->
+          %{
+            id: comment.id,
+            body: comment.body,
+            username: comment.username,
+            dream_id: comment.dream_id,
+            user_id: comment.user_id,
+            timestamp: comment.inserted_at,
+            updated: comment.updated_at
+          }
+        end)
     })
 
     {:noreply, socket}
@@ -55,11 +83,34 @@ defmodule DreamShareWeb.DreamsChannel do
           username: dream.username,
           timestamp: dream.inserted_at,
           user_id: dream.user_id,
-          updated: dream.updated_at
+          updated: dream.updated_at,
+          comments:
+            Enum.map(DreamShare.Dreams.get_comments_by_dream_id(dream.id), fn comment ->
+              %{
+                id: comment.id,
+                body: comment.body,
+                username: comment.username,
+                dream_id: comment.dream_id,
+                user_id: comment.user_id,
+                timestamp: comment.inserted_at,
+                updated: comment.updated_at
+              }
+            end)
         }
       end)
 
-    IO.inspect(dreams)
+    # comments =
+    #   DreamShare.Dreams.list_comments()
+    #   |> Enum.map(fn comment ->
+    #     %{
+    #       id: comment.id,
+    #       body: comment.body,
+    #       dream_id: comment.dream_id,
+    #       user_id: comment.user_id,
+    #       timestamp: comment.inserted_at,
+    #       updated: comment.updated_at
+    #     }
+    #   end)
     push(socket, "list_dreams", %{dreams: dreams})
     {:noreply, socket}
   end
@@ -78,11 +129,22 @@ defmodule DreamShareWeb.DreamsChannel do
           username: dream.username,
           timestamp: dream.inserted_at,
           user_id: dream.user_id,
-          updated: dream.updated_at
+          updated: dream.updated_at,
+          comments:
+            Enum.map(DreamShare.Dreams.get_comments_by_dream_id(dream.id), fn comment ->
+              %{
+                id: comment.id,
+                body: comment.body,
+                username: comment.username,
+                dream_id: comment.dream_id,
+                user_id: comment.user_id,
+                timestamp: comment.inserted_at,
+                updated: comment.updated_at
+              }
+            end)
         }
       end)
 
-    IO.inspect(dreams)
     push(socket, "list_my_dreams", %{dreams: dreams})
     {:noreply, socket}
   end

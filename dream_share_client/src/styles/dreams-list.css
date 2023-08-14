@@ -8,11 +8,27 @@
   .dreams-list {
     display: flex;
     flex-direction: column;
-    align-items: start;
-    margin-left: 24px;
+    /* align-items: start; */
+    justify-content: center;
+    margin-left: 24vw;
+    max-width: 45vw;
+
   }
 }
-
+.closed {
+  font-size: small; 
+  background-color: papayawhip;
+  border-radius: 6px;
+  border: 1px solid black; 
+  align-self: end
+}
+.show{
+  background-color: palegoldenrod;
+  font-size: small;
+  border-radius: 6px;
+  border: 1px solid black; 
+  align-self: end;
+}
 .username {
   background-color: cornsilk;
   border-radius: 8px;
@@ -30,4 +46,21 @@
   margin-bottom: 2px;
   border: 3px solid black;
   border-radius: 8px;
+}
+
+.comment{
+  display: flex;
+  align-items: center;
+  padding-bottom: 6px;
+}
+.comment_hovered {
+  background-color: gainsboro;
+}
+
+.are_you_sure {
+  position: absolute;
+  z-index: 10000;
+  background-color: aliceblue;
+  border: 2px solid black;
+  border-radius: 6px;
 }

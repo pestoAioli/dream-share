@@ -9,4 +9,5 @@ interface Dream {
   user_id: number;
   username: string;
   updated?: string;
+  comments: any[];
 }

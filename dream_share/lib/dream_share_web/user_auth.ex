@@ -13,8 +13,8 @@ defmodule DreamShareWeb.UserAuth do
   # @remember_me_cookie "_dream_share_web_user_remember_me"
   # @remember_me_options [sign: true, max_age: @max_age, same_site: "Lax"]
 
-  def get_token(user) do
-    Accounts.generate_user_session_token(user)
+  def get_token(user, conn) do
+    Accounts.generate_user_session_token(user, conn)
   end
 
   def delete_token(token) do
@@ -27,10 +27,11 @@ defmodule DreamShareWeb.UserAuth do
   """
   def fetch_current_user(conn, _opts) do
     user_token = fetch_token(get_req_header(conn, "authorization"))
+    user_agent = fetch_token(get_req_header(conn, "user-agent"))
     IO.inspect(user_token)
     {:ok, decoded_token} = Base.decode64(user_token)
     IO.inspect(decoded_token)
-    user = Accounts.get_user_by_session_token(decoded_token)
+    user = Accounts.get_user_by_session_token_and_agent(decoded_token, user_agent)
     IO.inspect(user)
     assign(conn, :current_user, user)
   end
