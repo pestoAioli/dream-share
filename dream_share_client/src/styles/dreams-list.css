@@ -15,7 +15,20 @@
 
   }
 }
-
+.closed {
+  font-size: small; 
+  background-color: papayawhip;
+  border-radius: 6px;
+  border: 1px solid black; 
+  align-self: end
+}
+.show{
+  background-color: palegoldenrod;
+  font-size: small;
+  border-radius: 6px;
+  border: 1px solid black; 
+  align-self: end;
+}
 .username {
   background-color: cornsilk;
   border-radius: 8px;

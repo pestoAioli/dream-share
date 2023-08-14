@@ -118,9 +118,9 @@ defmodule DreamShare.Dreams do
 
   defp broadcast({:error, _reason} = error, _event), do: error
 
-  defp broadcast({:ok, dream}, event) do
-    Phoenix.PubSub.broadcast(DreamShare.PubSub, "dreams:lobby", {event, dream})
-    {:ok, dream}
+  defp broadcast({:ok, payload}, event) do
+    Phoenix.PubSub.broadcast(DreamShare.PubSub, "dreams:lobby", {event, payload})
+    {:ok, payload}
   end
 
   alias DreamShare.Dreams.Comment
@@ -174,10 +174,11 @@ defmodule DreamShare.Dreams do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_comment(attrs \\ %{}) do
-    %Comment{}
+  def create_comment(user_id, username, attrs \\ %{}) do
+    %Comment{user_id: user_id, username: username}
     |> Comment.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:comment_created)
   end
 
   @doc """

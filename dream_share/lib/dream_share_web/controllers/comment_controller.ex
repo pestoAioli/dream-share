@@ -12,10 +12,12 @@ defmodule DreamShareWeb.CommentController do
   end
 
   def create(conn, %{"comment" => comment_params}) do
-    with {:ok, %Comment{} = comment} <- Dreams.create_comment(comment_params) do
+    user = conn.assigns[:current_user]
+
+    with {:ok, %Comment{} = comment} <-
+           Dreams.create_comment(user.id, user.username, comment_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/comments/#{comment}")
       |> render(:show, comment: comment)
     end
   end

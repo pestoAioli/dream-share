@@ -29,6 +29,21 @@ defmodule DreamShareWeb.DreamsChannel do
   end
 
   @impl true
+  def handle_info({:comment_created, comment}, socket) do
+    push(socket, "new_comment", %{
+      id: comment.id,
+      body: comment.body,
+      username: comment.username,
+      dream_id: comment.dream_id,
+      user_id: comment.user_id,
+      timestamp: comment.inserted_at,
+      updated: comment.updated_at
+    })
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info({:dream_updated, dream}, socket) do
     IO.inspect(dream)
 
@@ -61,6 +76,7 @@ defmodule DreamShareWeb.DreamsChannel do
               %{
                 id: comment.id,
                 body: comment.body,
+                username: comment.username,
                 dream_id: comment.dream_id,
                 user_id: comment.user_id,
                 timestamp: comment.inserted_at,
@@ -108,6 +124,7 @@ defmodule DreamShareWeb.DreamsChannel do
               %{
                 id: comment.id,
                 body: comment.body,
+                username: comment.username,
                 dream_id: comment.dream_id,
                 user_id: comment.user_id,
                 timestamp: comment.inserted_at,

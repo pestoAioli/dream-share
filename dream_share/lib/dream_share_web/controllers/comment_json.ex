@@ -18,7 +18,10 @@ defmodule DreamShareWeb.CommentJSON do
   defp data(%Comment{} = comment) do
     %{
       id: comment.id,
-      body: comment.body
+      user_id: comment.user_id,
+      dream_id: comment.dream_id,
+      body: comment.body,
+      username: comment.username
     }
   end
 end

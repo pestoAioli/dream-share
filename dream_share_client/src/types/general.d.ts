@@ -20,3 +20,7 @@ interface HTMLInputElementEditDream extends EventTarget {
 interface HTMLInputElementFindUser extends EventTarget {
   user_search: { value: string };
 }
+interface HTMLInputElementComment extends EventTarget {
+  comment: { value: string };
+  dream_id: { value: number };
+}
