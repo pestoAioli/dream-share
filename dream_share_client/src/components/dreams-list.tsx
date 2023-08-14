@@ -44,7 +44,10 @@ const DreamsList: Component = () => {
       setDreams(
         (dream) => dream.id == comment.dream_id,
         "comments",
-        (comments) => [...comments, comment]
+        (comments) => {
+          const filteredComments = comments.filter(commento => commento.id != comment.id)
+          return [...filteredComments, comment]
+        }
       )
     })
   }
@@ -69,9 +72,18 @@ const DreamsList: Component = () => {
         "Authorization": `Bearer ${token()}`
       }
     })
-    const result = await response.json();
-    console.log(result)
+    const { data } = await response.json();
     setSubmittingComment(false)
+    setDreams(
+      (dream) => dream.id == dream_id,
+      "comments",
+      (comments) => {
+        const filteredComments = comments.filter(commento => commento.id != data.id)
+        return [...filteredComments, data]
+      }
+    )
+
+    target.comment.value = '';
   }
 
   function maybeShowDeleteIcon(user_id: number, comment_id: number) {
