@@ -17,7 +17,6 @@ const DreamsList: Component = () => {
   if (socketConnection) {
     socketConnection.push("joined_main_feed", {});
     socketConnection.on("list_dreams", (payload: DreamsArray) => {
-      console.log(payload)
       payload.dreams.map((dream: Dream) => {
         setDreams((dreams) => {
           const checkForReAdd = dreams.filter((dreami: Dream) => dreami.id !== dream.id);
@@ -27,9 +26,7 @@ const DreamsList: Component = () => {
     })
 
     socketConnection.on("new_dream", (dream: Dream) => {
-      console.log("new dream", dream)
       setDreams(dreams => [...dreams, dream].sort((a, b) => b.id - a.id))
-      console.log(dreams)
     })
     socketConnection.on("updated_dream", (dream: Dream) => {
       setDreams((dreams) => {
@@ -44,7 +41,6 @@ const DreamsList: Component = () => {
 
     })
     socketConnection.on("new_comment", (comment) => {
-      console.log("new")
       setDreams(
         (dream) => dream.id == comment.dream_id,
         "comments",
