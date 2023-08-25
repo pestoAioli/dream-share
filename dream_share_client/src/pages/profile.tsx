@@ -22,7 +22,6 @@ const Profile: Component = () => {
       }
     })
     const signedOut = await response.json();
-    console.log(signedOut)
     localStorage.removeItem("toke")
     setToken(null)
     navigate("/dreams");
@@ -46,13 +45,11 @@ const Profile: Component = () => {
         }
       })
       const { data } = await response.json();
-      console.log(data)
       localStorage.setItem("username", data.username)
       localStorage.setItem("fullname", data.full_name)
       setCurrentUserInfo("username", data.username)
       setCurrentUserInfo("fullname", data.full_name)
       setUpdatingUserInfo(false)
-      console.log(currentUserInfo)
     } else {
       throw new Error("oops looks like you need to login again!")
     }

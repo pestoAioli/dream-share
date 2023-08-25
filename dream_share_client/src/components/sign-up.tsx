@@ -23,10 +23,8 @@ const SignUp: Component = () => {
       }
     })
     const { data } = await response.json();
-    console.log(data)
     setSigningUp(false);
     setGreetingName(data.username)
-    console.log(greetingName())
   }
 
   function goToLogin() {

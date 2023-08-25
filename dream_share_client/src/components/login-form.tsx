@@ -24,7 +24,6 @@ const LoginForm: Component<{ setLoggingIn: Setter<boolean>, setError: Setter<boo
         }
       })
       const { token, data } = await response.json();
-      console.log(token)
       localStorage.setItem("toke", token)
       localStorage.setItem("id", data.user.id)
       localStorage.setItem("username", data.user.username)
