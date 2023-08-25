@@ -46,10 +46,16 @@ defmodule DreamShareWeb.DreamController do
   end
 
   def delete(conn, %{"id" => id}) do
+    user = conn.assigns[:current_user]
     dream = Dreams.get_dream!(id)
+    user_id = dream.user_id
 
-    with {:ok, %Dream{}} <- Dreams.delete_dream(dream) do
-      send_resp(conn, :no_content, "")
+    if user && user_id === user.id do
+      with {:ok, %Dream{}} <- Dreams.delete_dream(dream) do
+        render(conn, :show, dream: dream)
+      end
+    else
+      {:error, :unauthorized}
     end
   end
 end

@@ -6,6 +6,7 @@ defmodule DreamShare.Dreams.Dream do
     field :dream, :string
     field :username, :string
     field :user_id, :id
+    has_many :comments, DreamShare.Dreams.Comment, on_delete: :delete_all
 
     timestamps()
   end

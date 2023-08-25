@@ -41,7 +41,7 @@ const SignUp: Component = () => {
             <div class="hort" />
             <form class='home-login-form' onSubmit={signUp}>
               <input type="text" id="email" name="email" placeholder="email" required />
-              <input type="text" id="password" name="password" placeholder="password" required
+              <input type="password" id="password" name="password" placeholder="password" required
                 style={{ "margin-top": "8px" }} />
               <input type="text" id="username" name="username" placeholder="username" required
                 style={{ "margin-top": "8px" }} />

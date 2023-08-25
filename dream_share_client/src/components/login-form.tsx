@@ -46,7 +46,7 @@ const LoginForm: Component<{ setLoggingIn: Setter<boolean>, setError: Setter<boo
       <div class="hort" />
       <form class='home-login-form' onSubmit={login}>
         <input type="text" id="email" name="email" placeholder="email" required />
-        <input type="text" id="password" name="password" placeholder="password" required
+        <input type="password" id="password" name="password" placeholder="password" required
           style={{ "margin-top": "8px" }} />
         <button class="submit-button" type="submit" ><strong>Login</strong></button>
       </form>
