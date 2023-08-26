@@ -1,7 +1,8 @@
 import type { Component } from "solid-js";
 import { Match, Show, Switch, createSignal } from "solid-js";
-import { useAuth } from "../components/auth-context-provider";
+import { useAuth } from "../contexts/auth-context-provider";
 import { A, useNavigate } from "@solidjs/router";
+import RickyButton from "../components/button";
 
 const NewDream: Component = () => {
   const [token, _setToken] = useAuth();
@@ -39,8 +40,9 @@ const NewDream: Component = () => {
               <form onSubmit={addDream} style={{ "display": "flex", "flex-direction": "column" }} >
                 <label class="username" for="dream" style={{ "font-size": "18px" }}><i>Last night I dreamt...</i></label>
                 <textarea style={{ "min-height": "200px" }} id="dream" name="dream" placeholder="..." required />
-                <button style={{ "border": "2px solid black", "border-radius": "6px", "background-color": "papayawhip", "font-size": "18px", "color": "black" }}
-                  type="submit">Submit</button>
+                <RickyButton font_size="18px" bg_color="palegoldenrod" type="submit">
+                  Submit
+                </RickyButton>
               </form>
             </div >
           </Match>

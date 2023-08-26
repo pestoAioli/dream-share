@@ -1,7 +1,7 @@
 import { useNavigate } from "@solidjs/router";
 import type { Component, Setter } from "solid-js";
 import '../styles/login-form.css';
-import { useAuth, useStore } from "./auth-context-provider";
+import { useAuth, useStore } from "../contexts/auth-context-provider";
 
 const LoginForm: Component<{ setLoggingIn: Setter<boolean>, setError: Setter<boolean> }> = ({ setLoggingIn, setError }) => {
   const [tokenActual, setToken] = useAuth();

@@ -1,7 +1,6 @@
 import type { Component } from "solid-js";
-import '../styles/login-form.css';
-import { SocketContextProvider } from "../components/socket-context-provider";
-import UserDreamsById from "../components/user-dreams-by-id";
+import { SocketContextProvider } from "../../contexts/socket-context-provider";
+import UserDreamsById from "./user-dreams-by-id";
 
 const UserDreams: Component = () => {
   return (

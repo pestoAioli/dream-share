@@ -1,8 +1,6 @@
-import { A } from "@solidjs/router";
 import type { Component } from "solid-js";
-import '../styles/login-form.css';
-import DreamsList from "../components/dreams-list";
-import { SocketContextProvider } from "../components/socket-context-provider";
+import DreamsList from "./dreams-list";
+import { SocketContextProvider } from "../../contexts/socket-context-provider";
 
 const DreamFeed: Component = () => {
   return (

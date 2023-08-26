@@ -1,7 +1,8 @@
 import type { Component } from "solid-js";
 import { For, Show, createSignal } from "solid-js";
-import { useSocket } from "./socket-context-provider";
+import { useSocket } from "../../contexts/socket-context-provider";
 import { A } from "@solidjs/router";
+import RickyButton from "../../components/button";
 
 const FindUsers: Component = () => {
   const [usersFound, setUsersFound] = createSignal<{ full_name: string, id: number, username: string }[]>([]);
@@ -37,7 +38,9 @@ const FindUsers: Component = () => {
       <form onSubmit={findUser} class="general-list-left" style={{ "margin-top": "8px" }}>
         <label for="user_search">Search for someone by their username:</label>
         <input type="text" id="user_search" name="user_search" placeholder="type name here" required />
-        <button type="submit" style={{ "margin-top": "8px", "border": "2px solid black", "border-radius": "6px", "background-color": "aliceblue", "font-size": "24px" }}>{finding() ? 'Searching...' : 'Search'}</button>
+        <RickyButton type="submit" margin_top="8px" bg_color="aliceblue" font_size="24px">
+          {finding() ? 'Searching...' : 'Search'}
+        </RickyButton>
       </form>
       <Show when={usersFound().length > 0} fallback={<></>}>
         <div class="dreams-list">

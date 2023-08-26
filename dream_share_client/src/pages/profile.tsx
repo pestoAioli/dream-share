@@ -1,7 +1,8 @@
 import { useNavigate } from "@solidjs/router";
 import type { Component } from "solid-js";
 import { Show, createSignal } from "solid-js";
-import { useAuth, useStore } from "../components/auth-context-provider";
+import { useAuth, useStore } from "../contexts/auth-context-provider";
+import RickyButton from "../components/button";
 
 const Profile: Component = () => {
   const [signingOut, setSigningOut] = createSignal(false);
@@ -79,10 +80,10 @@ const Profile: Component = () => {
           <input type="text" id="username" name="username" placeholder={currentUserInfo.username ? currentUserInfo.username : "usernamee"} />
           <label for="full_name" style={{ "font-size": "18px" }}>Update full name:</label>
           <textarea id="full_name" name="full_name" placeholder={currentUserInfo.fullname ? currentUserInfo.fullname : "full name"} />
-          <button style={{ "margin-top": "8px", "border": "2px solid black", "border-radius": "6px", "background-color": "papayawhip", "font-size": "24px", "color": "black" }} type="submit">Update</button>
+          <RickyButton bg_color="papayawhip" font_size="24px" margin_top="8px" type="submit">Update</RickyButton>
         </form>
         <button onClick={() => triggerInstall()} id='install'>install app</button>
-        <button onClick={signOut} style={{ "margin-top": "8px", "border": "2px solid black", "border-radius": "6px", "background-color": "aliceblue", "font-size": "24px" }}>sign out</button>
+        <RickyButton on_click={signOut} bg_color="aliceblue" font_size="24px" margin_top="8px">sign out</RickyButton>
       </div>
     </Show>
 
