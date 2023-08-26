@@ -3,7 +3,7 @@ import type { Component } from 'solid-js';
 
 import "./styles/app.css";
 import { A, Outlet } from '@solidjs/router';
-import { useAuth, useStore } from './components/auth-context-provider';
+import { useAuth, useStore } from './contexts/auth-context-provider';
 
 const App: Component = () => {
   const [token, _setToken] = useAuth();

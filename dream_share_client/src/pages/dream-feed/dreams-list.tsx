@@ -1,9 +1,10 @@
 import moment from "moment";
-import "../styles/dreams-list.css";
+import "../../styles/dreams-list.css";
 import { Component, For, Show, createSignal } from "solid-js";
-import { useSocket } from "./socket-context-provider";
-import { useAuth, useStore } from "./auth-context-provider";
+import { useSocket } from "../../contexts/socket-context-provider";
+import { useAuth } from "../../contexts/auth-context-provider";
 import { createStore } from "solid-js/store";
+import RickyButton from "../../components/button";
 
 const DreamsList: Component = () => {
   const socketConnection = useSocket();
@@ -12,7 +13,6 @@ const DreamsList: Component = () => {
   const [submittingComment, setSubmittingComment] = createSignal(false);
   const [areYouSure, setAreYouSure] = createSignal();
   const [showDeleteCommentIcon, setShowDeleteCommentIcon] = createSignal();
-  const [currentUserInfo, _sCUI] = useStore();
   const [token, _] = useAuth();
   if (socketConnection) {
     socketConnection.push("joined_main_feed", {});
@@ -140,34 +140,26 @@ const DreamsList: Component = () => {
                       <Show when={areYouSure() == comment.id}>
                         <div class="are_you_sure">
                           <h3>are you sure you want to delete?</h3>
-                          <button onClick={() => deleteComment(comment.id, comment.dream_id)} style={{
-                            "border": "1px solid black", "border-radius": "6px",
-                            "background-color": "palegreen", "color": "black"
-                          }}>yes</button>
-                          <button onClick={() => setAreYouSure(undefined)} style={{
-                            "border": "1px solid black", "border-radius": "6px",
-                            "background-color": "palevioletred", "color": "black"
-                          }}>cancel</button>
+                          <RickyButton on_click={() => deleteComment(comment.id, comment.dream_id)} bg_color="palegoldenrod">yes</RickyButton>
+                          <RickyButton on_click={() => setAreYouSure(undefined)} bg_color="palevioletred">cancel</RickyButton>
                         </div>
                       </Show>
                       <b style={{ "font-size": "18px", "margin-right": "2px" }}>{comment.username}:</b>
                       <p style={{ "margin-top": "0px", "margin-bottom": "0px" }}> {comment.body}</p>
                       <Show when={showDeleteCommentIcon() == comment.id}>
                         <button onClick={() => setAreYouSure(comment.id)} style={{ "margin-top": "0px", "margin-bottom": "0px", "font-size": "10px" }}>
-                          ❌</button></Show>
+                          ❌</button>
+                      </Show>
                     </div>
                   )}
                 </For>
                 <form onSubmit={addComment} style={{ "display": "flex" }}>
                   <textarea id="comment" name="comment" placeholder="leave comment..." />
                   <input type="hidden" name="dream_id" id="dream_id" value={dream.id} />
-                  <button type="submit" style={{
-                    "border": "1px solid black", "border-radius": "6px",
-                    "background-color": "palegoldenrod", "color": "black", "align-self": "end"
-                  }}>
+                  <RickyButton type="submit" bg_color="palegoldenrod">
                     <Show when={!submittingComment()}>send</Show>
                     <Show when={submittingComment()}>sending...</Show>
-                  </button>
+                  </RickyButton>
                 </form>
               </Show>
             </div>

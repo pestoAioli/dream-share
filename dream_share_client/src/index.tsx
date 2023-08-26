@@ -4,16 +4,16 @@ import { render } from 'solid-js/web';
 import './index.css';
 import App from './App';
 import { Route, Router, Routes } from '@solidjs/router';
-import DreamFeed from './pages/dream-feed';
-import SignUp from './components/sign-up';
-import { Provider } from './components/auth-context-provider';
+import DreamFeed from './pages/dream-feed/dream-feed';
+import SignUp from './pages/sign-up';
+import { Provider } from './contexts/auth-context-provider';
 import Profile from './pages/profile';
 import NewDream from './pages/new-dream';
-import MyDreamFeed from './pages/my-dream-feed';
+import MyDreamFeed from './pages/my-dreams/my-dream-feed';
 import Groups from './pages/groups';
 import Login from './pages/login';
-import Users from './pages/users';
-import UserDreams from './pages/user-dreams';
+import Users from './pages/find-users/users';
+import UserDreams from './pages/dreams-by-user/user-dreams';
 
 const root = document.getElementById('root');
 

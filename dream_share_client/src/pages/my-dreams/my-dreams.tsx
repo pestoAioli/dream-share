@@ -1,9 +1,10 @@
 import moment from "moment";
-import "../styles/dreams-list.css";
+import "../../styles/dreams-list.css";
 import { Component, For, Match, Show, Switch, createEffect, createSignal } from "solid-js";
-import { useSocket } from "./socket-context-provider";
-import { useAuth, useStore } from "./auth-context-provider";
+import { useSocket } from "../../contexts/socket-context-provider";
+import { useAuth, useStore } from "../../contexts/auth-context-provider";
 import { A } from "@solidjs/router";
+import RickyButton from "../../components/button";
 
 
 
@@ -128,14 +129,8 @@ const MyDreams: Component = () => {
                   <Show when={areYouSure() == dream.id}>
                     <div class="are_you_sure">
                       <h3>are you sure you want to delete?</h3>
-                      <button onClick={() => deleteDream(dream.id)} style={{
-                        "border": "1px solid black", "border-radius": "6px",
-                        "background-color": "palegreen", "color": "black"
-                      }}>yes</button>
-                      <button onClick={() => setAreYouSure(undefined)} style={{
-                        "border": "1px solid black", "border-radius": "6px",
-                        "background-color": "palevioletred", "color": "black"
-                      }}>cancel</button>
+                      <RickyButton on_click={() => deleteDream(dream.id)} bg_color="palegoldenrod">yes</RickyButton>
+                      <RickyButton on_click={() => setAreYouSure(undefined)} bg_color="palevioletred">cancel</RickyButton>
                     </div>
                   </Show>
                   <Switch>
@@ -143,31 +138,23 @@ const MyDreams: Component = () => {
                       <form onSubmit={updateDream}>
                         <textarea name="dream" id={`${dream.id}`}>{dream.dream}</textarea>
                         <div style={{ "display": "flex" }}>
-                          <button type="submit" style={{
-                            "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px",
-                            "background-color": "peachpuff", "color": "black"
-                          }}>
-                            <b>Submit</b></button>
-                          <button onClick={() => setDreamToEdit(undefined)}
-                            style={{
-                              "margin-bottom": "1px", "margin-left": "2px", "border": "1px solid black",
-                              "border-radius": "6px", "background-color": "peachpuff", "color": "black"
-                            }}>
-                            <b>Cancel</b></button>
+                          <RickyButton margin_top="1px" margin_left="1px" bg_color="palegoldenrod" type="submit" >
+                            <b>Submit</b>
+                          </RickyButton>
+                          <RickyButton on_click={() => setDreamToEdit(undefined)} margin_top="1px" margin_left="1px" bg_color="palevioletred">
+                            <b>Cancel</b></RickyButton>
                         </div>
 
                       </form>
                     </Match>
                     <Match when={dreamToEdit() !== dream.id}>
                       <p class="dream-content">{dream.dream}</p>
-                      <button onClick={() => setDreamToEdit(dream.id)}
-                        style={{
-                          "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "peachpuff"
-                        }}>
-                        <b>Edit</b></button>
-                      <button onClick={() => setAreYouSure(dream.id)} style={{
-                        "margin-bottom": "1px", "margin-left": "1px", "border": "1px solid black", "border-radius": "6px", "background-color": "palevioletred"
-                      }}><b>Delete</b></button>
+                      <RickyButton margin_top="1px" margin_left="1px" bg_color="palegoldenrod" on_click={() => setDreamToEdit(dream.id)}>
+                        <b>Edit</b>
+                      </RickyButton>
+                      <RickyButton on_click={() => setAreYouSure(dream.id)} margin_top="1px" margin_left="1px" bg_color="palevioletred">
+                        <b>Delete</b>
+                      </RickyButton>
                     </Match>
                   </Switch>
                 </div>

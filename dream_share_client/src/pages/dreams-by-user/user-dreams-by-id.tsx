@@ -1,7 +1,7 @@
 import { useParams } from "@solidjs/router";
-import { createSignal, For, Show, Switch } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import type { Component } from "solid-js";
-import { useSocket } from "./socket-context-provider";
+import { useSocket } from "../../contexts/socket-context-provider";
 import moment from "moment";
 
 const UserDreamsById: Component = () => {
