@@ -3,6 +3,7 @@ import "../styles/dreams-list.css";
 import { Component, For, Match, Show, Switch, createEffect, createSignal } from "solid-js";
 import { useSocket } from "./socket-context-provider";
 import { useAuth, useStore } from "./auth-context-provider";
+import { A } from "@solidjs/router";
 
 
 
@@ -11,12 +12,16 @@ const MyDreams: Component = () => {
   const [currentUserInfo, _setCurrentUserInfo] = useStore();
   const [token, _setToken] = useAuth();
   const [dreams, setDreams] = createSignal<Dream[]>([]);
+  const [noDreamsYet, setNoDreamsYet] = createSignal(false);
   const [dreamToEdit, setDreamToEdit] = createSignal<number>();
   const [error, setError] = createSignal(false);
   const [areYouSure, setAreYouSure] = createSignal();
   if (socketConnection) {
     socketConnection.push("joined_my_feed", { user_id: localStorage.getItem("id") })
     socketConnection.on("list_my_dreams", (payload: DreamsArray) => {
+      if (payload.dreams.length === 0) {
+        setNoDreamsYet(true);
+      }
       payload.dreams.map((dream: Dream) => {
         setDreams(dreams => {
           return [...dreams, dream].sort((a, b) => b.id - a.id);
@@ -24,6 +29,7 @@ const MyDreams: Component = () => {
       })
     })
     socketConnection.on("new_dream", (dream: Dream) => {
+      setNoDreamsYet(false);
       if (dream.user_id == currentUserInfo.user_id) {
         setDreams(dreams => [...dreams, dream].sort((a, b) => b.id - a.id))
       }
@@ -65,9 +71,6 @@ const MyDreams: Component = () => {
         }).sort((a, b) => b.id - a.id)
         return updatedDreamsList;
       })
-      // if (socketConnection) {
-      //   socketConnection.push("updated_dream", { data })
-      // }
       setDreamToEdit(undefined)
     } catch (e) {
       setError(true)
@@ -87,6 +90,9 @@ const MyDreams: Component = () => {
       })
       setDreams((dreams) => {
         const updatedDreamsList = dreams.filter(dream => dream.id !== dreamId).sort((a, b) => b.id - a.id)
+        if (updatedDreamsList.length == 0) {
+          setNoDreamsYet(true)
+        }
         return updatedDreamsList;
       });
       const result = await response.json();
@@ -104,8 +110,11 @@ const MyDreams: Component = () => {
             setDreamToEdit(undefined)
           }}><b>refresh</b></button> and try again, and make sure you're logged in</p>
         </Match>
-        <Match when={dreams().length == 0 && !error()}>
+        <Match when={dreams().length == 0 && !error() && noDreamsYet() === false}>
           <>Loading...🧐</>
+        </Match>
+        <Match when={noDreamsYet() && !error()}>
+          <h1> You gotta <A href="/newdream">write some dreams down</A> to see them here!</h1>
         </Match>
         <Match when={dreams().length > 0}>
           <div class="dreams-list">
