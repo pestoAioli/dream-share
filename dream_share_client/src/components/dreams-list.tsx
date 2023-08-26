@@ -82,7 +82,6 @@ const DreamsList: Component = () => {
         return [...filteredComments, data]
       }
     )
-
     target.comment.value = '';
   }
 
@@ -104,7 +103,6 @@ const DreamsList: Component = () => {
         "Authorization": `Bearer ${token()}`
       }
     })
-    console.log('asdfasd')
     setAreYouSure(undefined)
     setShowDeleteCommentIcon(undefined)
     setDreams(

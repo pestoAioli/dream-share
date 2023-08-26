@@ -22,7 +22,6 @@ const Profile: Component = () => {
       }
     })
     const signedOut = await response.json();
-    console.log(signedOut)
     localStorage.removeItem("toke")
     setToken(null)
     navigate("/dreams");
@@ -46,13 +45,11 @@ const Profile: Component = () => {
         }
       })
       const { data } = await response.json();
-      console.log(data)
       localStorage.setItem("username", data.username)
       localStorage.setItem("fullname", data.full_name)
       setCurrentUserInfo("username", data.username)
       setCurrentUserInfo("fullname", data.full_name)
       setUpdatingUserInfo(false)
-      console.log(currentUserInfo)
     } else {
       throw new Error("oops looks like you need to login again!")
     }
@@ -82,10 +79,10 @@ const Profile: Component = () => {
           <input type="text" id="username" name="username" placeholder={currentUserInfo.username ? currentUserInfo.username : "usernamee"} />
           <label for="full_name" style={{ "font-size": "18px" }}>Update full name:</label>
           <textarea id="full_name" name="full_name" placeholder={currentUserInfo.fullname ? currentUserInfo.fullname : "full name"} />
-          <button style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "papayawhip", "font-size": "24px", "color": "black" }} type="submit">Update</button>
+          <button style={{ "margin-top": "8px", "border": "2px solid black", "border-radius": "6px", "background-color": "papayawhip", "font-size": "24px", "color": "black" }} type="submit">Update</button>
         </form>
         <button onClick={() => triggerInstall()} id='install'>install app</button>
-        <button onClick={signOut} style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "paleturquoise", "font-size": "24px" }}>sign out</button>
+        <button onClick={signOut} style={{ "margin-top": "8px", "border": "2px solid black", "border-radius": "6px", "background-color": "aliceblue", "font-size": "24px" }}>sign out</button>
       </div>
     </Show>
 

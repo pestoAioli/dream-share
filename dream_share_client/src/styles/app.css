@@ -67,6 +67,7 @@ opacity: 0.5;
 #install {
   margin-top: 8px;
   border: 2px solid black;
+  border-radius: 6px;
   background-color: peachpuff;
   font-size: 24px;
 }

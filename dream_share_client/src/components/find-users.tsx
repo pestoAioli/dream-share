@@ -37,7 +37,7 @@ const FindUsers: Component = () => {
       <form onSubmit={findUser} class="general-list-left" style={{ "margin-top": "8px" }}>
         <label for="user_search">Search for someone by their username:</label>
         <input type="text" id="user_search" name="user_search" placeholder="type name here" required />
-        <button type="submit" style={{ "margin-top": "8px", "border": "2px solid black", "background-color": "paleturquoise", "font-size": "24px" }}>{finding() ? 'Searching...' : 'Search'}</button>
+        <button type="submit" style={{ "margin-top": "8px", "border": "2px solid black", "border-radius": "6px", "background-color": "aliceblue", "font-size": "24px" }}>{finding() ? 'Searching...' : 'Search'}</button>
       </form>
       <Show when={usersFound().length > 0} fallback={<></>}>
         <div class="dreams-list">
