@@ -11,7 +11,7 @@ const SignUp: Component = () => {
     const target = e.target as HTMLInputElementSignUp;
     const password = target.password.value
     const email = target.email.value;
-    const username = target.username.value
+    const username = target.username.value.toLowerCase();
     setSigningUp(true);
     const response = await fetch(import.meta.env.VITE_REGISTER_URL, {
       method: "POST",
