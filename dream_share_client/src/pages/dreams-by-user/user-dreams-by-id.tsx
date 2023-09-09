@@ -8,9 +8,13 @@ const UserDreamsById: Component = () => {
   const params = useParams();
   const socketConnection = useSocket();
   const [dreams, setDreams] = createSignal<Dream[]>([]);
+  const [noDreamsYet, setNoDreamsYet] = createSignal(false);
   if (socketConnection) {
     socketConnection.push("get_dreams_by_user_id", { user_id: params.id })
     socketConnection.on("list_user_dreams", (payload: DreamsArray) => {
+      if (payload.dreams.length == 0) {
+        setNoDreamsYet(true)
+      }
       payload.dreams.map((dream: Dream) => {
         setDreams(dreams => {
           return [...dreams, dream].sort((a, b) => a.id - b.id);
@@ -20,22 +24,26 @@ const UserDreamsById: Component = () => {
     })
   }
   return (
-    <Show when={dreams().length > 0} fallback={<>Loading🧐💬</>}>
-      <div class="dreams-list">
-        <For each={dreams()}>
-          {(dream) => (
-            <div class="dream-bubble">
-              <div class="username">
-                {moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm a')}
-                <br /><i>Last night, {dream.username} dreamt</i>:
+    <>
+      <Show when={noDreamsYet()}>
+        <h1>dis user haz no dreams saved yet :/</h1>
+      </Show>
+      <Show when={dreams().length > 0 || noDreamsYet()} fallback={<>Loading🧐💬</>}>
+        <div class="dreams-list">
+          <For each={dreams()}>
+            {(dream) => (
+              <div class="dream-bubble">
+                <div class="username">
+                  {moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm a')}
+                  <br /><i>Last night, {dream.username} dreamt</i>:
+                </div>
+                <p class="dream-content">{dream.dream}</p>
               </div>
-              <p class="dream-content">{dream.dream}</p>
-            </div>
-          )}
-        </For>
-      </div >
-    </Show >
-
+            )}
+          </For>
+        </div >
+      </Show >
+    </>
   )
 }
 

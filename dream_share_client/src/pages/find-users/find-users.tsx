@@ -27,7 +27,7 @@ const FindUsers: Component = () => {
     setNoUserFound(false)
     setFinding(true)
     const target = e.target as HTMLInputElementFindUser;
-    let username = target.user_search.value;
+    let username = target.user_search.value.toLowerCase();
     if (socketConnection) {
       socketConnection.push("find_user", { username })
       username = ''
