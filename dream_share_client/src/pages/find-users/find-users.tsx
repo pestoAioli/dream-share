@@ -52,6 +52,7 @@ const FindUsers: Component = () => {
                     "text-decoration": "none",
                     "margin-top": "8px",
                     "margin-left": "2px",
+                    "margin-right": "2px",
                     "border": "2px solid black",
                     "border-radius": "6px",
                     "background-color": "palegoldenrod",
