@@ -8,11 +8,17 @@
     "esModuleInterop": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "types": ["vite/client"],
+    "types": [
+      "vite/client",
+      "vite-plugin-pwa/solid"
+    ],
     "noEmit": true,
     "isolatedModules": true,
     "lib": [
-            "es5", "es6", "dom", "dom.iterable"
-        ]
+      "es5",
+      "es6",
+      "dom",
+      "dom.iterable"
+    ]
   }
 }

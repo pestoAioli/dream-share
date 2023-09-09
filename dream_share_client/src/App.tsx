@@ -4,6 +4,7 @@ import type { Component } from 'solid-js';
 import "./styles/app.css";
 import { A, Outlet } from '@solidjs/router';
 import { useAuth, useStore } from './contexts/auth-context-provider';
+import ReloadPrompt from './components/reload-prompt';
 
 const App: Component = () => {
   const [token, _setToken] = useAuth();
@@ -40,6 +41,7 @@ const App: Component = () => {
         </div>
         <div style={{ "flex-grow": "9", "height": "100%", "overflow-y": "scroll" }}>
           <Outlet />
+          <ReloadPrompt />
         </div>
       </div>
       <div class='divider' />
