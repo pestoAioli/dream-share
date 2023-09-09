@@ -150,6 +150,24 @@ defmodule DreamShareWeb.DreamsChannel do
   end
 
   @impl true
+  def handle_in("get_all_users", _payload, socket) do
+    users =
+      DreamShare.Accounts.get_all_users()
+      |> Enum.map(fn user ->
+        %{
+          id: user.id,
+          username: user.username,
+          full_name: user.full_name
+        }
+      end)
+
+    push(socket, "found_all_users", %{users: users})
+
+    IO.inspect(users)
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_in("find_user", user, socket) do
     user = DreamShare.Accounts.get_user_by_username(user)
     IO.inspect(user)
