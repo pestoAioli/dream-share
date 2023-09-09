@@ -43,7 +43,7 @@ const FindUsers: Component = () => {
         </RickyButton>
       </form>
       <Show when={usersFound().length > 0} fallback={<></>}>
-        <div class="dreams-list">
+        <div class="users-list">
           <For each={usersFound()}>
             {(user) => (
               <div class="dream-bubble">
@@ -51,7 +51,7 @@ const FindUsers: Component = () => {
                   <b style={{ "font-size": "24px" }}>{user.username}</b>
                 </div>
                 <p>Full name: {user.full_name}</p>
-                <A href={`/user/${user.id}`} style={{ "margin-top": "8px", "border": "2px solid black", "border-radius": "6px", "background-color": "papayawhip", "font-size": "24px", "color": "black" }}>
+                <A href={`/user/${user.id}`} style={{ "margin-top": "8px", "border": "2px solid black", "border-radius": "6px", "background-color": "palegreen", "font-size": "24px", "color": "black" }}>
                   Read their dreams</A>
               </div>
             )}
