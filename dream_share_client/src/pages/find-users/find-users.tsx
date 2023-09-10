@@ -2,7 +2,6 @@ import type { Component } from "solid-js";
 import { For, Show, createSignal } from "solid-js";
 import { useSocket } from "../../contexts/socket-context-provider";
 import { A } from "@solidjs/router";
-import RickyButton from "../../components/button";
 
 const FindUsers: Component = () => {
   const [usersFound, setUsersFound] = createSignal<{ full_name: string, id: number, username: string }[]>([]);
