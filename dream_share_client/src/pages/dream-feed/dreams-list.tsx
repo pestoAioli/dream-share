@@ -112,6 +112,8 @@ const DreamsList: Component = () => {
     )
   }
 
+  console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
+
   return (
     <Show when={dreams.length > 0} fallback={<div style={{ "font-size": "36px", "margin-left": "4px" }}><i>Loading...</i>🧐💬</div>}>
       <div class="dreams-list">
@@ -119,7 +121,7 @@ const DreamsList: Component = () => {
           {(dream) => (
             <div class="dream-bubble">
               <div class="username">
-                {moment(dream.timestamp).subtract(7, 'hours').format('MMMM Do YYYY, h:mm a')}
+                {moment.utc(dream.timestamp).toDate().toLocaleString()}
                 <br /><i>Last night, <strong style={{ "font-size": "18px" }}> {dream.username}</strong> dreamt</i>:
               </div>
               <p class="dream-content">{dream.dream}</p>
