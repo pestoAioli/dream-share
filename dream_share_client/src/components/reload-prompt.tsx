@@ -2,6 +2,7 @@ import type { Component } from 'solid-js'
 import { Show } from 'solid-js'
 import { useRegisterSW } from 'virtual:pwa-register/solid'
 import styles from '../styles/reload-prompt.module.css'
+import RickyButton from './button'
 
 const ReloadPrompt: Component = () => {
   const {
@@ -36,9 +37,9 @@ const ReloadPrompt: Component = () => {
             </Show>
           </div>
           <Show when={needRefresh()}>
-            <button class={styles.ToastButton} onClick={() => updateServiceWorker(true)}>Reload</button>
+            <RickyButton bg_color='palegoldenrod' on_click={() => updateServiceWorker(true)}>Reload</RickyButton>
           </Show>
-          <button class={styles.ToastButton} onClick={() => close()}>Close</button>
+          <RickyButton bg_color='palevioletred' on-click={() => close()}>Close</RickyButton>
         </div>
       </Show>
     </div>

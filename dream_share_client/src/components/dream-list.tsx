@@ -6,6 +6,7 @@ import { useSocket } from "../contexts/socket-context-provider";
 import { useAuth } from "../contexts/auth-context-provider";
 import { SetStoreFunction } from "solid-js/store";
 import RickyButton from "./button";
+import socket from "../socket";
 
 
 const DreamList: Component<{ dreams: Dream[]; setDreams: SetStoreFunction<Dream[]> }> = ({ dreams, setDreams }) => {
@@ -26,7 +27,7 @@ const DreamList: Component<{ dreams: Dream[]; setDreams: SetStoreFunction<Dream[
             dreami = dream;
           }
           return dreami;
-        }).sort((a, b) => b.id - a.id)
+        })
         return updatedDreamsList;
       })
 
@@ -38,6 +39,21 @@ const DreamList: Component<{ dreams: Dream[]; setDreams: SetStoreFunction<Dream[
         (comments) => {
           const filteredComments = comments.filter(commento => commento.id != comment.id)
           return [...filteredComments, comment]
+        }
+      )
+    })
+
+    socketConnection.on("dream_deleted", (dream: Dream) => {
+      setDreams((dreams) => {
+        return dreams.filter(dreami => dreami.id != dream.id)
+      })
+    })
+    socketConnection.on("comment_deleted", (comment) => {
+      setDreams(
+        (dream) => dream.id == comment.dream_id,
+        "comments",
+        (comments) => {
+          return comments.filter(commento => commento.id != comment.id)
         }
       )
     })
