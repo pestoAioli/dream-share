@@ -10,10 +10,10 @@ import { Provider } from './contexts/auth-context-provider';
 import Profile from './pages/profile';
 import NewDream from './pages/new-dream';
 import MyDreamFeed from './pages/my-dreams/my-dream-feed';
-import Groups from './pages/groups';
 import Login from './pages/login';
 import Users from './pages/find-users/users';
 import UserDreams from './pages/dreams-by-user/user-dreams';
+import SearchForDreamsByKeywordWrapper from './pages/search-dreams-by-keyword/dreams-by-keyword-wrapper';
 
 const root = document.getElementById('root');
 
@@ -36,7 +36,7 @@ render(() => (
           <Route path="/mydreams" component={MyDreamFeed} />
           <Route path="/users" component={Users} />
           <Route path="/user/:id" component={UserDreams} />
-          <Route path="/groups" component={Groups} />
+          <Route path="/searchdreams" component={SearchForDreamsByKeywordWrapper} />
         </Route>
       </Routes>
     </Router>

@@ -45,6 +45,18 @@ defmodule DreamShareWeb.DreamsChannel do
   end
 
   @impl true
+  def handle_info({:comment_deleted, comment}, socket) do
+    push(socket, "comment_deleted", %{
+      id: comment.id,
+      dream_id: comment.dream_id,
+      user_id: comment.user_id,
+      timestamp: comment.inserted_at
+    })
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info({:dream_updated, dream}, socket) do
     IO.inspect(dream)
 
@@ -73,44 +85,20 @@ defmodule DreamShareWeb.DreamsChannel do
   end
 
   @impl true
+  def handle_info({:dream_deleted, dream}, socket) do
+    push(socket, "dream_deleted", %{
+      id: dream.id,
+      username: dream.username,
+      user_id: dream.user_id
+    })
+  end
+
+  @impl true
   def handle_in("joined_main_feed", _payload, socket) do
     dreams =
       DreamShare.Dreams.list_dreams()
-      |> Enum.map(fn dream ->
-        %{
-          id: dream.id,
-          dream: dream.dream,
-          username: dream.username,
-          timestamp: dream.inserted_at,
-          user_id: dream.user_id,
-          updated: dream.updated_at,
-          comments:
-            Enum.map(DreamShare.Dreams.get_comments_by_dream_id(dream.id), fn comment ->
-              %{
-                id: comment.id,
-                body: comment.body,
-                username: comment.username,
-                dream_id: comment.dream_id,
-                user_id: comment.user_id,
-                timestamp: comment.inserted_at,
-                updated: comment.updated_at
-              }
-            end)
-        }
-      end)
+      |> dream_mapper()
 
-    # comments =
-    #   DreamShare.Dreams.list_comments()
-    #   |> Enum.map(fn comment ->
-    #     %{
-    #       id: comment.id,
-    #       body: comment.body,
-    #       dream_id: comment.dream_id,
-    #       user_id: comment.user_id,
-    #       timestamp: comment.inserted_at,
-    #       updated: comment.updated_at
-    #     }
-    #   end)
     push(socket, "list_dreams", %{dreams: dreams})
     {:noreply, socket}
   end
@@ -122,28 +110,7 @@ defmodule DreamShareWeb.DreamsChannel do
 
     dreams =
       DreamShare.Dreams.get_dreams_by_user_id(id)
-      |> Enum.map(fn dream ->
-        %{
-          id: dream.id,
-          dream: dream.dream,
-          username: dream.username,
-          timestamp: dream.inserted_at,
-          user_id: dream.user_id,
-          updated: dream.updated_at,
-          comments:
-            Enum.map(DreamShare.Dreams.get_comments_by_dream_id(dream.id), fn comment ->
-              %{
-                id: comment.id,
-                body: comment.body,
-                username: comment.username,
-                dream_id: comment.dream_id,
-                user_id: comment.user_id,
-                timestamp: comment.inserted_at,
-                updated: comment.updated_at
-              }
-            end)
-        }
-      end)
+      |> dream_mapper()
 
     push(socket, "list_my_dreams", %{dreams: dreams})
     {:noreply, socket}
@@ -167,78 +134,56 @@ defmodule DreamShareWeb.DreamsChannel do
     {:noreply, socket}
   end
 
-  @impl true
-  def handle_in("find_user", user, socket) do
-    user = DreamShare.Accounts.get_user_by_username(user)
-    IO.inspect(user)
-
-    if user do
-      push(socket, "found_user", %{
-        username: user.username,
-        full_name: user.full_name,
-        id: user.id
-      })
-    else
-      push(socket, "user_not_found", %{
-        message:
-          "Sorry, there is no user with that username. please make sure the spelling and capitalization is correct :)"
-      })
-    end
-
-    {:noreply, socket}
-  end
-
   def handle_in("get_dreams_by_user_id", payload, socket) do
     {id, _} = Integer.parse(payload["user_id"])
 
     dreams =
       DreamShare.Dreams.get_dreams_by_user_id(id)
-      |> Enum.map(fn dream ->
-        %{
-          id: dream.id,
-          dream: dream.dream,
-          username: dream.username,
-          timestamp: dream.inserted_at,
-          user_id: dream.user_id,
-          updated: dream.updated_at,
-          comments:
-            Enum.map(DreamShare.Dreams.get_comments_by_dream_id(dream.id), fn comment ->
-              %{
-                id: comment.id,
-                body: comment.body,
-                username: comment.username,
-                dream_id: comment.dream_id,
-                user_id: comment.user_id,
-                timestamp: comment.inserted_at,
-                updated: comment.updated_at
-              }
-            end)
-        }
-      end)
+      |> dream_mapper()
 
     IO.inspect(dreams)
     push(socket, "list_user_dreams", %{dreams: dreams})
     {:noreply, socket}
   end
 
-  # @impl true
-  # def handle_in("updated_dream", dream, socket) do
-  #   IO.inspect("below is dream updated")
-  #   IO.inspect(dream["data"]["id"])
-  #   dream_id = dream["data"]["id"]
-  #   dream = DreamShare.Dreams.get_dream!(dream_id)
-  #
-  #   push(socket, "updated_dream", %{
-  #     id: dream.id,
-  #     dream: dream.dream,
-  #     username: dream.username,
-  #     timestamp: dream.inserted_at,
-  #     user_id: dream.user_id,
-  #     updated: dream.updated_at
-  #   })
-  #
-  #   {:noreply, socket}
-  # end
+  def handle_in("search_dreams_by_keyword", keyword, socket) do
+    IO.inspect(keyword)
+
+    dreams =
+      DreamShare.Dreams.get_dreams_by_keyword(keyword["keyword"])
+      |> dream_mapper()
+
+    IO.inspect(dreams)
+    push(socket, "dreams_found_by_keyword", %{dreams: dreams})
+
+    {:noreply, socket}
+  end
+
+  defp dream_mapper(dreams) do
+    dreams
+    |> Enum.map(fn dream ->
+      %{
+        id: dream.id,
+        dream: dream.dream,
+        username: dream.username,
+        timestamp: dream.inserted_at,
+        user_id: dream.user_id,
+        updated: dream.updated_at,
+        comments:
+          Enum.map(DreamShare.Dreams.get_comments_by_dream_id(dream.id), fn comment ->
+            %{
+              id: comment.id,
+              body: comment.body,
+              username: comment.username,
+              dream_id: comment.dream_id,
+              user_id: comment.user_id,
+              timestamp: comment.inserted_at,
+              updated: comment.updated_at
+            }
+          end)
+      }
+    end)
+  end
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client

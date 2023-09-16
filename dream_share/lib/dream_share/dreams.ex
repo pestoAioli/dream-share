@@ -45,6 +45,14 @@ defmodule DreamShare.Dreams do
     Repo.all(dream)
   end
 
+  def get_dreams_by_keyword(keyword) do
+    IO.inspect("from repo action")
+    search_term = "%#{keyword}%"
+    IO.inspect(search_term)
+    dream = from d in Dream, where: ilike(d.dream, ^search_term)
+    Repo.all(dream)
+  end
+
   @doc """
   Creates a dream.
 
@@ -96,7 +104,9 @@ defmodule DreamShare.Dreams do
 
   """
   def delete_dream(%Dream{} = dream) do
-    Repo.delete(dream)
+    dream
+    |> Repo.delete()
+    |> broadcast(:dream_deleted)
   end
 
   @doc """
@@ -197,6 +207,7 @@ defmodule DreamShare.Dreams do
     comment
     |> Comment.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:comment_updated)
   end
 
   @doc """
@@ -212,7 +223,9 @@ defmodule DreamShare.Dreams do
 
   """
   def delete_comment(%Comment{} = comment) do
-    Repo.delete(comment)
+    comment
+    |> Repo.delete()
+    |> broadcast(:comment_deleted)
   end
 
   @doc """

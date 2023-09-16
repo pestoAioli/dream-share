@@ -15,26 +15,6 @@ const FindUsers: Component = () => {
     })
   }
 
-  // function findUser(e: SubmitEvent) {
-  //   e.preventDefault()
-  //   setUsersFound([])
-  //   setNoUserFound(false)
-  //   setFinding(true)
-  //   const target = e.target as HTMLInputElementFindUser;
-  //   let username = target.user_search.value.toLowerCase();
-  //   if (socketConnection) {
-  //     socketConnection.push("find_user", { username })
-  //     username = ''
-  //   }
-  // }
-  // <form onSubmit={findUser} class="general-list-left" style={{ "margin-top": "8px" }}>
-  //      <label for="user_search">Search for someone by their username:</label>
-  //     <input type="text" id="user_search" name="user_search" placeholder="type name here" required />
-  //      <RickyButton type="submit" margin_top="8px" bg_color="aliceblue" font_size="24px">
-  //        {finding() ? 'Searching...' : 'Search'}
-  //      </RickyButton>
-  //   </form>
-
   return (
     <div class="general-list">
       <Show when={usersFound().length > 0} fallback={<>Loading...</>}>
