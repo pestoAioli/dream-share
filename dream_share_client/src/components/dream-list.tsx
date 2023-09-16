@@ -6,7 +6,6 @@ import { useSocket } from "../contexts/socket-context-provider";
 import { useAuth } from "../contexts/auth-context-provider";
 import { SetStoreFunction } from "solid-js/store";
 import RickyButton from "./button";
-import socket from "../socket";
 
 
 const DreamList: Component<{ dreams: Dream[]; setDreams: SetStoreFunction<Dream[]> }> = ({ dreams, setDreams }) => {

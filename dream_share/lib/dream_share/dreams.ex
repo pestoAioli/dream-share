@@ -45,6 +45,14 @@ defmodule DreamShare.Dreams do
     Repo.all(dream)
   end
 
+  def get_dreams_by_keyword(keyword) do
+    IO.inspect("from repo action")
+    search_term = "%#{keyword}%"
+    IO.inspect(search_term)
+    dream = from d in Dream, where: ilike(d.dream, ^search_term)
+    Repo.all(dream)
+  end
+
   @doc """
   Creates a dream.
 
