@@ -20,7 +20,8 @@ const DreamsList: Component = () => {
   }
 
   return (
-    <Show when={dreams.length > 0} fallback={<div style={{ "font-size": "36px", "margin-left": "4px" }}><i>Loading...</i>🧐💬</div>}>
+    <Show when={dreams.length > 0}
+      fallback={<div style={{ "display": "flex", "justify-content": "space-around", "align-items": "center" }}><div class="loading-hort" /></div>}>
       <div class="dreams-list">
         <DreamList dreams={dreams} setDreams={setDreams} />
       </div >

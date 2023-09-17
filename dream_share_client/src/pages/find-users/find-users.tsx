@@ -17,7 +17,15 @@ const FindUsers: Component = () => {
 
   return (
     <div class="general-list">
-      <Show when={usersFound().length > 0} fallback={<>Loading...</>}>
+      <Show when={usersFound().length > 0} fallback={
+        <div style={{
+          "display": "flex",
+          "justify-content": "space-around",
+          "align-items": "center"
+        }}>
+          <div class="loading-hort" />
+        </div>
+      }>
         <div class="users-list">
           <For each={usersFound()}>
             {(user) => (

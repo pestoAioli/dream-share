@@ -29,7 +29,16 @@ const UserDreamsById: Component = () => {
       <Show when={noDreamsYet()}>
         <h1>dis user haz no dreams saved yet :/</h1>
       </Show>
-      <Show when={dreams.length > 0 || noDreamsYet()} fallback={<>Loading🧐💬</>}>
+      <Show when={dreams.length > 0 || noDreamsYet()}
+        fallback={
+          <div style={{
+            "display": "flex",
+            "justify-content": "space-around",
+            "align-items": "center"
+          }}>
+            <div class="loading-hort" />
+          </div>
+        }>
         <div class="dreams-list">
           <DreamList dreams={dreams} setDreams={setDreams} />
         </div >
