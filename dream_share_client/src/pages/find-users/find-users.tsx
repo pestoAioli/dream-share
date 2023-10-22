@@ -10,7 +10,6 @@ const FindUsers: Component = () => {
   if (socketConnection) {
     socketConnection.push("get_all_users", {});
     socketConnection.on("found_all_users", (users) => {
-      console.log(users)
       setUsersFound(users.users)
     })
   }

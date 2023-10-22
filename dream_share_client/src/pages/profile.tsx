@@ -10,6 +10,7 @@ const Profile: Component = () => {
   const [currentUserInfo, setCurrentUserInfo] = useStore();
   const [updatingUserInfo, setUpdatingUserInfo] = createSignal(false);
   const navigate = useNavigate();
+
   async function signOut() {
     setSigningOut(true);
     const response = await fetch(import.meta.env.VITE_LOG_OUT_URL, {
@@ -23,7 +24,7 @@ const Profile: Component = () => {
       }
     })
     const signedOut = await response.json();
-    localStorage.removeItem("toke")
+    localStorage.clear();
     setToken(null)
     navigate("/dreams");
   }
