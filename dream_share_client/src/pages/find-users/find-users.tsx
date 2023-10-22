@@ -10,14 +10,21 @@ const FindUsers: Component = () => {
   if (socketConnection) {
     socketConnection.push("get_all_users", {});
     socketConnection.on("found_all_users", (users) => {
-      console.log(users)
       setUsersFound(users.users)
     })
   }
 
   return (
     <div class="general-list">
-      <Show when={usersFound().length > 0} fallback={<>Loading...</>}>
+      <Show when={usersFound().length > 0} fallback={
+        <div style={{
+          "display": "flex",
+          "justify-content": "space-around",
+          "align-items": "center"
+        }}>
+          <div class="loading-hort" />
+        </div>
+      }>
         <div class="users-list">
           <For each={usersFound()}>
             {(user) => (

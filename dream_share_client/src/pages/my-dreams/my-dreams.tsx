@@ -112,7 +112,13 @@ const MyDreams: Component = () => {
           }}><b>refresh</b></button> and try again, and make sure you're logged in</p>
         </Match>
         <Match when={dreams().length == 0 && !error() && noDreamsYet() === false}>
-          <>Loading...🧐</>
+          <div style={{
+            "display": "flex",
+            "justify-content": "space-around",
+            "align-items": "center"
+          }}>
+            <div class="loading-hort" />
+          </div>
         </Match>
         <Match when={noDreamsYet() && !error()}>
           <h1> You gotta <A href="/newdream">write some dreams down</A> to see them here!</h1>
